@@ -27,7 +27,7 @@
             {
                 <tr>
                     <td>@proj.name</td>
-                    <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.supervisor</td>
+                    <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorID</td>
                     <td>@proj.shortDescription</td>
                 </tr>
             }
@@ -85,7 +85,7 @@
    
 
     private void addProject() {
-        var p1 = new Project{name = inputName, supervisor = inputSuperName, shortDescription = inputDes};
+        var p1 = new Project{name = inputName, SupervisorID = inputSuperName, shortDescription = inputDes};
         projects.Add(p1);
     }
 }
@@ -98,8 +98,8 @@
     protected override async Task OnInitializedAsync()
     {
         if(!projects.Any()){
-              var p1 = new Project{name = "Fun Project", supervisor = "Bente", shortDescription = "This is the coolest project you can imagne"};
-            var p2 = new Project{name = "Not so fun Project", supervisor = "Felix", shortDescription = "I don't actually care for this project"};
+              var p1 = new Project{name = "Fun Project", SupervisorID = "Bente", shortDescription = "This is the coolest project you can imagne"};
+            var p2 = new Project{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
             projects.Add(p1);
             projects.Add(p2);
         }
