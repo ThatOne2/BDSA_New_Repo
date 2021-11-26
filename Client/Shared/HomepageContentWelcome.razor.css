@@ -1,3 +1,12 @@
 .homepageRow {
     background-color: #FFD5D9;
+    text-align: center;
 }
+
+.homepageRowContent {
+    display: inline-block;
+    background-color: aqua;
+    width: 49%;
+    margin: 0px;
+}
+

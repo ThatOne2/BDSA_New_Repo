@@ -1,9 +1,9 @@
 @using TrialProject.Shared
 
 
-<div class = SearchBar>
+<div class = "searchBar">
     <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
-    <button title="SearchButton" class="btn btn-primary" @onclick="Search">
+    <button title="searchButton" class="searchBtn" @onclick="Search">
         <span class="oi oi-magnifying-glass"></span>
     </button>
 </div>
@@ -15,7 +15,7 @@
 
     @foreach (var proj in projects)
     {
-        <div class = projectContainer>
+        <div class = "projectContainer">
             <div class = projectContainerLeft>
                 <p>There should be a picture here</p>
                 <p>stuff</p>

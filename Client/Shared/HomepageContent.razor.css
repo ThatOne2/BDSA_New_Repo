@@ -1,0 +1,10 @@
+.searchBar {
+    border-radius: 30%;
+}
+.searchInput {
+    border-radius: 1%;
+}
+.searchBtn {
+    border-radius: 100%;
+    background-color: transparent;
+}
