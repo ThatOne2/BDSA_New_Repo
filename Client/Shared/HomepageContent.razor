@@ -1,0 +1,69 @@
+@using TrialProject.Shared
+
+
+<div class = SearchBar>
+    <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
+    <button title="SearchButton" class="btn btn-primary" @onclick="Search">
+        <span class="oi oi-magnifying-glass"></span>
+    </button>
+</div>
+
+
+@if (hasSearched)
+{
+    <h1>Results for: "@searchOutput"</h1>
+
+    @foreach (var proj in projects)
+    {
+        <div class = projectContainer>
+            <div class = projectContainerLeft>
+                <p>There should be a picture here</p>
+                <p>stuff</p>
+            </div>
+            <div class = projectContainerRight>
+                <h2>@proj.name</h2>
+                <p>@proj.shortDescription</p>
+            </div>
+        </div>
+
+    }
+    
+}
+else 
+{
+    <HomepageContentWelcome />
+}
+
+@code {
+    private bool hasSearched = false;
+    private int count = 0;
+    private string searchInput = "";
+    private string searchOutput = "";
+    private List<Project>? projects;
+    
+    private void Search()
+    {
+        if (!string.IsNullOrEmpty(searchInput))
+        {
+            hasSearched = true;
+            count ++;
+            searchOutput = searchInput;
+
+        }
+    }
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            Search();
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        projects = new List<Project>();
+        var p1 = new Project{name = "Fun Project", supervisor = "Bente", shortDescription = "This is the coolest project you can imagne"};
+        var p2 = new Project{name = "Not so fun Project", supervisor = "Felix", shortDescription = "I don't actually care for this project"};
+        projects.Add(p1);
+        projects.Add(p2);
+    }
+}

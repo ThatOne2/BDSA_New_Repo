@@ -1,0 +1,42 @@
+@page "/profilePage"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@inject CurrentUser currentuser
+@inject HttpClient Http
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h3>Welcome, John Doe (please log in to proceed to your profile page)</h3>
+    </NotAuthorized>
+    <Authorized>
+        <h3>Welcome, @context.User.Identity?.Name!</h3>
+
+        <h5>Here you'll be able to see your information and perhaps edit them. But just not right now:)</h5>
+
+        <p role="status">Please specify whether you are a student or a professor:</p>
+
+        <select id="role"  onchange="@SetRole">
+            @if(!currentuser.isSupervisor){
+                <option value="student" selected>Student</option>
+                <option value="professor">Supervisor</option>
+            } else {
+                <option value="student">Student</option>
+                <option value="professor" selected>Supervisor</option>
+            }
+        </select>
+
+        @if(currentuser.isSupervisor){
+            <p role="status">Hello, Supervisor Kenobi</p>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private void SetRole(ChangeEventArgs e){
+        if(e.Value.ToString() == "student") {currentuser.isSupervisor = false;}
+        else currentuser.isSupervisor = true;
+    }
+    private void SetRoleAsStudent() => currentuser.isSupervisor = false;
+    private void SetRoleAsSupervisor() => currentuser.isSupervisor = true;
+}
