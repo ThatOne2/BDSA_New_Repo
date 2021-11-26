@@ -12,6 +12,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+//===
+var configuration = LoadConfiguration();
+var connectionString = configuration.GetConnectionString("BDSA");
+
+static IConfiguration LoadConfiguration()
+{
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json")
+        .AddUserSecrets<Program>();
+
+    return builder.Build();
+}
+//====
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
