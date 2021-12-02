@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
 @inject NavigationManager NavManager
+@inject CurrentUser currentuser
 
 <PageTitle>View Project</PageTitle>
 
@@ -17,12 +18,9 @@
 
 	<p>@project.longDescription</p>
 
-	//Only for testing purposes
-	<input type="submit" value="Edit" @onclick="NavToEdit">
-
 	<AuthorizeView>
 		<Authorized>
-			@if (true)//user.isSupervisor() && user.getId() == project.supervisorId) <-- How do we want to do this?
+			@if (currentuser.isSupervisor)// && user.getId() == project.supervisorId) <-- How do we want to do this?
 			{
 				<input type="submit" value="Edit" @onclick="NavToEdit">
 				<input type="submit" value="Archive" @onclick="ArchiveProj">
@@ -47,8 +45,6 @@
 	public int id { get; set; }
 
 	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
-
-	//private User user = new User();
 
 	protected override async Task OnInitializedAsync()
 	{
