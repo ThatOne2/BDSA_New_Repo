@@ -2,9 +2,10 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using TrialProject.Shared.DTO
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
-@inject List<Project> projects
+@inject List<ProjectPreviewDTO> projects
 @inject CurrentUser currentuser
 
 
@@ -79,7 +80,7 @@
     private async void addProject() {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        var p1 = new Project{name = inputName, SupervisorID = user.Identity.Name.ToString(), shortDescription = inputDes};
+        var p1 = new ProjectPreviewDTO{name = inputName, SupervisorID = user.Identity.Name.ToString(), shortDescription = inputDes};
         projects.Add(p1);
     }
 
@@ -89,8 +90,8 @@
     {
             
         if(!projects.Any()){
-              var p1 = new Project{name = "Fun Project", SupervisorID = "Bente", shortDescription = "This is the coolest project you can imagne"};
-            var p2 = new Project{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
+              var p1 = new ProjectPreviewDTO{name = "Fun Project", SupervisorID = "Bente", shortDescription = "This is the coolest project you can imagne"};
+            var p2 = new ProjectPreviewDTO{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
             projects.Add(p1);
             projects.Add(p2);
         }
