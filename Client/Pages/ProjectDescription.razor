@@ -22,7 +22,7 @@
 
 	<AuthorizeView>
 		<Authorized>
-			@if (true)//user.isSupervisor() && user.getId() == project.supervisorId)
+			@if (true)//user.isSupervisor() && user.getId() == project.supervisorId) <-- How do we want to do this?
 			{
 				<input type="submit" value="Edit" @onclick="NavToEdit">
 				<input type="submit" value="Archive" @onclick="ArchiveProj">
@@ -55,7 +55,7 @@
 		try
 		{
 			// Get project by ID
-			//var rep = new TaskRepository();
+			//ITaskRepository rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
 
 		}
