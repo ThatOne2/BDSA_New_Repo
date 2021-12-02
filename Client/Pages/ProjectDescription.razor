@@ -1,0 +1,80 @@
+﻿@page "/projects/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@inject NavigationManager NavManager
+
+<PageTitle>View Project</PageTitle>
+
+@if (project == null)
+{
+	<p>No project found!</p>
+} else
+{
+	<h1>@project.name</h1>
+
+	<p>By @project.SupervisorID</p>
+
+	<p>@project.longDescription</p>
+
+	//Only for testing purposes
+	<input type="submit" value="Edit" @onclick="NavToEdit">
+
+	<AuthorizeView>
+		<Authorized>
+			@if (true)//user.isSupervisor() && user.getId() == project.supervisorId) <-- How do we want to do this?
+			{
+				<input type="submit" value="Edit" @onclick="NavToEdit">
+				<input type="submit" value="Archive" @onclick="ArchiveProj">
+			} else
+			{
+				<button>Apply</button>
+			}
+
+		</Authorized>
+		<NotAuthorized>
+			<p>Log in to apply for project!</p>
+		</NotAuthorized>
+	</AuthorizeView>
+}
+
+
+
+
+
+@code {
+	[Parameter]
+	public int id { get; set; }
+
+	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
+
+	//private User user = new User();
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			// Get project by ID
+			//ITaskRepository rep = new TaskRepository();
+			//project = rep.ReadProjectById(id);
+
+		}
+		catch
+		{
+			// Exception handling
+
+		}
+		await Task.FromResult(0);
+	}
+
+	private void NavToEdit()
+	{
+		NavManager.NavigateTo("/projects/edit/" + id);
+	}
+
+	private void ArchiveProj()
+	{
+		//project = rep.UpdateStatus(id, Status.Archived);
+	}
+
+}
