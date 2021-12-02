@@ -12,11 +12,15 @@
 	<p>No project found!</p>
 } else
 {
-	<h1>@project.name</h1>
+	<div width>
+		<h1>@project.name</h1>
 
-	<p>By @project.SupervisorID</p>
+		<p>By @project.SupervisorID</p>
 
-	<p>@project.longDescription</p>
+		<p>@project.shortDescription</p>
+
+		<p>@project.longDescription</p>
+	</div>
 
 	<AuthorizeView>
 		<Authorized>
@@ -44,14 +48,14 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
+	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
 			// Get project by ID
-			//ITaskRepository rep = new TaskRepository();
+			//var rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
 
 		}
