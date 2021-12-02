@@ -1,7 +1,7 @@
 @using TrialProject.Shared
 
 
-<div class = "searchBar">
+<div class = "searchBar" id = "bar">
     <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
     <button title="searchButton" class="searchBtn" @onclick="Search">
         <span class="oi oi-magnifying-glass"></span>
