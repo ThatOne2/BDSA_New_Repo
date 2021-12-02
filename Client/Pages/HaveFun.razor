@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
 @inject List<Project> projects
 @inject CurrentUser currentuser
@@ -27,7 +28,7 @@
             {
                 <tr>
                     <td>@proj.name</td>
-                    <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.supervisor</td>
+                    <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorID</td>
                     <td>@proj.shortDescription</td>
                 </tr>
             }
@@ -42,15 +43,13 @@
                 <label for="pname">Project Name</label>
                 <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
 
-                <label for="sname">Your Name</label>
-                <input type="text" id="sname" name="supername" placeholder="Your name.." @bind="@inputSuperName" @oninput="OnInputSuperNameEvent">
-
                 <label for="pdes">Project Description</label>
                 <input type="text" id="pdes" name="projdes" placeholder="Project description.."@bind="@inputDes" @oninput="OnInputDesEvent">
                 <button class="OurButton" @onclick="addProject">Post Project</button>
             </div>
         } 
        
+
     </Authorized>
     <NotAuthorized>
         <p>Login to post a project</p>
@@ -63,18 +62,11 @@
 
     private string inputName = null;
     private string inputDes = null;
-     private string inputSuperName = null;
-
 
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
         inputName = (string)changeEvent.Value;
-    }
-
-     private void OnInputSuperNameEvent(ChangeEventArgs changeEvent)
-    {
-        inputSuperName = (string)changeEvent.Value;
     }
 
      private void OnInputDesEvent(ChangeEventArgs changeEvent)
@@ -84,28 +76,26 @@
 
    
 
-    private void addProject() {
-        var p1 = new Project{name = inputName, supervisor = inputSuperName, shortDescription = inputDes};
+    private async void addProject() {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        
+        var p1 = new Project{name = inputName, SupervisorID = user.Identity.Name.ToString(), shortDescription = inputDes};
         projects.Add(p1);
     }
-}
 
-
-
-@code {
    
 
     protected override async Task OnInitializedAsync()
     {
+            
         if(!projects.Any()){
-              var p1 = new Project{name = "Fun Project", supervisor = "Bente", shortDescription = "This is the coolest project you can imagne"};
-            var p2 = new Project{name = "Not so fun Project", supervisor = "Felix", shortDescription = "I don't actually care for this project"};
+              var p1 = new Project{name = "Fun Project", SupervisorID = "Bente", shortDescription = "This is the coolest project you can imagne"};
+            var p2 = new Project{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
             projects.Add(p1);
             projects.Add(p2);
         }
       
     }
-
-
 
 }

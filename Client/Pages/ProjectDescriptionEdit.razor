@@ -1,0 +1,71 @@
+﻿@page "/projects/edit/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@inject NavigationManager NavManager
+@inject CurrentUser currentuser
+
+<PageTitle>Edit Project</PageTitle>
+
+@if (project == null)
+{
+	<p>No project found!</p>
+} else
+{
+	@if (!currentuser.isSupervisor)//user.getId() != project.supervisorId) <-- How do we want to do this?
+	{
+		<p>You are not authorized to edit this project!</p>
+
+	} else
+	{
+		<div>
+			<h1>@project.name</h1>
+
+			<p>By @project.SupervisorID</p>
+
+			<p>@project.shortDescription</p>
+
+			<form action="/action_page.php" @onsubmit="NavToDetails">
+				<input type="text" id="pdes" name="projdes" value=@project.longDescription>
+            
+				<div >
+					<input type="submit" value="Save">
+					<input type="reset" value="Cancel" @onclick="NavToDetails">
+				</div>
+			</form>
+		</div>
+
+	}
+}
+
+
+
+
+
+@code {
+	[Parameter]
+	public int id { get; set; }
+
+	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			// Get project by ID
+			//var rep = new TaskRepository();
+			//project = rep.ReadProjectById(id);
+		}
+		catch
+		{
+			// Exception handling
+
+		}
+		await Task.FromResult(0);
+	}
+
+	private void NavToDetails()
+	{
+		NavManager.NavigateTo("/projects/" + id);
+	}
+}

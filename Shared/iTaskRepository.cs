@@ -23,8 +23,8 @@ public interface ITaskRepository : IDisposable
     (IReadOnlyCollection<Task<Project>>, HttpWebResponse) ReadAllProjectsPostedBySupervisor(int supervisorID);
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-     (IReadOnlyCollection<Task<Project>>, HttpWebResponse) ReadProjectListByTag(Tag t); //TODO: Make tag enumm class
-
+     (IReadOnlyCollection<Task<Project>>, HttpWebResponse) ReadProjectListByTag(Tag t); 
+     
     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
      (IReadOnlyCollection<Task<Project>>, HttpWebResponse) ReadProjectListByDescription(string word);
 
