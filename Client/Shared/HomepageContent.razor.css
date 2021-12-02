@@ -2,15 +2,9 @@
     --btnsize: 50px;
 }
 
-#searchInput {
-    border-radius: 30pt;
-    flex-grow: 1;
-}
 
 .searchBar {
-    float: left;
     width: 100%;
-    background-color: blue;
     margin:auto;
     vertical-align: middle;
 
@@ -19,8 +13,29 @@
 .searchBtn {
     float: right;
     border-radius: 30pt;
-    background-color: transparent;
+    background-color: lightgray;
+    border-color: transparent;
     margin-top: 7px;
     height: 50px;
     width: 50px;
 }
+
+#searchInput {
+    border-radius: 30pt;
+    width: calc(100% - 60px);
+    border-color: transparent;
+    background-color: lightgray;
+}
+
+.projectContainer {
+    width: 100%;
+}
+
+.projectContainerLeft {
+    
+}
+
+.projectContainerRight {
+
+}
+
