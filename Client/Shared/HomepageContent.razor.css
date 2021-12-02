@@ -1,10 +1,19 @@
-.searchBar {
-    border-radius: 30%;
-}
+
+
 .searchInput {
     border-radius: 1%;
 }
+
+#searchInput {
+    border-radius: 30pt;
+    width: 94%;
+    float: left;
+}
+
 .searchBtn {
-    border-radius: 100%;
+    float: right;
+    border-radius: 30pt;
     background-color: transparent;
+    height: inherit;
+    width: 5%;
 }

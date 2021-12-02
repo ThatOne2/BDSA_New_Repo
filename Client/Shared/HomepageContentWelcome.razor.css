@@ -1,12 +1,11 @@
-.homepageRow {
-    background-color: #FFD5D9;
-    text-align: center;
+*{
+    box-sizing: border-box;
 }
 
-.homepageRowContent {
-    display: inline-block;
-    background-color: aqua;
-    width: 49%;
-    margin: 0px;
+.child {
+    border: 5px solid blue;
 }
 
+.parent {
+    display: flex;
+}
