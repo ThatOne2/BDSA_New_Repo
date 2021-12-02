@@ -12,7 +12,7 @@ public class Project
 
     [Required(ErrorMessage = "Teacher name is required field")]
     [MaxLength(50)]
-    public string SupervisorID { get; set; }
+    public string SupervisorName { get; set; }
 
     [Required(ErrorMessage = "Description is required")]
     public string shortDescription { get; set; }
