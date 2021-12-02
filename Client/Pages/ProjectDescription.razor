@@ -13,7 +13,7 @@
 {
 	<h1>@project.name</h1>
 
-	<p>By @project.SupervisorName</p>
+	<p>By @project.SupervisorID</p>
 
 	<p>@project.longDescription</p>
 
@@ -46,7 +46,7 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorName = "Carl", longDescription = "Ahahah description"};
+	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
 
 	//private User user = new User();
 

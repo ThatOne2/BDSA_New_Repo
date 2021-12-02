@@ -19,7 +19,7 @@
 	{
 		<h1>@project.name</h1>
 
-		<p>By @project.SupervisorName</p>
+		<p>By @project.SupervisorID</p>
 
 		<form action="/action_page.php" @onsubmit="NavToDetails">
             <input type="text" id="pdes" name="projdes" value=@project.longDescription>
@@ -41,7 +41,7 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorName = "Carl", longDescription = "Ahahah description"};
+	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
 
 	//private User user = new User();
 
