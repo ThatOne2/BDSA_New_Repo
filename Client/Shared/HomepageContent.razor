@@ -1,6 +1,15 @@
 @using TrialProject.Shared
 
 
+@if (hasSearched)
+{
+    <h1>Results for: "@searchOutput"</h1>
+}
+else
+{
+    <h1>Welcome to TheStart of a great project or thesis!</h1>
+}
+
 <div class = "searchBar" id = "bar">
     <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
     <button title="searchButton" class="searchBtn" @onclick="Search">
@@ -11,7 +20,6 @@
 
 @if (hasSearched)
 {
-    <h1>Results for: "@searchOutput"</h1>
     <div class = "resultPane">
         @foreach (var proj in projects)
         {

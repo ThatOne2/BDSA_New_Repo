@@ -52,10 +52,15 @@
     border-radius: 100%;
 }
 
-/*
 .resultPane {
-    display: grid;
-    grid-auto-flow: column;
-    grid-column-gap: 10px;
-}*/
+    width: 60%;
+    max-width: 800px;
+}
+
+
+@media only screen and (max-width: 800px) {
+    .resultPane {
+      width: 100%;
+    }
+  }
 
