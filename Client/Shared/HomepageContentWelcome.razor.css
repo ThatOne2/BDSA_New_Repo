@@ -1,0 +1,11 @@
+*{
+    box-sizing: border-box;
+}
+
+.child {
+    border: 5px solid blue;
+}
+
+.parent {
+    display: flex;
+}
