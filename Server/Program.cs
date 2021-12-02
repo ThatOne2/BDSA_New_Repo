@@ -1,7 +1,14 @@
 using Microsoft.AspNetCore.Authentication;
+using System.Data.SqlClient;
+using System.Data;
+using System.Data.SQLite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +22,12 @@ builder.Services.AddRazorPages();
 //===
 var configuration = LoadConfiguration();
 var connectionString = configuration.GetConnectionString("BDSA");
+
+  var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>()
+                .UseSqlServer(connectionString); 
+
+            using var context = new Server.DataContext(optionsBuilder.Options);
+            
 
 static IConfiguration LoadConfiguration()
 {
