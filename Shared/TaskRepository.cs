@@ -1,10 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+
 
 namespace TrialProject.Shared;
 
 public class TaskRepository : ITaskRepository {
+
+
+    private readonly Server.DataContext _context;
+
+        public TaskRepository(Server.DataContext context)
+        {
+            _context = context;
+        }
+    
      public HttpWebResponse CreateProject(Project p) {
          return null;
       }
@@ -23,8 +36,13 @@ public class TaskRepository : ITaskRepository {
 
 
     //Returns a single project by ID
-    public (Task<DTO.ProjectPreviewDTO>, HttpWebResponse) ReadPreviewProjectById(int projectId) {
-        return (null,null);
+    public async Task<DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId) {
+        var p = await _context.Projects.FindAsync(projectId);
+        var superV = await _context.Supervisors.FindAsync(p.SupervisorID);
+        var tagList = new List<Tag>();
+
+        var DTOProject = new DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, SupervisorName = superV.name, shortDescription = p.shortDescription, Tags = p.Tags };
+        return DTOProject;
     }
 
      //Returns a single project by ID

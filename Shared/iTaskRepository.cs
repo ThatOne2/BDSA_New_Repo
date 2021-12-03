@@ -14,7 +14,7 @@ public interface ITaskRepository : IDisposable
     //===============================================
 
     //Returns a single project by ID
-    (Task<DTO.ProjectPreviewDTO>, HttpWebResponse) ReadPreviewProjectById(int projectId);
+    Task<DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId);
      //Returns a single project by ID
     (Task<DTO.ProjectDescDTO>, HttpWebResponse) ReadDescProjectById(int projectId);
 
