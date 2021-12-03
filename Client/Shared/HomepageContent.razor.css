@@ -55,17 +55,33 @@
 .resultPane {
     width: 60%;
     max-width: 800px;
-
 }
 
 .center {
     display: flex;
-    text-align: center;
     justify-content: center;
+}
+.centerText {
+    text-align: center;
+}
+
+.tagBox {
+    align-items: center;
+    display: block;
+}
+
+.tag {
+    border-radius: 30pt;
+    border: solid 2px;
+    border-color: lightgray;
+    margin: 5px;
+    float: left;
+    text-align: center;
 }
 
 
-@media only screen and (max-width: 800px) {
+
+@media only screen and (max-width: 950px) {
     .resultPane {
       width: 100%;
     }
