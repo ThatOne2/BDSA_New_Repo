@@ -13,32 +13,29 @@
 	<p>No project found!</p>
 } else
 {
-	@if (!currentuser.isSupervisor)//user.getId() != project.supervisorId) <-- How do we want to do this?
-	{
-		<p>You are not authorized to edit this project!</p>
-
-	} else
-	{
-		<div>
+	<AuthorizeView Roles="supervisor">
+		<Authorized>
+			<div>
 			<h1>@project.name</h1>
 
-		<p>By @project.SupervisorName</p>
-
-		<p>@project.shortDescription</p>
+			<p>By @project.SupervisorName</p>
 
 			<p>@project.shortDescription</p>
 
-			<form action="/action_page.php" @onsubmit="NavToDetails">
-				<input type="text" id="pdes" name="projdes" value=@project.longDescription>
+				<form action="/action_page.php" @onsubmit="NavToDetails">
+					<input type="text" id="pdes" name="projdes" value=@project.longDescription>
             
-				<div >
-					<input type="submit" value="Save">
-					<input type="reset" value="Cancel" @onclick="NavToDetails">
-				</div>
-			</form>
-		</div>
-
-	}
+					<div >
+						<input type="submit" value="Save">
+						<input type="reset" value="Cancel" @onclick="NavToDetails">
+					</div>
+				</form>
+			</div>
+		</Authorized>
+		<NotAuthorized>
+			<p>You are not authorized to edit this project!</p>
+		</NotAuthorized>
+	</AuthorizeView>
 }
 
 
