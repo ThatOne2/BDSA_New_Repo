@@ -81,7 +81,7 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
    
-        var p1 = new Project{name = inputName, SupervisorID = user.Identity.Name.ToString(), shortDescription = inputDes};
+        var p1 = new ProjectPreviewDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes};
         projects.Add(p1);
     }
 
