@@ -2,7 +2,9 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
+@inject CurrentUser currentuser
 
 <PageTitle>Edit Project</PageTitle>
 
@@ -11,24 +13,30 @@
 	<p>No project found!</p>
 } else
 {
-	@if (false)//user.getId() != project.supervisorId) <-- How do we want to do this?
+	@if (!currentuser.isSupervisor)//user.getId() != project.supervisorId) <-- How do we want to do this?
 	{
 		<p>You are not authorized to edit this project!</p>
 
 	} else
 	{
-		<h1>@project.name</h1>
+		<div>
+			<h1>@project.name</h1>
 
-		<p>By @project.SupervisorID</p>
+		<p>By @project.SupervisorName</p>
 
-		<form action="/action_page.php" @onsubmit="NavToDetails">
-            <input type="text" id="pdes" name="projdes" value=@project.longDescription>
+		<p>@project.shortDescription</p>
+
+			<p>@project.shortDescription</p>
+
+			<form action="/action_page.php" @onsubmit="NavToDetails">
+				<input type="text" id="pdes" name="projdes" value=@project.longDescription>
             
-			<div >
-				<input type="submit" value="Save">
-				<input type="reset" value="Cancel" @onclick="NavToDetails">
-			</div>
-        </form>
+				<div >
+					<input type="submit" value="Save">
+					<input type="reset" value="Cancel" @onclick="NavToDetails">
+				</div>
+			</form>
+		</div>
 
 	}
 }
@@ -41,9 +49,8 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
-	//private User user = new User();
 
 	protected override async Task OnInitializedAsync()
 	{

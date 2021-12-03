@@ -2,7 +2,9 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
+@inject CurrentUser currentuser
 
 <PageTitle>View Project</PageTitle>
 
@@ -11,18 +13,20 @@
 	<p>No project found!</p>
 } else
 {
-	<h1>@project.name</h1>
+	<div>
+		<h1>@project.name</h1>
 
-	<p>By @project.SupervisorID</p>
+		<p>By @project.SupervisorName</p>
 
-	<p>@project.longDescription</p>
+		<p>@project.shortDescription</p>
 
-	//Only for testing purposes
-	<input type="submit" value="Edit" @onclick="NavToEdit">
+		<p>@project.longDescription</p>
+	</div>
+
 
 	<AuthorizeView>
 		<Authorized>
-			@if (true)//user.isSupervisor() && user.getId() == project.supervisorId) <-- How do we want to do this?
+			@if (currentuser.isSupervisor)// && user.getId() == project.supervisorId) <-- How do we want to do this?
 			{
 				<input type="submit" value="Edit" @onclick="NavToEdit">
 				<input type="submit" value="Archive" @onclick="ArchiveProj">
@@ -46,7 +50,7 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", longDescription = "Ahahah description"};
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
 	//private User user = new User();
 
@@ -55,7 +59,7 @@
 		try
 		{
 			// Get project by ID
-			//ITaskRepository rep = new TaskRepository();
+			//var rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
 
 		}
