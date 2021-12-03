@@ -16,7 +16,6 @@ namespace Server
          public DbSet<Student> Students { get; set; }
          public DbSet<Supervisor> Supervisors { get; set; }
          
-       
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 

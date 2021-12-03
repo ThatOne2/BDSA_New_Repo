@@ -1,7 +1,13 @@
 namespace TrialProject.Shared;
-  public enum Tag
+using System.ComponentModel.DataAnnotations;
+
+  public class Tag
     {
-      Algorithms,
-      Robottics, 
-      WebDesign
+        [Key]
+        public int Id {get; set;}
+
+        [Required]
+        [MaxLength(50)]
+        public string Name {get; set;}
+        
     }

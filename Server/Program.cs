@@ -23,11 +23,11 @@ builder.Services.AddRazorPages();
 var configuration = LoadConfiguration();
 var connectionString = configuration.GetConnectionString("BDSA");
 
-  var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>()
-                .UseSqlServer(connectionString); 
+var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>().UseSqlServer(connectionString); 
 
-            using var context = new Server.DataContext(optionsBuilder.Options);
-            
+using var context = new Server.DataContext(optionsBuilder.Options);
+
+ DataContextFactory.Seed(context);
 
 static IConfiguration LoadConfiguration()
 {

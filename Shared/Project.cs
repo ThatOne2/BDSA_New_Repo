@@ -20,7 +20,7 @@ public class Project
      [Required(ErrorMessage = "Description is required")]
     public string longDescription { get; set; }
 
-    [Required(ErrorMessage = "A least one tag required")]
+    //[Required(ErrorMessage = "A least one tag required")]
     public ICollection<Tag> Tags {get; set;} 
 
     [Required]
