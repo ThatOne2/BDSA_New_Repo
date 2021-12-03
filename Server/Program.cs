@@ -13,8 +13,19 @@ using Microsoft.Identity.Web;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+/*
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+*/
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(options =>
+    {
+        builder.Configuration.Bind("AzureAd", options);
+        options.TokenValidationParameters.RoleClaimType =
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    },
+    options => { builder.Configuration.Bind("AzureAd", options); });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
