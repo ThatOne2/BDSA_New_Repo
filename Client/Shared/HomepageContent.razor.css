@@ -55,6 +55,13 @@
 .resultPane {
     width: 60%;
     max-width: 800px;
+
+}
+
+.center {
+    display: flex;
+    text-align: center;
+    justify-content: center;
 }
 
 
