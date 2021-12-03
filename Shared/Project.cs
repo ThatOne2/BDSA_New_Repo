@@ -26,5 +26,4 @@ public class Project
     [Required]
     public Status ProjectStatus { get; set; }
 
-
 } 

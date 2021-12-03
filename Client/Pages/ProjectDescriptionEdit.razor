@@ -19,20 +19,24 @@
 
 	} else
 	{
-		<h1>@project.name</h1>
+		<div>
+			<h1>@project.name</h1>
 
-		<p>By @project.SupervisorName</p>
+		<p>By @project.SupervisorID</p>
 
 		<p>@project.shortDescription</p>
 
-		<form action="/action_page.php" @onsubmit="NavToDetails">
-            <input type="text" id="pdes" name="projdes" value=@project.longDescription>
+			<p>@project.shortDescription</p>
+
+			<form action="/action_page.php" @onsubmit="NavToDetails">
+				<input type="text" id="pdes" name="projdes" value=@project.longDescription>
             
-			<div >
-				<input type="submit" value="Save">
-				<input type="reset" value="Cancel" @onclick="NavToDetails">
-			</div>
-        </form>
+				<div >
+					<input type="submit" value="Save">
+					<input type="reset" value="Cancel" @onclick="NavToDetails">
+				</div>
+			</form>
+		</div>
 
 	}
 }
@@ -45,7 +49,8 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+
 
 	protected override async Task OnInitializedAsync()
 	{

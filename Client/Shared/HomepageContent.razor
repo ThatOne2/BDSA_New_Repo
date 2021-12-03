@@ -1,9 +1,18 @@
 @using TrialProject.Shared
 
 
-<div class = SearchBar>
+@if (hasSearched)
+{
+    <h1>Results for: "@searchOutput"</h1>
+}
+else
+{
+    <h1>Welcome to TheStart of a great project or thesis!</h1>
+}
+
+<div class = "searchBar" id = "bar">
     <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
-    <button title="SearchButton" class="btn btn-primary" @onclick="Search">
+    <button title="searchButton" class="searchBtn" @onclick="Search">
         <span class="oi oi-magnifying-glass"></span>
     </button>
 </div>
@@ -11,23 +20,23 @@
 
 @if (hasSearched)
 {
-    <h1>Results for: "@searchOutput"</h1>
-
-    @foreach (var proj in projects)
-    {
-        <div class = projectContainer>
-            <div class = projectContainerLeft>
-                <p>There should be a picture here</p>
-                <p>stuff</p>
-            </div>
-            <div class = projectContainerRight>
-                <h2>@proj.name</h2>
-                <p>@proj.shortDescription</p>
-            </div>
+    <div class = "center">
+        <div class = "resultPane">
+            @foreach (var proj in projects)
+            {
+                <div class = "projectContainer white">
+                    <div class = "projectContainerLeft">
+                        <div class = "pictureWannabe"></div>
+                        <p>@proj.SupervisorID</p>
+                    </div>
+                    <div class = "projectContainerRight">
+                        <h2>@proj.name</h2>
+                        <p>@proj.shortDescription</p>
+                    </div>
+                </div>
+            }
         </div>
-
-    }
-    
+    </div>
 }
 else 
 {
@@ -61,7 +70,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         projects = new List<Project>();
-        var p1 = new Project{name = "Fun Project", SupervisorID = "Bente", shortDescription = "This is the coolest project you can imagne"};
+
+        var p1 = new Project{name = "Fun Project", SupervisorID = "Bente Andersen the 3rd", shortDescription = "This is the coolest project you can imagne! like... Oh my gawd it's sooo fucking cool. You'll get all the swag points? I wouldn't know if people say that anymore. I'm a professor! I have a fucking PHD"};
         var p2 = new Project{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
         projects.Add(p1);
         projects.Add(p2);

@@ -13,13 +13,16 @@
 	<p>No project found!</p>
 } else
 {
-	<h1>@project.name</h1>
+	<div>
+		<h1>@project.name</h1>
 
-	<p>By @project.SupervisorName</p>
+		<p>By @project.SupervisorID</p>
 
-	<p>@project.shortDescription</p>
+		<p>@project.shortDescription</p>
 
-	<p>@project.longDescription</p>
+		<p>@project.longDescription</p>
+	</div>
+
 
 	<AuthorizeView>
 		<Authorized>
@@ -47,7 +50,7 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
 	//private User user = new User();
 
@@ -56,7 +59,7 @@
 		try
 		{
 			// Get project by ID
-			//ITaskRepository rep = new TaskRepository();
+			//var rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
 
 		}
