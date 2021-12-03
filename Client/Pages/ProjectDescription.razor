@@ -24,17 +24,19 @@
 	</div>
 
 
-	<AuthorizeView>
+	<AuthorizeView Context="LoggedIn">
 		<Authorized>
-			@if (currentuser.isSupervisor)// && user.getId() == project.supervisorId) <-- How do we want to do this?
-			{
-				<input type="submit" value="Edit" @onclick="NavToEdit">
-				<input type="submit" value="Archive" @onclick="ArchiveProj">
-			} else
-			{
-				<button>Apply</button>
-			}
-
+			<AuthorizeView Roles="supervisor">
+				<Authorized>
+					<input type="submit" value="Edit" @onclick="NavToEdit">
+					<input type="submit" value="Archive" @onclick="ArchiveProj">	
+				</Authorized>
+			</AuthorizeView>
+			<AuthorizeView Roles="student">
+				<Authorized>
+					<button>Apply</button>
+				</Authorized>
+			</AuthorizeView>
 		</Authorized>
 		<NotAuthorized>
 			<p>Log in to apply for project!</p>
@@ -51,8 +53,6 @@
 	public int id { get; set; }
 
 	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
-
-	//private User user = new User();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -81,4 +81,5 @@
 		//project = rep.UpdateStatus(id, Status.Archived);
 	}
 
+	
 }

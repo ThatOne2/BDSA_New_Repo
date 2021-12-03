@@ -21,11 +21,23 @@ builder.Services.AddScoped(sp => new HttpClient{ BaseAddress = new Uri(builder.H
 builder.Services.AddScoped<List<ProjectPreviewDTO>>();
 builder.Services.AddScoped<CurrentUser>();
 
+/*
 builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
     options.ProviderOptions.DefaultAccessTokenScopes.Add("api://890643f7-4176-462f-90f9-5ce4ec82e63d/API.Access");
+"api://862c81f0-91e8-476e-8646-b7c297967ec9/BlazorHostedAPI.Access"
 });
+*/
+
+builder.Services.AddMsalAuthentication<RemoteAuthenticationState, CustomUserAccount>(options =>
+{
+    builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+    options.ProviderOptions.DefaultAccessTokenScopes.Add("api://890643f7-4176-462f-90f9-5ce4ec82e63d/API.Access");
+    options.UserOptions.RoleClaim = "appRole";
+})
+.AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount,
+    CustomAccountFactory>();
 
 await builder.Build().RunAsync();
   
