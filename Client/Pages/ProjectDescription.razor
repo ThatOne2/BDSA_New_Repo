@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
 @inject CurrentUser currentuser
 
@@ -21,6 +22,7 @@
 
 		<p>@project.longDescription</p>
 	</div>
+
 
 	<AuthorizeView>
 		<Authorized>
@@ -48,7 +50,9 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private Project project = new Project{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorID = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+
+	//private User user = new User();
 
 	protected override async Task OnInitializedAsync()
 	{
