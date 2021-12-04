@@ -1,5 +1,7 @@
 @using TrialProject.Shared
-
+@using TrialProject.Shared.DTO
+@inject List<ProjectPreviewDTO> projectDTOs
+@using System.Collections.Generic
 
 @if (hasSearched)
 {
@@ -22,16 +24,26 @@ else
 {
     <div class = "center">
         <div class = "resultPane">
-            @foreach (var proj in projects)
+            @foreach (var proj in projectDTOs)
             {
                 <div class = "projectContainer white">
                     <div class = "projectContainerLeft">
                         <div class = "pictureWannabe"></div>
-                        <p>@proj.SupervisorID</p>
+                        <p>@proj.SupervisorName</p>
                     </div>
                     <div class = "projectContainerRight">
-                        <h2>@proj.name</h2>
+                        <div class = "centerText">
+                            <h2>@proj.name</h2>
+                        </div>
                         <p>@proj.shortDescription</p>
+                        <div class = "tagBox">
+                            @foreach (var tag in proj.Tags)
+                            {
+                                <div class = "tag">
+                                    <p>@tag.Name</p>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             }
@@ -69,11 +81,29 @@ else
     }
     protected override async Task OnInitializedAsync()
     {
-        projects = new List<Project>();
+        projectDTOs = new List<ProjectPreviewDTO>();
+        
+        ICollection<Tag> tagcollection = new List<Tag>();
+        
+        var t1 = new Tag{Id = 1, Name = "Algorithms"};
+        var t2 = new Tag{Id = 2, Name = "Datastructures"};
+        var t3 = new Tag{Id = 3, Name = "Your mom"};
+        var t7 = new Tag{Id = 3, Name = "Your mom"};
+        var t8 = new Tag{Id = 3, Name = "Your mom"};
+        var t5 = new Tag{Id = 5, Name = "HHCAPSLOCKHHHH"};
+        var t6 = new Tag{Id = 6, Name = "B"};
 
-        var p1 = new Project{name = "Fun Project", SupervisorID = "Bente Andersen the 3rd", shortDescription = "This is the coolest project you can imagne! like... Oh my gawd it's sooo fucking cool. You'll get all the swag points? I wouldn't know if people say that anymore. I'm a professor! I have a fucking PHD"};
-        var p2 = new Project{name = "Not so fun Project", SupervisorID = "Felix", shortDescription = "I don't actually care for this project"};
-        projects.Add(p1);
-        projects.Add(p2);
+        tagcollection.Add(t1);
+        tagcollection.Add(t2);
+        tagcollection.Add(t3);
+        tagcollection.Add(t7);
+        tagcollection.Add(t8);
+        tagcollection.Add(t5);
+        tagcollection.Add(t6);
+
+        var p1 = new ProjectPreviewDTO{name = "Fun Project", SupervisorName = "Bente Andersen the 3rd", shortDescription = "This is the coolest project you can imagne! like... Oh my gawd it's sooo fucking cool. You'll get all the swag points? I wouldn't know if people say that anymore. I'm a professor! I have a fucking PHD", Tags = tagcollection};
+        var p2 = new ProjectPreviewDTO{name = "Not so fun Project", SupervisorName = "Felix", shortDescription = "I don't actually care for this project", Tags = tagcollection};
+        projectDTOs.Add(p1);
+        projectDTOs.Add(p2);
     }
 }
