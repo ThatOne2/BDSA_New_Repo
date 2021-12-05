@@ -1,0 +1,65 @@
+@page "/projects/new"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+
+<PageTitle>Add Project</PageTitle>
+
+<h1>New Project </h1>
+<AuthorizeView Roles="supervisor">
+    <Authorized>
+        <div class="PostProject">
+            <label for="pname">Project Name</label>
+            <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
+
+            <label for="pdes">Project Description</label>
+            <input type="text" id="pdes" name="projdes" placeholder="Project description.."@bind="@inputDes" @oninput="OnInputDesEvent">
+            <button class="OurButton" @onclick="addProject">Post Project</button>
+            <!-- Change to match -->
+            <button class="OurButton" @onclick="NavToList">Cancel</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to post projects</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+@code {
+
+    private string inputName = null;
+    private string inputDes = null;
+
+
+    private void OnInputNameEvent(ChangeEventArgs changeEvent)
+    {
+        inputName = (string)changeEvent.Value;
+    }
+
+    private void OnInputDesEvent(ChangeEventArgs changeEvent)
+    {
+        inputDes = (string)changeEvent.Value;
+    }
+
+    private async void addProject() {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        var p1 = new ProjectPreviewDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes};
+
+        // Send to database
+
+        NavToList();
+    }
+
+    private async void NavToList()
+    {
+        NavManager.NavigateTo("/havefun");
+    }
+}
