@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System;  
+using System.Collections.Generic;  
+using System.Linq;  
+using System.Net.Http;  
+
 
 
 
@@ -18,17 +23,23 @@ public class TaskRepository : ITaskRepository {
             _context = context;
         }
     
-     public HttpWebResponse CreateProject(Project p) {
-         return null;
+
+     public Response CreateProject(DTO.CreateProjectDTO  p) {
+          Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = p.SupervisorName, Tags = p.Tags};
+
+            _context.Projects.Add(project);
+            _context.SaveChanges();
+
+            return Response.Error;
       }
 
-    public HttpWebResponse CreateStudent(Student s){
-         return null;
+    public Response CreateStudent(DTO.CreateStudentDTO s){
+         return Response.Error;
       }
 
 
-    public HttpWebResponse CreateSuporvisor(Supervisor s){
-         return null;
+    public Response CreateSuporvisor(DTO.CreateSupervisorDTO s){
+         return Response.Error;
       }
 
 
@@ -39,7 +50,7 @@ public class TaskRepository : ITaskRepository {
     public async Task<DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId) {
         var p = await _context.Projects.FindAsync(projectId);
         var superV = await _context.Supervisors.FindAsync(p.SupervisorID);
-        var tagList = new List<Tag>();
+        //var tagList = new List<Tag>();
 
         var DTOProject = new DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, SupervisorName = superV.name, shortDescription = p.shortDescription, Tags = p.Tags };
         return DTOProject;
@@ -93,26 +104,26 @@ public class TaskRepository : ITaskRepository {
 
     //=============================================
 
-    public HttpWebResponse UpdateProjectDesciption(int projectId, string newDescription){
-         return null;
+    public Response UpdateProjectDesciption(int projectId, string newDescription){
+         return Response.Error;
       }
 
-    public HttpWebResponse UpdateProjectStatus(int projectId, Status s){
-         return null;
+    public Response UpdateProjectStatus(int projectId, Status s){
+         return Response.Error;
       }
 
     //============================================
 
-    public HttpWebResponse DeleteProject(int projectId){
-         return null;
+    public Response DeleteProject(int projectId){
+         return Response.Error;
       }
 
-    public HttpWebResponse DeleteSupovisor(int supervisorId){
-         return null;
+    public Response DeleteSupovisor(int supervisorId){
+         return Response.Error;
       }
 
-    public HttpWebResponse DeleteStudent(int studentId){
-         return null;
+    public Response DeleteStudent(int studentId){
+         return Response.Error;
       }
 
     public void Dispose() {

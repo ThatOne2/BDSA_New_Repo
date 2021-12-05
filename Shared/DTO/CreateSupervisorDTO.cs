@@ -7,11 +7,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TrialProject.Shared.DTO
 {
-	public class SupervisorDescDTO
+	public class CreateSupervisorDTO
 	{
-        [Key]
-        public int ID { get; set; }
-
+        
         [Required(ErrorMessage = "Supervisor name is required field")]
         [MaxLength(50)]
         public string name { get; set; }

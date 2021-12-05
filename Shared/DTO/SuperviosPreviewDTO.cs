@@ -12,7 +12,7 @@ namespace TrialProject.Shared.DTO
         [Key]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Student name is required field")]
+        [Required(ErrorMessage = "Supervisor name is required field")]
         [MaxLength(50)]
         public string name { get; set; }
 
