@@ -11,7 +11,7 @@ namespace TrialProject.Shared.DTO
 
         [Required(ErrorMessage = "Teacher name is required field")]
         [MaxLength(50)]
-        public string SupervisorName { get; set; }
+        public int SupervisorID { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         public string shortDescription { get; set; }

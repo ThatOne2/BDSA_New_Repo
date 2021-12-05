@@ -26,9 +26,10 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
     public static void Seed(Server.DataContext context)
     {
         context.Database.EnsureCreated();
-        context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
         context.Database.ExecuteSqlRaw("DELETE dbo.Supervisors");
         context.Database.ExecuteSqlRaw("DELETE dbo.Students");
+        context.Database.ExecuteSqlRaw("DELETE dbo.Tag");
+        context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Projects', RESEED, 0)");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Supervisors', RESEED, 0)");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Students', RESEED, 0)");
@@ -42,6 +43,9 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
         var Supervisor3 = new Supervisor {  isSupervisor = true,
                                             name = "Karl Karlsson",
                                             Email = "kkarlsson@gmail.com" };
+        var Supervisor4 = new Supervisor {  isSupervisor = true,
+                                            name = "Niels Nielson",
+                                            Email = "nielsnson@gmail.com" };
 
         var Student1 = new Student {  isSupervisor = false,
                                             name = "Jens Jensen",
@@ -58,46 +62,11 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
         var Tag3 = new Tag { Name = "Security" };
         var Tag4 = new Tag { Name = "Database" };
 
-        var Project1 = new Project {    name = "Photoscanning Thesis", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag1 }, 
-                                        SupervisorID = Supervisor3.ID,
-                                        shortDescription = "Photoscanning. What is it? I don't know! Help me find out! PLEASE!",
-                                        longDescription = "I'm serious. I have no idea! Please help me find out. If you, or someone you know, is familiar with photoscanning, then please come and help me! I'm a desperate professor in need of assistance!"
-                                    };
-        var Project2 = new Project {    name = "Database Efficiency Study", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag2, Tag3 },
-                                        SupervisorID = Supervisor3.ID,
-                                        shortDescription = "Come with me and help me see how far we can go with databases!",
-                                        longDescription = "In this project idea, I am hoping to work with somebody that is able to help me solve the mysteries behind how fast one can go in database management." 
-                                        };
-        var Project3 = new Project {    name = "Frontend Research Project", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag1, Tag4 },
-                                        SupervisorID = Supervisor2.ID,
-                                        shortDescription = "Frontend has been evolving violently - but how does this affect the economy?",
-                                        longDescription = "The recent breakthroughs in frontend development, as well as higher salaries, are the reason more and more labourers are quitting their dayjobs to get into coding."
-                                    };
-        var Project4 = new Project {    name = "RESTful Github Activity", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag3 },
-                                        SupervisorID = Supervisor2.ID,
-                                        shortDescription = "It's kinda like regular Github, but RESTful",
-                                        longDescription = "We're all familiar with Github, and most of us know what a RESTful API is. Now we want to get the best of both worlds."
-                                        };
-
-        var Project5 = new Project {    name = "Making a proper GoLang tutorial - the project", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag4 },
-                                        SupervisorID = Supervisor1.ID,
-                                        shortDescription = "It bad - we wanna make it better",
-                                        longDescription = "We're trying to make a proper tutorial on how to use GoLang. Join us!"};
-
-        context.Supervisors.AddRange(
+          context.Supervisors.AddRange(
             Supervisor1,
             Supervisor2,
-            Supervisor3
+            Supervisor3,
+            Supervisor4
         );
 
         context.Students.AddRange(
@@ -106,6 +75,45 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
             Student3
         );
 
+         context.SaveChanges();
+
+        var Project1 = new Project {    name = "Photoscanning Thesis", 
+                                        ProjectStatus = Status.Ongoing, 
+                                        Tags = new List<Tag> { Tag1 }, 
+                                        SupervisorID = 1,
+                                        shortDescription = "Photoscanning. What is it? I don't know! Help me find out! PLEASE!",
+                                        longDescription = "I'm serious. I have no idea! Please help me find out. If you, or someone you know, is familiar with photoscanning, then please come and help me! I'm a desperate professor in need of assistance!"
+                                    };
+        var Project2 = new Project {    name = "Database Efficiency Study", 
+                                        ProjectStatus = Status.Ongoing, 
+                                        Tags = new List<Tag> { Tag2, Tag3 },
+                                        SupervisorID = 1,
+                                        shortDescription = "Come with me and help me see how far we can go with databases!",
+                                        longDescription = "In this project idea, I am hoping to work with somebody that is able to help me solve the mysteries behind how fast one can go in database management." 
+                                        };
+        var Project3 = new Project {    name = "Frontend Research Project", 
+                                        ProjectStatus = Status.Ongoing, 
+                                        Tags = new List<Tag> { Tag1, Tag4 },
+                                        SupervisorID = 2,
+                                        shortDescription = "Frontend has been evolving violently - but how does this affect the economy?",
+                                        longDescription = "The recent breakthroughs in frontend development, as well as higher salaries, are the reason more and more labourers are quitting their dayjobs to get into coding."
+                                    };
+        var Project4 = new Project {    name = "RESTful Github Activity", 
+                                        ProjectStatus = Status.Ongoing, 
+                                        Tags = new List<Tag> { Tag3 },
+                                        SupervisorID = 2,
+                                        shortDescription = "It's kinda like regular Github, but RESTful",
+                                        longDescription = "We're all familiar with Github, and most of us know what a RESTful API is. Now we want to get the best of both worlds."
+                                        };
+
+        var Project5 = new Project {    name = "Making a proper GoLang tutorial - the project", 
+                                        ProjectStatus = Status.Ongoing, 
+                                        Tags = new List<Tag> { Tag4 },
+                                        SupervisorID = 3,
+                                        shortDescription = "It bad - we wanna make it better",
+                                        longDescription = "We're trying to make a proper tutorial on how to use GoLang. Join us!"};
+
+      
         context.Projects.AddRange(
             Project1,
             Project2,

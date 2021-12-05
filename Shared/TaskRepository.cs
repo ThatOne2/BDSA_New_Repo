@@ -25,12 +25,18 @@ public class TaskRepository : ITaskRepository {
     
 
      public Response CreateProject(DTO.CreateProjectDTO  p) {
-          Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = p.SupervisorName, Tags = p.Tags};
+         var s = _context.Supervisors.Find(p.SupervisorID);
+
+         if (s == null) {
+             return Response.Error;
+         }
+
+          Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = s.ID, Tags = p.Tags};
 
             _context.Projects.Add(project);
             _context.SaveChanges();
 
-            return Response.Error;
+            return Response.Created;
       }
 
     public Response CreateStudent(DTO.CreateStudentDTO s){
@@ -57,48 +63,48 @@ public class TaskRepository : ITaskRepository {
     }
 
      //Returns a single project by ID
-    public (Task<DTO.ProjectDescDTO>, HttpWebResponse) ReadDescProjectById(int projectId){
-        return (null,null);
+    public Task<DTO.ProjectDescDTO> ReadDescProjectById(int projectId){
+        return null;
     }
 
     //Returns a list of all projects (Maybe using  yield return?)
-    public (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadAllPreviewProjects(){
-        return (null,null);
+    public IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadAllPreviewProjects(){
+        return null;
     }
 
      //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-    public (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadAllProjectsPostedBySupervisor(int supervisorID){
-        return (null,null);
+    public IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
+        return null;
     }
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    public (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadProjectListByTag(Tag t){
-        return (null,null);
+    public IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadProjectListByTag(Tag t){
+        return null;
     }
      
     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
-    public (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadProjectListByDescription(string word){
-        return (null,null);
+    public IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word){
+        return null;
     }
 
     //Returns a single suporvisor by ID
-    public (Task<DTO.SuperviosPreviewDTO>, HttpWebResponse) ReadSuporvisorPreviewById(int supervisorId){
-        return (null,null);
+    public Task<DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId){
+        return null;
     }
 
     //Returns a single suporvisor by ID
-    public (Task<DTO.SupervisorDescDTO>, HttpWebResponse) ReadSuporvisorDescById(int supervisorId){
-        return (null,null);
+    public Task<DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId){
+        return null;
     }
 
     //Returns a single student by ID
-    public (Task<DTO.StudentPreviewDTO>, HttpWebResponse) ReadStudentPreviewById(int studentId){
-        return (null,null);
+    public Task<DTO.StudentPreviewDTO> ReadStudentPreviewById(int studentId){
+        return null;
     }
 
     //Returns a single student by ID
-    public (Task<DTO.StudentDescDTO>, HttpWebResponse) ReadStudentDEscById(int studentId){
-        return (null,null);
+    public Task<DTO.StudentDescDTO> ReadStudentDEscById(int studentId){
+        return null;
     }
 
 

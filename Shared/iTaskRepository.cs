@@ -16,31 +16,31 @@ public interface ITaskRepository : IDisposable
     //Returns a single project by ID
     Task<DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId);
      //Returns a single project by ID
-    (Task<DTO.ProjectDescDTO>, HttpWebResponse) ReadDescProjectById(int projectId);
+    Task<DTO.ProjectDescDTO>ReadDescProjectById(int projectId);
 
     //Returns a list of all projects (Maybe using  yield return?)
-    (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadAllPreviewProjects();
+    IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadAllPreviewProjects();
 
      //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-    (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadAllProjectsPostedBySupervisor(int supervisorID);
+    IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID);
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-     (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadProjectListByTag(Tag t); 
+     IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadProjectListByTag(Tag t); 
      
     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
-     (IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>>, HttpWebResponse) ReadProjectListByDescription(string word);
+     IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word);
 
     //Returns a single suporvisor by ID
-    (Task<DTO.SuperviosPreviewDTO>, HttpWebResponse) ReadSuporvisorPreviewById(int supervisorId);
+    Task<DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId);
 
     //Returns a single suporvisor by ID
-    (Task<DTO.SupervisorDescDTO>, HttpWebResponse) ReadSuporvisorDescById(int supervisorId);
+    Task<DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId);
 
     //Returns a single student by ID
-    (Task<DTO.StudentPreviewDTO>, HttpWebResponse) ReadStudentPreviewById(int studentId);
+    Task<DTO.StudentPreviewDTO> ReadStudentPreviewById(int studentId);
 
     //Returns a single student by ID
-    (Task<DTO.StudentDescDTO>, HttpWebResponse) ReadStudentDEscById(int studentId);
+    Task<DTO.StudentDescDTO>ReadStudentDEscById(int studentId);
 
     //=============================================
 
