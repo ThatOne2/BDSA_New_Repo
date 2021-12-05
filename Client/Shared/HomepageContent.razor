@@ -13,8 +13,8 @@ else
 }
 
 <div class = "searchBar" id = "bar">
-    <input type="text" id="searchInput" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
-    <button title="searchButton" class="searchBtn" @onclick="Search">
+    <input type="text" id="searchInput" class = "white" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
+    <button title="searchButton" class="white searchBtn" @onclick="Search">
         <span class="oi oi-magnifying-glass"></span>
     </button>
 </div>
@@ -44,6 +44,7 @@ else
                                 </div>
                             }
                         </div>
+                        <button class = "viewProjBtn" @onclick = "ViewProj"> View </button>
                     </div>
                 </div>
             }
@@ -72,6 +73,11 @@ else
 
         }
     }
+    private void ViewProj()
+    {
+        //do somethin
+    }
+
     public void Enter(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
