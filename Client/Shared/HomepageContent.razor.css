@@ -1,3 +1,4 @@
+
 .searchBar {
     width: 100%;
     margin-bottom: 20px;
@@ -11,20 +12,6 @@
     height: 50px;
     width: 50px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -61,29 +48,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #searchInput {
     border-radius: 30pt;
     width: calc(100% - 60px);
@@ -105,6 +69,11 @@
 .projectContainerLeft {
     width: 33%;
 }
+
+.text {
+    height: 1em;
+}
+
 
 .projectContainerRight {
     width: 67%;

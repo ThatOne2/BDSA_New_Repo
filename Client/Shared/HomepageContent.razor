@@ -1,7 +1,8 @@
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO
-@inject List<ProjectPreviewDTO> projectDTOs
+@inject List<ProjectPreviewDTO> DTOs
 @using System.Collections.Generic
+@inject NavigationManager NavigationManager
 
 @if (hasSearched)
 {
@@ -24,12 +25,14 @@ else
 {
     <div class = "center">
         <div class = "resultPane">
-            @foreach (var proj in projectDTOs)
+            @foreach (var proj in DTOs)
             {
                 <div class = "projectContainer white">
                     <div class = "projectContainerLeft">
                         <div class = "pictureWannabe"></div>
-                        <p>@proj.SupervisorName</p>
+                        <div class = "text">
+                            <p>@proj.SupervisorName</p>
+                        </div>
                     </div>
                     <div class = "projectContainerRight">
                         <div class = "centerText">
@@ -44,7 +47,7 @@ else
                                 </div>
                             }
                         </div>
-                        <button class = "viewProjBtn" @onclick = "ViewProj"> View </button>
+                        <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
                     </div>
                 </div>
             }
@@ -73,9 +76,11 @@ else
 
         }
     }
-    private void ViewProj()
+    private void ViewProj(ProjectPreviewDTO project)
     {
-        //do somethin
+        var uri = $"{NavigationManager.BaseUri}projects/{project.ID}";
+
+        NavigationManager.NavigateTo(uri);
     }
 
     public void Enter(KeyboardEventArgs e)
@@ -86,9 +91,7 @@ else
         }
     }
     protected override async Task OnInitializedAsync()
-    {
-        projectDTOs = new List<ProjectPreviewDTO>();
-        
+    {   
         ICollection<Tag> tagcollection = new List<Tag>();
         
         var t1 = new Tag{Id = 1, Name = "Algorithms"};
@@ -107,9 +110,9 @@ else
         tagcollection.Add(t5);
         tagcollection.Add(t6);
 
-        var p1 = new ProjectPreviewDTO{name = "Fun Project", SupervisorName = "Bente Andersen the 3rd", shortDescription = "This is the coolest project you can imagne! like... Oh my gawd it's sooo fucking cool. You'll get all the swag points? I wouldn't know if people say that anymore. I'm a professor! I have a fucking PHD", Tags = tagcollection};
-        var p2 = new ProjectPreviewDTO{name = "Not so fun Project", SupervisorName = "Felix", shortDescription = "I don't actually care for this project", Tags = tagcollection};
-        projectDTOs.Add(p1);
-        projectDTOs.Add(p2);
+        var p1 = new ProjectPreviewDTO{ID = 3, name = "Fun Project", SupervisorName = "Bente Andersen the 3rd", shortDescription = "This is the coolest project you can imagne! like... Oh my gawd it's sooo fucking cool. You'll get all the swag points? I wouldn't know if people say that anymore. I'm a professor! I have a fucking PHD", Tags = tagcollection};
+        var p2 = new ProjectPreviewDTO{ID = 1, name = "Not so fun Project", SupervisorName = "Felix", shortDescription = "I don't actually care for this project", Tags = tagcollection};
+        DTOs.Add(p1);
+        DTOs.Add(p2);
     }
 }
