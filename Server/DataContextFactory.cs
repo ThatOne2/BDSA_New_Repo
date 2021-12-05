@@ -65,30 +65,37 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
         context.SaveChanges(); */
     }
 
-    private static string GenerateCompanyName()
+    private Supervisor GenerateRandomSupervisor(List<string> existingEmails)
     {
-        Random rand = new Random();
-        List<string> companyName = new List<string>();
+        // Name is build up of 1 first name and 1 surname
+        Random r = new Random();
+        Supervisor supervisor = new Supervisor();
+        List<string> firstNames = new List<string> { 
+            "Jørgen", "Julius", "Valdemar", "Claus", "Marcus", "Danny", "Gabriel",  "Frans",  "Ivan",
+            "Karl", "Cathrine", "Asta", "Alice", "Kamilla", "Freja", "Sille", "Bianca", "Frida", "Agnes"
+            };
+        List<string> lastNames = new List<string> { 
+            "Petersen", "Birch", "Dahl", "Eskildsen", "Lund", "Andresen", "Høj", "Nygaard",
+             "Bang", "Johannesen", "Mouritsen", "Andersen", "Munch", "Fuglsang", "Laursen" };
+        List<string> emailLastPart = new List<string> { "@live.dk", "@hotmail.com", "@outlook.com", "@gmail.com",};
+        List<string> fullName = new List<string>();
 
-        List<string> initialWords = new List<string> {
-            "Smart", "Electro", "Seed", "Hercules", "Pearl", "Development", "Outstanding", "Elite", "Lion",
-            "Solstice", "Dream", "Mars", "Pluto", "Explo", "Crystal", "Future", "Titan", "Immortal"
-        };
-        
-        List<string> lastParts = new List<string>() {"Co", "Inc", "ApS", "AAT", "LLC"};
+        fullName.Add(firstNames[r.Next(0, firstNames.Count - 1)]);
+        fullName.Add(lastNames[r.Next(0, lastNames.Count - 1)]);
 
-        while (companyName.Count < 3)
-        {
-            string word = initialWords[rand.Next(0, initialWords.Count - 1)];
-            if (!companyName.Contains(word))
-            {
-                companyName.Add(word);
-            }
+        supervisor.name = string.Join(" ", fullName);
+
+        // Email is build up of firstname's first letter + first surname + @hotmail.com
+        var emailName = fullName[0].Substring(0, 1) + fullName[1];
+
+        while(existingEmails.Contains(emailName)){
+            emailName += r.Next(1, 99);
         }
+        existingEmails.Add(emailName);
 
-        companyName.Add(" " + lastParts[rand.Next(0, lastParts.Count - 1)]);
+        emailName += emailLastPart[r.Next(0, emailLastPart.Count - 1)];
+        supervisor.Email = emailName;
 
-        return string.Join("", companyName);
+        return supervisor;
     }
-
 }
