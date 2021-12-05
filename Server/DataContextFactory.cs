@@ -60,32 +60,37 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
 
         var Project1 = new Project {    name = "Photoscanning Thesis", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new[] { Tag1 }, 
+                                        Tags = new List<Tag> { Tag1 }, 
+                                        SupervisorID = Supervisor3.ID,
                                         shortDescription = "Photoscanning. What is it? I don't know! Help me find out! PLEASE!",
                                         longDescription = "I'm serious. I have no idea! Please help me find out. If you, or someone you know, is familiar with photoscanning, then please come and help me! I'm a desperate professor in need of assistance!"
                                     };
         var Project2 = new Project {    name = "Database Efficiency Study", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new[] { Tag2, Tag3 },
+                                        Tags = new List<Tag> { Tag2, Tag3 },
+                                        SupervisorID = Supervisor3.ID,
                                         shortDescription = "Come with me and help me see how far we can go with databases!",
                                         longDescription = "In this project idea, I am hoping to work with somebody that is able to help me solve the mysteries behind how fast one can go in database management." 
                                         };
         var Project3 = new Project {    name = "Frontend Research Project", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new[] { Tag1, Tag4 },
+                                        Tags = new List<Tag> { Tag1, Tag4 },
+                                        SupervisorID = Supervisor2.ID,
                                         shortDescription = "Frontend has been evolving violently - but how does this affect the economy?",
                                         longDescription = "The recent breakthroughs in frontend development, as well as higher salaries, are the reason more and more labourers are quitting their dayjobs to get into coding."
                                     };
         var Project4 = new Project {    name = "RESTful Github Activity", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new[] { Tag3 },
+                                        Tags = new List<Tag> { Tag3 },
+                                        SupervisorID = Supervisor2.ID,
                                         shortDescription = "It's kinda like regular Github, but RESTful",
                                         longDescription = "We're all familiar with Github, and most of us know what a RESTful API is. Now we want to get the best of both worlds."
                                         };
 
         var Project5 = new Project {    name = "Making a proper GoLang tutorial - the project", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new[] { Tag4 },
+                                        Tags = new List<Tag> { Tag4 },
+                                        SupervisorID = Supervisor1.ID,
                                         shortDescription = "It bad - we wanna make it better",
                                         longDescription = "We're trying to make a proper tutorial on how to use GoLang. Join us!"};
 
