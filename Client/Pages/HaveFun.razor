@@ -8,6 +8,7 @@
 @inject List<ProjectPreviewDTO> projects
 @inject CurrentUser currentuser
 @inject NavigationManager NavManager
+@inject HttpClient Http
 
 
 <PageTitle>We all just having the most fun</PageTitle>
@@ -36,6 +37,19 @@
             }
         </tbody>
     </table>
+
+@* <div>
+    @foreach (var proj in projectsList)
+        {
+            <tr>
+                <td>@proj.name</td>
+                <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorName</td>
+                <td>@proj.shortDescription</td>
+            </tr>
+        }
+</div> *@
+
+
 <AuthorizeView Roles="supervisor">
         
     <Authorized>
@@ -60,6 +74,9 @@
 
 
 @code {
+
+    private ProjectPreviewDTO[]? projectsList;
+
     /*
     private string inputName = null;
     private string inputDes = null;
@@ -101,6 +118,15 @@
             projects.Add(p1);
             projects.Add(p2);
         }
+
+        @*  try
+        {
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        } *@
       
     }
 
