@@ -9,30 +9,14 @@ main {
     background-color: #FFD5D9;
 }
 
-
-
-.whiteT {
-    color: white;
-}
-
-.redT {
-    color: #FF2E3F;
-}
-
-.logoT {
-    letter-spacing: -2px;
-    font-size: 3em;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-
-
 .menu {
     background-color: #515052;
     padding: 5px;
     align-items: center;
     display: flex;
 }
+
+
 
 
 .top-row {
@@ -57,6 +41,7 @@ main {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {

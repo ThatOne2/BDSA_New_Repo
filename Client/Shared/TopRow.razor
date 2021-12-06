@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<div class="topRow">
+    <a class = "logoText" href = "">
+        <span class = "whiteT logoT">The</span>
+        <span class = "redT logoT">Start</span>
+    </a>
+    <div class = "right">
+        <AuthorizeView>
+            <Authorized>
+                Whas Poping~~ @context.User.Identity?.Name!
+
+
+                <button class="nav-link btn btn-link" style="color: #FF2E3F;" @onclick="BeginLogout">Log out</button>
+            </Authorized>
+            <NotAuthorized>
+                <a style="color: #FF2E3F;" href="authentication/login">Log in</a>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@code{
+    private async Task BeginLogout(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

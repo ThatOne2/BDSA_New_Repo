@@ -1,0 +1,34 @@
+.topRow {
+    background-color: #333138;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.whiteT {
+    color: white;
+}
+
+.redT {
+    color: #FF2E3F;
+}
+
+.logoT {
+    letter-spacing: -2px;
+    word-spacing: -2px;
+    font-size: 3em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.right {
+    display: flex;
+}
+
+.searchBar {
+    border-radius: 30pt;
+    background-color: #515052;
+}
