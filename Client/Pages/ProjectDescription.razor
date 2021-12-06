@@ -28,13 +28,13 @@
 		<Authorized>
 			<AuthorizeView Roles="supervisor">
 				<Authorized>
-					<input type="submit" value="Edit" @onclick="NavToEdit">
-					<input type="submit" value="Archive" @onclick="ArchiveProj">	
+					<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
+					<input type="submit" class="OurButton" value="Archive" @onclick="ArchiveProj">	
 				</Authorized>
 			</AuthorizeView>
 			<AuthorizeView Roles="student">
 				<Authorized>
-					<button>Apply</button>
+					<button class="OurButton">Apply</button>
 				</Authorized>
 			</AuthorizeView>
 		</Authorized>

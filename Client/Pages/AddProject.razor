@@ -1,0 +1,80 @@
+@page "/projects/new"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+
+<PageTitle>Add Project</PageTitle>
+
+<h1>New Project </h1>
+<AuthorizeView Roles="supervisor">
+    <Authorized>
+        <div class="PostProject">
+            <label for="pname">Project Name</label>
+            <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
+
+            <label for="pdes">Short Project Description</label>
+            <input type="text" id="pdes" name="projdes" placeholder="Short description to catch interest.."@bind="@inputDes" @oninput="OnInputDesEvent">
+            
+            <label for="pldes">Project Description</label>
+            <!--input type="text" id="pldes" name="projlongdes" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"-->
+            <textarea id="pldes" name="projlongdes" class="txta" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"/>
+            
+            <button class="OurButton" @onclick="addProject">Post Project</button>
+            <button class="OurButton" @onclick="NavToList">Cancel</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to post projects</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<style>
+    .txta {
+        width: 100%;
+        height: 40vh;
+    }
+</style>
+
+@code {
+
+    private string inputName = null;
+    private string inputDes = null;
+    private string inputLongDes = null;
+
+
+    private void OnInputNameEvent(ChangeEventArgs changeEvent)
+    {
+        inputName = (string)changeEvent.Value;
+    }
+
+    private void OnInputDesEvent(ChangeEventArgs changeEvent)
+    {
+        inputDes = (string)changeEvent.Value;
+    }
+
+    private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
+    {
+        inputLongDes = (string)changeEvent.Value;
+    }
+
+    private async void addProject() {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        var p1 = new ProjectDescDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes, longDescription = inputLongDes};
+
+        // Send to database
+
+        NavToList();
+    }
+
+    private async void NavToList()
+    {
+        NavManager.NavigateTo("/havefun");
+    }
+}
