@@ -16,22 +16,16 @@ namespace Server;
 
 [ApiController]
 [Route("[controller]")]
-public class TaskRepositoryProject : ControllerBase {
+public class ProjectController : ControllerBase {
 
 
     private readonly DataContext _context;
+    private readonly ILogger<ProjectController> _logger;
 
-        public TaskRepositoryProject(Server.DataContext context)
-        {
-            _context = context;
-        }
-    
-
-     private readonly ILogger<TaskRepositoryProject> _logger;
-
-    public TaskRepositoryProject(ILogger<TaskRepositoryProject> logger)
+    public ProjectController(ILogger<ProjectController> logger, Server.DataContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
 
@@ -55,7 +49,7 @@ public class TaskRepositoryProject : ControllerBase {
 
 
     //Returns a single project by ID
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId) {
         var p = await _context.Projects.FindAsync(projectId);
         var superV = await _context.Supervisors.FindAsync(p.SupervisorID);
@@ -65,11 +59,11 @@ public class TaskRepositoryProject : ControllerBase {
         return DTOProject;
     }
 
-     //Returns a single project by ID
+  /*    //Returns a single project by ID
     [HttpGet]
     public Task<TrialProject.Shared.DTO.ProjectDescDTO> ReadDescProjectById(int projectId){
         return null;
-    }
+    } */
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
@@ -109,7 +103,7 @@ public class TaskRepositoryProject : ControllerBase {
     }
 
     //============================================
-    
+
     [HttpDelete]
     public HttpStatusCode DeleteProject(int projectId){
           return HttpStatusCode.NotFound;

@@ -16,22 +16,16 @@ namespace Server;
 
 [ApiController]
 [Route("[controller]")]
-public class TaskRepositoryStudents : ControllerBase {
+public class StudentsController : ControllerBase {
 
 
     private readonly DataContext _context;
+     private readonly ILogger<StudentsController> _logger;
 
-        public TaskRepositoryStudents(Server.DataContext context)
-        {
-            _context = context;
-        }
-    
-
-     private readonly ILogger<TaskRepositoryStudents> _logger;
-
-    public TaskRepositoryStudents(ILogger<TaskRepositoryStudents> logger)
+    public StudentsController(ILogger<StudentsController> logger, Server.DataContext context)
     {
         _logger = logger;
+         _context = context;
     }
 
 
