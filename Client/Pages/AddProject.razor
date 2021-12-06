@@ -14,38 +14,59 @@
 <AuthorizeView Roles="supervisor">
     <Authorized>
         <div class="PostProject">
-            <label for="pname">Project Name</label>
-            <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
+            <div>
+                <label for="pname">Project Name</label>
+                <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
+            </div>
 
-            <label for="pdes">Short Project Description</label>
-            <input type="text" id="pdes" name="projdes" placeholder="Short description to catch interest.."@bind="@inputDes" @oninput="OnInputDesEvent">
-            
-            <label for="pldes">Project Description</label>
-            <!--input type="text" id="pldes" name="projlongdes" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"-->
-            <textarea id="pldes" name="projlongdes" class="txta" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"/>
+            <div>
+                <label for="pdes">Short Project Description</label>
+                <input type="text" id="pdes" name="projdes" placeholder="Short description to catch interest.."@bind="@inputDes" @oninput="OnInputDesEvent">
+            </div>
+
+            <div class="wFull">
+                <label for="pldes">Project Description</label>
+                <!--input type="text" id="pldes" name="projlongdes" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"-->
+                <textarea id="pldes" name="projlongdes" class="pDescIn" placeholder="Project description.."@bind="@inputLongDes" /><!--@oninput="OnInputLongDesEvent"/-->
+            </div>
+
+            <div>
+                <label for="ptag">Tags</label>
+                <div>
+                    @foreach (var tag in tags)
+                    {
+                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.Name<br />
+                    }
+                </div>
+            </div>
+
             
             <button class="OurButton" @onclick="addProject">Post Project</button>
             <button class="OurButton" @onclick="NavToList">Cancel</button>
         </div>
+        <ul>
+            @foreach (var tag in checkedTags)
+           {
+               <li>@tag.Name</li>
+           }
+        </ul>
     </Authorized>
     <NotAuthorized>
         <p>You are not authorized to post projects</p>
     </NotAuthorized>
 </AuthorizeView>
 
-<style>
-    .txta {
-        width: 100%;
-        height: 40vh;
-    }
-</style>
+
 
 @code {
 
     private string inputName = null;
     private string inputDes = null;
     private string inputLongDes = null;
+    private string inputTag = null;
+    private List<Tag> tags = new List<Tag>(){new Tag{Name = "Tag 1"}, new Tag{Name = "Tag 2"}};
 
+    private List<Tag> checkedTags = new List<Tag>();
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
@@ -62,11 +83,23 @@
         inputLongDes = (string)changeEvent.Value;
     }
 
+    private void OnInputTagEvent(Tag tag, ChangeEventArgs changeEvent)
+    {
+        var tagChecked = (bool)changeEvent.Value;
+        if (tagChecked)
+        {
+            if (!checkedTags.Contains(tag)) checkedTags.Add(tag);
+        } else
+        {
+            if (checkedTags.Contains(tag)) checkedTags.Remove(tag);
+        }
+    }
+
     private async void addProject() {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        var p1 = new ProjectDescDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes, longDescription = inputLongDes};
+        var p1 = new CreateProjectDTO{name = inputName, SupervisorID = 1, shortDescription = inputDes, longDescription = inputLongDes, Tags = tags};
 
         // Send to database
 
