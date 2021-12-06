@@ -5,11 +5,11 @@ using System.Net;
 namespace TrialProject.Shared;
 public interface ITaskRepository : IDisposable
 {   
-    Response CreateProject(DTO.CreateProjectDTO p);
+    HttpResponse CreateProject(DTO.CreateProjectDTO p);
 
-    Response CreateStudent(DTO.CreateStudentDTO s); 
+    HttpResponse CreateStudent(DTO.CreateStudentDTO s); 
 
-    Response CreateSuporvisor(DTO.CreateSupervisorDTO s); 
+    HttpResponse CreateSuporvisor(DTO.CreateSupervisorDTO s); 
 
     //===============================================
 
@@ -44,17 +44,17 @@ public interface ITaskRepository : IDisposable
 
     //=============================================
 
-    Response UpdateProjectDesciption(int projectId, string newDescription); //Make a check if you are autherized to update
+    HttpResponse UpdateProjectDesciption(int projectId, string newDescription); //Make a check if you are autherized to update
 
-    Response UpdateProjectStatus(int projectId, Status s); //Make a check if you are autherized to update
+    HttpResponse UpdateProjectStatus(int projectId, Status s); //Make a check if you are autherized to update
 
     //============================================
 
-    Response DeleteProject(int projectId); //Make a check if you are autherized to delete
+    HttpResponse DeleteProject(int projectId); //Make a check if you are autherized to delete
 
-    Response DeleteSupovisor(int supervisorId);//Make a check if you are autherized to delete
+    HttpResponse DeleteSupovisor(int supervisorId);//Make a check if you are autherized to delete
 
-    Response DeleteStudent(int studentId);//Make a check if you are autherized to delete
+    HttpResponse DeleteStudent(int studentId);//Make a check if you are autherized to delete
 
 
 
