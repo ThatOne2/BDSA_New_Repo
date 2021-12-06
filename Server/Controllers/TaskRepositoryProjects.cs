@@ -16,20 +16,20 @@ namespace Server;
 
 [ApiController]
 [Route("[controller]")]
-public class TaskRepository : ControllerBase, ITaskRepository {
+public class TaskRepositoryProject : ControllerBase {
 
 
     private readonly DataContext _context;
 
-        public TaskRepository(Server.DataContext context)
+        public TaskRepositoryProject(Server.DataContext context)
         {
             _context = context;
         }
     
 
-     private readonly ILogger<TaskRepository> _logger;
+     private readonly ILogger<TaskRepositoryProject> _logger;
 
-    public TaskRepository(ILogger<TaskRepository> logger)
+    public TaskRepositoryProject(ILogger<TaskRepositoryProject> logger)
     {
         _logger = logger;
     }
@@ -39,9 +39,7 @@ public class TaskRepository : ControllerBase, ITaskRepository {
     public HttpStatusCode CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
         var s = _context.Supervisors.Find(p.SupervisorID);
 
-        if (s == null) {
-             return HttpStatusCode.BadRequest;
-        }
+        if (s == null) { return HttpStatusCode.BadRequest;}
 
         Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = s.ID, Tags = p.Tags};
 
@@ -51,15 +49,6 @@ public class TaskRepository : ControllerBase, ITaskRepository {
         return HttpStatusCode.Created;
     }
 
-    [HttpPost]
-    public HttpStatusCode CreateStudent(TrialProject.Shared.DTO.CreateStudentDTO s){
-          return HttpStatusCode.NotFound;
-      }
-
-    [HttpPost]
-    public HttpStatusCode CreateSuporvisor(TrialProject.Shared.DTO.CreateSupervisorDTO s){
-          return HttpStatusCode.NotFound;
-      }
 
 
     //===============================================
@@ -106,30 +95,6 @@ public class TaskRepository : ControllerBase, ITaskRepository {
         return null;
     }
 
-    //Returns a single suporvisor by ID
-    [HttpGet]
-    public Task<TrialProject.Shared.DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId){
-        return null;
-    }
-
-    //Returns a single suporvisor by ID'
-    [HttpGet]
-    public Task<TrialProject.Shared.DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId){
-        return null;
-    }
-
-    //Returns a single student by ID
-    [HttpGet]
-    public Task<TrialProject.Shared.DTO.StudentPreviewDTO> ReadStudentPreviewById(int studentId){
-        return null;
-    }
-
-    //Returns a single student by ID
-    [HttpGet]
-    public Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(int studentId){
-        return null;
-    }
-
 
     //=============================================
 
@@ -144,20 +109,12 @@ public class TaskRepository : ControllerBase, ITaskRepository {
     }
 
     //============================================
+    
     [HttpDelete]
     public HttpStatusCode DeleteProject(int projectId){
           return HttpStatusCode.NotFound;
       }
 
-    [HttpDelete]
-    public HttpStatusCode DeleteSupovisor(int supervisorId){
-          return HttpStatusCode.NotFound;
-      }
-
-    [HttpDelete]
-    public HttpStatusCode DeleteStudent(int studentId){
-      return HttpStatusCode.NotFound;
-      }
 
     public void Dispose() {
 

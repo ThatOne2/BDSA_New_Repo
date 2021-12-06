@@ -48,6 +48,7 @@ else
         try
         {
             forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            var project = Http.GetFromJsonAsync;
         }
         catch (AccessTokenNotAvailableException exception)
         {
