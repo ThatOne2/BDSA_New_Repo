@@ -47,7 +47,7 @@
                 <td>@proj.shortDescription</td>
             </tr>
         }
-</div> *@
+</div>  *@
 
 
 <AuthorizeView Roles="supervisor">
@@ -77,31 +77,6 @@
 
     private ProjectPreviewDTO[]? projectsList;
 
-    /*
-    private string inputName = null;
-    private string inputDes = null;
-
-
-    private void OnInputNameEvent(ChangeEventArgs changeEvent)
-        {
-    inputName = (string)changeEvent.Value;
-     }
-
-     private void OnInputDesEvent(ChangeEventArgs changeEvent)
-        {
-        inputDes = (string)changeEvent.Value;
-    }
-
-
-
-    private async void addProject() {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        var p1 = new ProjectPreviewDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes};
-        projects.Add(p1);
-    }
-    */
 
     private async void NavToNewProject()
     {
@@ -119,14 +94,14 @@
             projects.Add(p2);
         }
 
-        @*  try
+      @*    try
         {
             projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
-        } *@
+        }  *@
       
     }
 
