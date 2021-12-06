@@ -5,11 +5,11 @@ using System.Net;
 namespace TrialProject.Shared;
 public interface ITaskRepository : IDisposable
 {   
-    HttpResponse CreateProject(DTO.CreateProjectDTO p);
+    HttpStatusCode CreateProject(DTO.CreateProjectDTO p);
 
-    HttpResponse CreateStudent(DTO.CreateStudentDTO s); 
+    HttpStatusCode CreateStudent(DTO.CreateStudentDTO s); 
 
-    HttpResponse CreateSuporvisor(DTO.CreateSupervisorDTO s); 
+    HttpStatusCode CreateSuporvisor(DTO.CreateSupervisorDTO s); 
 
     //===============================================
 
@@ -44,17 +44,17 @@ public interface ITaskRepository : IDisposable
 
     //=============================================
 
-    HttpResponse UpdateProjectDesciption(int projectId, string newDescription); //Make a check if you are autherized to update
+    HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription); //Make a check if you are autherized to update
 
-    HttpResponse UpdateProjectStatus(int projectId, Status s); //Make a check if you are autherized to update
+    HttpStatusCode UpdateProjectStatus(int projectId, Status s); //Make a check if you are autherized to update
 
     //============================================
 
-    HttpResponse DeleteProject(int projectId); //Make a check if you are autherized to delete
+    HttpStatusCode DeleteProject(int projectId); //Make a check if you are autherized to delete
 
-    HttpResponse DeleteSupovisor(int supervisorId);//Make a check if you are autherized to delete
+    HttpStatusCode DeleteSupovisor(int supervisorId);//Make a check if you are autherized to delete
 
-    HttpResponse DeleteStudent(int studentId);//Make a check if you are autherized to delete
+    HttpStatusCode DeleteStudent(int studentId);//Make a check if you are autherized to delete
 
 
 

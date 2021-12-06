@@ -12,9 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 
-
-
-
 namespace Server;
 
 [ApiController]
@@ -39,11 +36,11 @@ public class TaskRepository : ControllerBase, ITaskRepository {
 
 
     [HttpPost]
-    public HttpResponse CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
+    public HttpStatusCode CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
         var s = _context.Supervisors.Find(p.SupervisorID);
 
         if (s == null) {
-            return Response;
+             return HttpStatusCode.BadRequest;
         }
 
         Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = s.ID, Tags = p.Tags};
@@ -51,17 +48,17 @@ public class TaskRepository : ControllerBase, ITaskRepository {
         _context.Projects.Add(project);
         _context.SaveChanges();
 
-        return null;
+        return HttpStatusCode.Created;
     }
 
     [HttpPost]
-    public HttpResponse CreateStudent(TrialProject.Shared.DTO.CreateStudentDTO s){
-         return null;
+    public HttpStatusCode CreateStudent(TrialProject.Shared.DTO.CreateStudentDTO s){
+          return HttpStatusCode.NotFound;
       }
 
     [HttpPost]
-    public HttpResponse CreateSuporvisor(TrialProject.Shared.DTO.CreateSupervisorDTO s){
-         return null;
+    public HttpStatusCode CreateSuporvisor(TrialProject.Shared.DTO.CreateSupervisorDTO s){
+          return HttpStatusCode.NotFound;
       }
 
 
@@ -137,29 +134,29 @@ public class TaskRepository : ControllerBase, ITaskRepository {
     //=============================================
 
     [HttpPut]
-    public HttpResponse UpdateProjectDesciption(int projectId, string newDescription){
-         return null;
+    public HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription){
+          return HttpStatusCode.NotFound;
     }
 
     [HttpPut]
-    public HttpResponse UpdateProjectStatus(int projectId, Status s){
-         return null;
+    public HttpStatusCode UpdateProjectStatus(int projectId, Status s){
+         return HttpStatusCode.NotFound;
     }
 
     //============================================
     [HttpDelete]
-    public HttpResponse DeleteProject(int projectId){
-         return null;
+    public HttpStatusCode DeleteProject(int projectId){
+          return HttpStatusCode.NotFound;
       }
 
     [HttpDelete]
-    public HttpResponse DeleteSupovisor(int supervisorId){
-         return null;
+    public HttpStatusCode DeleteSupovisor(int supervisorId){
+          return HttpStatusCode.NotFound;
       }
-      
+
     [HttpDelete]
-    public HttpResponse DeleteStudent(int studentId){
-         return null;
+    public HttpStatusCode DeleteStudent(int studentId){
+      return HttpStatusCode.NotFound;
       }
 
     public void Dispose() {
