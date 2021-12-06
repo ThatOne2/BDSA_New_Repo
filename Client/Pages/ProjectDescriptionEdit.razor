@@ -23,11 +23,12 @@
 			<p>@project.shortDescription</p>
 
 				<form action="/action_page.php" @onsubmit="NavToDetails">
-					<input type="text" id="pdes" name="projdes" value=@project.longDescription>
+					<!--input type="text" id="pdes" name="projdes" value=@project.longDescription-->
+					<textarea id="pldes" name="projlongdes" class="txta"  @bind="@inputLongDes" @oninput="OnInputLongDesEvent"/>
             
 					<div >
-						<input type="submit" value="Save">
-						<input type="reset" value="Cancel" @onclick="NavToDetails">
+						<input type="submit" class="OurButton" value="Save">
+						<input type="reset" class="OurButton" value="Cancel" @onclick="NavToDetails">
 					</div>
 				</form>
 			</div>
@@ -40,13 +41,28 @@
 
 
 
+<style>
+	form {
+		width: 50vw;
+	}
 
+    .txta {
+        width: 100%;
+        height: 40vh;
+    }
+</style>
 
 @code {
 	[Parameter]
 	public int id { get; set; }
+	private string inputLongDes = null;
 
 	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+
+	private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
+	{
+		inputLongDes = (string)changeEvent.Value;
+	}
 
 
 	protected override async Task OnInitializedAsync()
@@ -56,6 +72,7 @@
 			// Get project by ID
 			//var rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
+			inputLongDes = project.longDescription;
 		}
 		catch
 		{
