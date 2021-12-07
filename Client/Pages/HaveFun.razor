@@ -8,6 +8,7 @@
 @inject List<ProjectPreviewDTO> projects
 @inject CurrentUser currentuser
 @inject NavigationManager NavManager
+@inject HttpClient Http
 
 
 <PageTitle>We all just having the most fun</PageTitle>
@@ -36,6 +37,19 @@
             }
         </tbody>
     </table>
+
+@* <div>
+    @foreach (var proj in projectsList)
+        {
+            <tr>
+                <td>@proj.name</td>
+                <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorName</td>
+                <td>@proj.shortDescription</td>
+            </tr>
+        }
+</div>  *@
+
+
 <AuthorizeView Roles="supervisor">
         
     <Authorized>
@@ -60,31 +74,9 @@
 
 
 @code {
-    /*
-    private string inputName = null;
-    private string inputDes = null;
 
+    private ProjectPreviewDTO[]? projectsList;
 
-    private void OnInputNameEvent(ChangeEventArgs changeEvent)
-        {
-    inputName = (string)changeEvent.Value;
-     }
-
-     private void OnInputDesEvent(ChangeEventArgs changeEvent)
-        {
-        inputDes = (string)changeEvent.Value;
-    }
-
-
-
-    private async void addProject() {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        var p1 = new ProjectPreviewDTO{name = inputName, SupervisorName = user.Identity.Name.ToString(), shortDescription = inputDes};
-        projects.Add(p1);
-    }
-    */
 
     private async void NavToNewProject()
     {
@@ -101,6 +93,15 @@
             projects.Add(p1);
             projects.Add(p2);
         }
+
+      @*    try
+        {
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }  *@
       
     }
 

@@ -10,6 +10,9 @@ using System.Net.Http;
 using TrialProject.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.Identity.Web.Resource;
 
 namespace Server;
@@ -67,44 +70,61 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllPreviewProjects(){
-        return null;
-    }
+    public async Task<IReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>> Get() {
+        var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
+            await foreach (var p in _context.Projects)
+            {
+                int sID = p.SupervisorID;
+                var superV = _context.Supervisors.Find(sID);
+                var ProjDTO = new TrialProject.Shared.DTO.ProjectPreviewDTO{SupervisorName = superV.name, name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
+                list.Add(ProjDTO);
+            }
 
-     //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
+            if (list.Any())
+            {
+                return new ReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>(list);
+            }
+            else
+            {
+                return null;
+            }
+    }
+    
+
+  /*    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
      [HttpGet]
     public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
         return null;
-    }
+    } */
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    [HttpGet]
+    [HttpGet("{tag}")]
     public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(Tag t){
         return null;
     }
      
-    //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
+/*     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
     [HttpGet]
     public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word){
         return null;
-    }
+    } */
 
 
     //=============================================
 
-    [HttpPut]
+    [HttpPut("{id}/{desc}")]
     public HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription){
           return HttpStatusCode.NotFound;
     }
 
-    [HttpPut]
+    [HttpPut("{id}/{status}")]
     public HttpStatusCode UpdateProjectStatus(int projectId, Status s){
          return HttpStatusCode.NotFound;
     }
 
     //============================================
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public HttpStatusCode DeleteProject(int projectId){
           return HttpStatusCode.NotFound;
       }
