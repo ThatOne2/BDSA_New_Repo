@@ -24,11 +24,35 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-.right {
-    display: flex;
+a {
+    text-decoration: none;
 }
 
-.searchBar {
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.noPadding {
+    height: 1em;
+}
+
+.topBtn {
+    text-align: center;
+    align-items: center;
+    color: white;
+    height: calc(100% - 20px);
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 10pt;
+}
+
+.topBtn:hover {
+    color: #FF2E3F;
+}
+
+
+.icon {
+    border-color: #FF2E3F;
     border-radius: 30pt;
-    background-color: #515052;
 }

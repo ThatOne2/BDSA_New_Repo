@@ -12,9 +12,14 @@
     <div class = "right">
         <AuthorizeView>
             <Authorized>
-                Whas Poping~~ @context.User.Identity?.Name!
-
-
+                <button class = "topBtn">
+                    <div class="icon">
+                        <span class="oi oi-person" aria-hidden="true"></span>
+                    </div>
+                    <div class = "noPadding">
+                        <p>@context.User.Identity?.Name</p>
+                    </div>
+                </button>
                 <button class="nav-link btn btn-link" style="color: #FF2E3F;" @onclick="BeginLogout">Log out</button>
             </Authorized>
             <NotAuthorized>
