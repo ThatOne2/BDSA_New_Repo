@@ -1,0 +1,67 @@
+.topRow {
+    background-color: #333138;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.whiteT {
+    color: white;
+}
+
+.redT {
+    color: #FF2E3F;
+}
+
+.logoT {
+    letter-spacing: -2px;
+    word-spacing: -2px;
+    font-size: 4em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+a {
+    text-decoration: none;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.noPadding {
+    height: 1em;
+}
+
+.topBtn {
+    text-align: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    height: calc(100% - 20px);
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 10pt;
+}
+
+.topBtn:hover {
+    color: #FF2E3F;
+    transform: translateY(-2px);
+    /**
+    in case you want a drop shadow but it doesn't look good :/
+    -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    **/
+}
+.topBtn:active {
+    transform: translateY(0);
+    color: white;
+}
+
+.login {
+    padding-top: 13px;
+}
