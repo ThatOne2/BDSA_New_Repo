@@ -20,10 +20,24 @@
                         <p>@context.User.Identity?.Name</p>
                     </div>
                 </button>
-                <button class="nav-link btn btn-link" style="color: #FF2E3F;" @onclick="BeginLogout">Log out</button>
+                <button class="topBtn" @onclick="BeginLogout">
+                    <div class="icon">
+                        <span class="oi oi-account-logout" aria-hidden="true"></span>
+                    </div>
+                    <div class = "noPadding">
+                        <p>Log out</p>
+                    </div>
+                </button>
             </Authorized>
             <NotAuthorized>
-                <a style="color: #FF2E3F;" href="authentication/login">Log in</a>
+                <a class = "topBtn login" href="authentication/login">    
+                    <div class="icon">
+                        <span class="oi oi-account-login" aria-hidden="true"></span>
+                    </div>
+                    <div class = "noPadding">
+                        <p>Log in</p>
+                    </div>
+                </a>
             </NotAuthorized>
         </AuthorizeView>
     </div>

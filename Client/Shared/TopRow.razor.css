@@ -20,7 +20,7 @@
 .logoT {
     letter-spacing: -2px;
     word-spacing: -2px;
-    font-size: 3em;
+    font-size: 4em;
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -41,6 +41,7 @@ a {
     text-align: center;
     align-items: center;
     color: white;
+    font-weight: bold;
     height: calc(100% - 20px);
     background-color: transparent;
     border-color: transparent;
@@ -49,10 +50,18 @@ a {
 
 .topBtn:hover {
     color: #FF2E3F;
+    transform: translateY(-2px);
+    /**
+    in case you want a drop shadow but it doesn't look good :/
+    -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    **/
+}
+.topBtn:active {
+    transform: translateY(0);
+    color: white;
 }
 
-
-.icon {
-    border-color: #FF2E3F;
-    border-radius: 30pt;
+.login {
+    padding-top: 13px;
 }
