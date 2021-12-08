@@ -15,7 +15,6 @@ namespace TrialProject.Server.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SupervisorID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     shortDescription = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     longDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProjectStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)

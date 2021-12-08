@@ -34,11 +34,6 @@ namespace TrialProject.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupervisorID")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("longDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

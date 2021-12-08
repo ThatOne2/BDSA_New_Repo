@@ -12,7 +12,7 @@ using Server;
 namespace TrialProject.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211203100334_InitialMigration")]
+    [Migration("20211208172646_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,11 +35,6 @@ namespace TrialProject.Server.Migrations
                     b.Property<string>("ProjectStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupervisorID")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("longDescription")
                         .IsRequired()
