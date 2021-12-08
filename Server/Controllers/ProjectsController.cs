@@ -54,12 +54,29 @@ public class ProjectController : ControllerBase {
     //Returns a single project by ID
     [HttpGet("{id}")]
     public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId) {
-        var p = await _context.Projects.FindAsync(projectId);
-        var superV = await _context.Supervisors.FindAsync(p.SupervisorID);
-        //var tagList = new List<Tag>();
+        if (false) {
+            var TT = new List<TrialProject.Shared.Tag>();
+            var T = new TrialProject.Shared.Tag{Id = 1, Name ="Cool tag"};
+            TT.Add(T);
+            return new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = 1, name = "name", SupervisorName = "name.ToString()", shortDescription = "dec", Tags = TT };
+           
+        } else {
+            Console.WriteLine(projectId);
+            var p = _context.Projects.Find(projectId);
+            if (p == null) {
+                var TT = new List<TrialProject.Shared.Tag>();
+                var T = new TrialProject.Shared.Tag{Id = 1, Name ="Cool tag"};
+                TT.Add(T);
+                return new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = 1, name = "name", SupervisorName = "name.ToString()", shortDescription = "dec", Tags = TT };
+            }else {
+                Console.WriteLine(p.ToString());
+                 var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{shortDescription = p.shortDescription};
+                return DTOProject;
+            }
 
-        var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, SupervisorName = superV.name, shortDescription = p.shortDescription, Tags = p.Tags };
-        return DTOProject;
+           
+        }
+        
     }
 
   /*    //Returns a single project by ID
@@ -98,7 +115,7 @@ public class ProjectController : ControllerBase {
     } */
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    [HttpGet("{tag}")]
+    [HttpGet("tag/{tag}")]
     public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(Tag t){
         return null;
     }
