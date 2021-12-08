@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrialProject.Shared;
-
+using TrialProject.Shared.DTO;
 
 namespace Server
 {
@@ -30,5 +30,10 @@ namespace Server
                 .IsUnique();
         }
   
+        // public async Task<IReadOnlyCollection<ProjectPreviewDTO>> ReadAsync() =>
+        // (await _context.Characters
+        //                .Select(c => new CharacterDto(c.Id, c.AlterEgo, c.GivenName, c.Surname))
+        //                .ToListAsync())
+        //                .AsReadOnly();
     }
 }

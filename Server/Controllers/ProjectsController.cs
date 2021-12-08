@@ -31,7 +31,6 @@ public class ProjectController : ControllerBase {
         _context = context;
     }
 
-
     [HttpPost]
     public HttpStatusCode CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
         var s = _context.Supervisors.Find(p.SupervisorID);
