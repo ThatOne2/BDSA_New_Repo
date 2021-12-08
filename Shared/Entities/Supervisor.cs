@@ -17,4 +17,6 @@ public class Supervisor : CurrentUser
     [MaxLength(100)]
     public string Email { get; set; }
 
+    public ICollection<Project> Projects {get; set;} 
+
 }

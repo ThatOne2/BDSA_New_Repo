@@ -61,7 +61,7 @@ public class SupervisorController : ControllerBase {
     //============================================
 
     [HttpDelete]
-    public HttpStatusCode DeleteSupovisor(int supervisorId){
+    public HttpStatusCode DeleteSupervisor(int supervisorId){
           return HttpStatusCode.NotFound;
       }
 

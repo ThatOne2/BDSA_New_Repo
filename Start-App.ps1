@@ -12,4 +12,4 @@ dotnet user-secrets init --project $project
 dotnet user-secrets set "ConnectionStrings:BDSA" "$connectionString" --project $project
 
 
-<# dotnet ef migrations add InitialMigration --project .\TrialProject.Server.csproj #>
+dotnet ef migrations add InitialMigration --project .\TrialProject.Server.csproj

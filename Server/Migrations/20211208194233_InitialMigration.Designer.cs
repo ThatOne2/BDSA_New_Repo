@@ -12,7 +12,7 @@ using Server;
 namespace TrialProject.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211208172646_InitialMigration")]
+    [Migration("20211208194233_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace TrialProject.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ProjectTag", b =>
+                {
+                    b.Property<int>("ProjectsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectsID", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("ProjectTag");
+                });
 
             modelBuilder.Entity("TrialProject.Shared.Project", b =>
                 {
@@ -35,6 +50,9 @@ namespace TrialProject.Server.Migrations
                     b.Property<string>("ProjectStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SupervisorID")
+                        .HasColumnType("int");
 
                     b.Property<string>("longDescription")
                         .IsRequired()
@@ -50,6 +68,8 @@ namespace TrialProject.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SupervisorID");
 
                     b.HasIndex("shortDescription")
                         .IsUnique();
@@ -120,26 +140,36 @@ namespace TrialProject.Server.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ProjectID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectID");
 
                     b.ToTable("Tag");
                 });
 
-            modelBuilder.Entity("TrialProject.Shared.Tag", b =>
+            modelBuilder.Entity("ProjectTag", b =>
                 {
                     b.HasOne("TrialProject.Shared.Project", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ProjectID");
+                        .WithMany()
+                        .HasForeignKey("ProjectsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrialProject.Shared.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TrialProject.Shared.Project", b =>
                 {
-                    b.Navigation("Tags");
+                    b.HasOne("TrialProject.Shared.Supervisor", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("SupervisorID");
+                });
+
+            modelBuilder.Entity("TrialProject.Shared.Supervisor", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
