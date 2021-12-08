@@ -70,7 +70,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public async Task<IReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>> Get() {
+    public async Task<IReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>> GetAllProjects() {
         var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
             await foreach (var p in _context.Projects)
             {

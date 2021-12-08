@@ -39,20 +39,20 @@ public class SupervisorController : ControllerBase {
 
 
      //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-     [HttpGet]
+     [HttpGet("{id}")]
     public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
         return null;
     }
 
 
     //Returns a single suporvisor by ID
-    [HttpGet]
+    [HttpGet("{id}")]
     public Task<TrialProject.Shared.DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId){
         return null;
     }
 
     //Returns a single suporvisor by ID'
-    [HttpGet]
+    [HttpGet("{id}")]
     public Task<TrialProject.Shared.DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId){
         return null;
     }

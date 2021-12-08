@@ -36,6 +36,10 @@ var connectionString = configuration.GetConnectionString("BDSA");
 
 var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>().UseSqlServer(connectionString); 
 
+builder.Services.AddDbContext<Server.DataContext>(options =>
+options.UseSqlServer(connectionString));
+
+
 using var context = new Server.DataContext(optionsBuilder.Options);
 
  DataContextFactory.Seed(context);

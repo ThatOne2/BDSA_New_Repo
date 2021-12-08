@@ -38,16 +38,19 @@ public class StudentsController : ControllerBase {
     //===============================================
 
 
-    //Returns a single student by ID
     [HttpGet]
-    public Task<TrialProject.Shared.DTO.StudentPreviewDTO> ReadStudentPreviewById(int studentId){
-        return null;
+    public async Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(){
+        var p = new TrialProject.Shared.DTO.StudentDescDTO{name = "Dea", Email ="DetErMig@icloud.com"};
+        return p;
     }
 
+
+
     //Returns a single student by ID
-    [HttpGet]
-    public Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(int studentId){
-        return null;
+    [HttpGet("{id}")]
+    public async Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(int studentId){
+        var p = new TrialProject.Shared.DTO.StudentDescDTO{name = "Dea", Email ="DetErMig@icloud.com"};
+        return p;
     }
 
 
