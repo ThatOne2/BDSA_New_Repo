@@ -1,0 +1,18 @@
+.top_background{
+    height: 200px;
+    background-color: black;
+    margin-top: -20px;
+    margin-left: -35px;
+    margin-right: -35px;
+    align-content: center;
+    place-content: center;
+    justify-content: center;
+    display: block;
+}
+
+.profile_in_short{
+    background-color: aqua;
+    width: fit-content;
+    place-self: center;
+    float: left;
+}

@@ -2,17 +2,23 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using Shared
 @inject CurrentUser currentuser
 @inject HttpClient Http
 
+
 <AuthorizeView>
     <NotAuthorized>
-        <h3>Welcome, John Doe (please log in to proceed to your profile page)</h3>
+        <h5>Welcome, John Doe (please log in to proceed to your profile page)</h5>
     </NotAuthorized>
     <Authorized>
-        <h3>Welcome, @context.User.Identity?.Name!</h3>
 
-        <h5>Here you'll be able to see your information and perhaps edit them. But just not right now:)</h5>
+        <div class="top_background">
+            <div class="profile_in_short">
+                <img src="" alt="profile picture">
+                <h5>@context.User.Identity?.Name</h5>
+            </div>
+        </div>
 
         <p role="status">Please specify whether you are a student or a professor:</p>
 
@@ -25,10 +31,36 @@
                 <option value="professor" selected>Supervisor</option>
             }
         </select>
-
         @if(currentuser.isSupervisor){
-            <p role="status">Hello, Supervisor Kenobi</p>
+            <p role="status">Hello, Supervisor Kenobi - u look amaze </p>
         }
+
+        <div>
+            <h5>Bio</h5>
+            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled="true">lookin for a hottie boytoy</textarea>
+            <button>Edit</button>
+        </div>
+
+        <div>
+            <h5>About</h5>
+            
+        </div>
+
+        <div>
+            <h5>Contact</h5>
+            <p>Email: tempsnapelamail.com</p>
+            <p>Phone: </p>
+            <p></p>
+            
+        </div>
+
+        
+        <div>
+            <h5>Prevoius Projects</h5>
+            
+        </div>
+
+
     </Authorized>
 </AuthorizeView>
 
@@ -39,4 +71,4 @@
     }
     private void SetRoleAsStudent() => currentuser.isSupervisor = false;
     private void SetRoleAsSupervisor() => currentuser.isSupervisor = true;
-}
+} 

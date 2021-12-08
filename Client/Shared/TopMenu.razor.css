@@ -1,0 +1,48 @@
+.menu {
+    background-color: #515052;
+
+    /**Centering content**/
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/*Dette her er basically CSS for menuItemklassen*/
+.menuitem ::deep a {
+    color: white;
+    border-radius: 30pt;
+
+    height: 3rem;
+    line-height: 3rem;
+    margin-right: 5px;
+
+    display: flex;
+    align-items: center;
+}
+
+.menuitem:last-of-type {
+    margin-right: 0;
+}
+
+.menuitem ::deep a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.home ::deep a.active {
+    background-color: transparent;
+}
+
+.menuitem ::deep a:hover {
+    background-color: rgba(255,255,255,0.1);
+     
+}
+
+span {
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
