@@ -12,7 +12,7 @@
     <div class = "right">
         <AuthorizeView>
             <Authorized>
-                <button class = "topBtn">
+                <button class = "topBtn" @onclick="gotoprofile">
                     <div class="icon">
                         <span class="oi oi-person" aria-hidden="true"></span>
                     </div>
@@ -44,6 +44,11 @@
 </div>
 
 @code{
+
+    private void gotoprofile() {
+        Navigation.NavigateTo("profilePage");
+    }
+
     private async Task BeginLogout(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
