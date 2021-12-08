@@ -53,29 +53,16 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("{id}")]
-    public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int projectId) {
-        if (false) {
-            var TT = new List<TrialProject.Shared.Tag>();
-            var T = new TrialProject.Shared.Tag{Id = 1, Name ="Cool tag"};
-            TT.Add(T);
-            return new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = 1, name = "name", SupervisorName = "name.ToString()", shortDescription = "dec", Tags = TT };
+    public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int id) {
+            Console.WriteLine(id);
            
-        } else {
-            Console.WriteLine(projectId);
-            var p = _context.Projects.Find(projectId);
-            if (p == null) {
-                var TT = new List<TrialProject.Shared.Tag>();
-                var T = new TrialProject.Shared.Tag{Id = 1, Name ="Cool tag"};
-                TT.Add(T);
-                return new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = 1, name = "name", SupervisorName = "name.ToString()", shortDescription = "dec", Tags = TT };
-            }else {
-                Console.WriteLine(p.ToString());
-                 var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{shortDescription = p.shortDescription};
-                return DTOProject;
-            }
+            var p = _context.Projects.Find(id);
 
-           
-        }
+            Console.WriteLine(p.ToString);
+            
+            var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{shortDescription = p.shortDescription};
+            return DTOProject;
+            
         
     }
 
