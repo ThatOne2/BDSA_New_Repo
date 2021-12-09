@@ -5,10 +5,8 @@ using TrialProject.Shared;
 
 namespace TrialProject.Server.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
-[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]

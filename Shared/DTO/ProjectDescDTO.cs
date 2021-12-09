@@ -32,7 +32,7 @@ namespace TrialProject.Shared.DTO
         [Required]
         public Status ProjectStatus { get; set; }
 
-        public string ToString()
+      /*   public string ToString()
         {
             var s = "[ID = " + ID 
             if (name != null) s = s + ", name = " + name;
@@ -43,6 +43,6 @@ namespace TrialProject.Shared.DTO
             if (ProjectStatus != null) s = s + ", status = " + ProjectStatus.ToString();
             s = s + "]";
             return s;
-        }
+        } */
     }
 }

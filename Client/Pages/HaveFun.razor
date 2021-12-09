@@ -4,7 +4,6 @@
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject HttpClient Http
 @inject List<ProjectPreviewDTO> projects
 @inject CurrentUser currentuser
 @inject NavigationManager NavManager
@@ -17,7 +16,7 @@
 
 <p>If you're not I'm gonna kill you uwu</p>
 
-
+@if (projectsList == null) {
     <table class="table">
         <thead>
             <tr>
@@ -37,8 +36,9 @@
             }
         </tbody>
     </table>
-
-@* <div>
+}
+else {
+    <div>
     @foreach (var proj in projectsList)
         {
             <tr>
@@ -47,7 +47,10 @@
                 <td>@proj.shortDescription</td>
             </tr>
         }
-</div>  *@
+</div>  
+}
+
+
 
 
 <AuthorizeView Roles="supervisor">
@@ -75,7 +78,7 @@
 
 @code {
 
-    private ProjectPreviewDTO[]? projectsList;
+    private List<ProjectPreviewDTO>? projectsList;
 
 
     private async void NavToNewProject()
@@ -94,14 +97,14 @@
             projects.Add(p2);
         }
 
-      @*    try
+        try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
+            projectsList = await Http.GetFromJsonAsync<List<ProjectPreviewDTO>>("Projects");
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
-        }  *@
+        }  
       
     }
 

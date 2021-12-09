@@ -20,7 +20,7 @@ namespace TrialProject.Shared.DTO
         
         public ICollection<Tag> Tags { get; set; }
 
-        public string ToString()
+        /* public string ToString()
         {
             var s = "[ID = " + ID 
             if (name != null) s = s + ", name = " + name;
@@ -29,6 +29,6 @@ namespace TrialProject.Shared.DTO
             if (Tags != null) s = s + ", tags = " + Tags.ToString();
             s = s + "]";
             return s;
-        }
+        } */
     }
 }
