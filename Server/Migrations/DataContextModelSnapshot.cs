@@ -22,6 +22,21 @@ namespace TrialProject.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ProjectTag", b =>
+                {
+                    b.Property<int>("ProjectsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectsID", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("ProjectTag");
+                });
+
             modelBuilder.Entity("TrialProject.Shared.Project", b =>
                 {
                     b.Property<int>("ID")
@@ -34,10 +49,8 @@ namespace TrialProject.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupervisorID")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("SupervisorID")
+                        .HasColumnType("int");
 
                     b.Property<string>("longDescription")
                         .IsRequired()
@@ -53,6 +66,8 @@ namespace TrialProject.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SupervisorID");
 
                     b.HasIndex("shortDescription")
                         .IsUnique();
@@ -123,26 +138,36 @@ namespace TrialProject.Server.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ProjectID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectID");
 
                     b.ToTable("Tag");
                 });
 
-            modelBuilder.Entity("TrialProject.Shared.Tag", b =>
+            modelBuilder.Entity("ProjectTag", b =>
                 {
                     b.HasOne("TrialProject.Shared.Project", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ProjectID");
+                        .WithMany()
+                        .HasForeignKey("ProjectsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrialProject.Shared.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TrialProject.Shared.Project", b =>
                 {
-                    b.Navigation("Tags");
+                    b.HasOne("TrialProject.Shared.Supervisor", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("SupervisorID");
+                });
+
+            modelBuilder.Entity("TrialProject.Shared.Supervisor", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

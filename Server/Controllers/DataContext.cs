@@ -28,6 +28,12 @@ namespace Server
             modelBuilder.Entity<Project>() 
                 .HasIndex(u => u.shortDescription)
                 .IsUnique();
+
+            modelBuilder.Entity<Supervisor>()
+            .HasMany(c => c.Projects);
+
+             modelBuilder.Entity<Project>()
+            .HasMany(c => c.Tags);
         }
   
         // public async Task<IReadOnlyCollection<ProjectPreviewDTO>> ReadAsync() =>

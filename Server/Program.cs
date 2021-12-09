@@ -42,7 +42,7 @@ options.UseSqlServer(connectionString));
 
 using var context = new Server.DataContext(optionsBuilder.Options);
 
- DataContextFactory.Seed(context);
+DataContextFactory.Seed(context);
 
 static IConfiguration LoadConfiguration()
 {

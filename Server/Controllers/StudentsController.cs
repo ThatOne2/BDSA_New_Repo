@@ -38,19 +38,12 @@ public class StudentsController : ControllerBase {
     //===============================================
 
 
-    [HttpGet]
-    public async Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(){
-        var p = new TrialProject.Shared.DTO.StudentDescDTO{name = "Dea", Email ="DetErMig@icloud.com"};
-        return p;
-    }
-
-
-
     //Returns a single student by ID
     [HttpGet("{id}")]
-    public async Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(int studentId){
-        var p = new TrialProject.Shared.DTO.StudentDescDTO{name = "Dea", Email ="DetErMig@icloud.com"};
-        return p;
+    public async Task<TrialProject.Shared.DTO.StudentDescDTO> ReadStudentDEscById(int id){
+        
+        var s = new TrialProject.Shared.DTO.StudentDescDTO{ID = _context.Students.Find(id).ID, name = _context.Students.Find(id).name, Email = _context.Students.Find(id).Email};
+        return s;
     }
 
 

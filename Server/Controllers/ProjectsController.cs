@@ -37,7 +37,7 @@ public class ProjectController : ControllerBase {
 
         if (s == null) { return HttpStatusCode.BadRequest;}
 
-        Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription, SupervisorID = s.ID, Tags = p.Tags};
+        Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ Tags = p.Tags};
 
         _context.Projects.Add(project);
         _context.SaveChanges();
@@ -53,13 +53,11 @@ public class ProjectController : ControllerBase {
     //Returns a single project by ID
     [HttpGet("{id}")]
     public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int id) {
-            Console.WriteLine(id);
            
             var p = _context.Projects.Find(id);
 
-            Console.WriteLine(p.ToString);
             
-            var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{shortDescription = p.shortDescription};
+            var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
             return DTOProject;
             
         
@@ -77,9 +75,9 @@ public class ProjectController : ControllerBase {
         var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
             await foreach (var p in _context.Projects)
             {
-                int sID = p.SupervisorID;
-                var superV = _context.Supervisors.Find(sID);
-                var ProjDTO = new TrialProject.Shared.DTO.ProjectPreviewDTO{SupervisorName = superV.name, name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
+                //int sID = p.SupervisorID;
+                //var superV = _context.Supervisors.Find(sID);
+                var ProjDTO = new TrialProject.Shared.DTO.ProjectPreviewDTO{/* SupervisorName = superV.name, */ name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
                 list.Add(ProjDTO);
             }
 
