@@ -20,5 +20,13 @@ namespace TrialProject.Shared.DTO
         [EmailAddress]
         [MaxLength(100)]
         public string Email { get; set; }
+
+        public string ToString()
+        {
+            var s = "[ID = " + ID + ", name = " + name;
+            if (Email != null) s = s + ", email = " + Email;
+            s = s + "]";
+            return s;
+        }
     }
 }
