@@ -46,7 +46,6 @@ public class ProjectController : ControllerBase {
     }
 
 
-
     //===============================================
 
 
@@ -56,6 +55,9 @@ public class ProjectController : ControllerBase {
            
             var p = _context.Projects.Find(id);
 
+            if(p.ID == null) {
+                return null;
+            }
             
             var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
             return DTOProject;
@@ -100,7 +102,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(Tag t){
+    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(string t){
         return null;
     }
      
