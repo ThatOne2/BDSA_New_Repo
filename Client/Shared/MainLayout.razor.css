@@ -2,11 +2,13 @@
     position: relative;
     display: block;
     flex-direction: column;
+    min-width: 400px;
 }
 
 main {
-    flex: 1;
     background-color: #FFD5D9;
+    flex: 1;
+    /**padding-bottom: 25%;**/
 }
 
 .menu {
@@ -17,8 +19,7 @@ main {
 }
 
 
-
-
+/*
 .top-row {
     background-color: #333138;
     border-bottom: 1px solid #d6d5d5;
@@ -42,7 +43,7 @@ main {
         text-overflow: ellipsis;
     }
 
-
+*/
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
         display: none;

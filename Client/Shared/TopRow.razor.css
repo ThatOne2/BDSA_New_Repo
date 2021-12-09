@@ -65,3 +65,16 @@ a {
 .login {
     padding-top: 13px;
 }
+
+@media (min-width:400px) and (max-width: 500px) {
+    .logoT {
+        font-size: 10vw;
+    }
+}
+
+@media (max-width: 400px) {
+    .logoT {
+        font-size:  40px;
+    }
+}
+
