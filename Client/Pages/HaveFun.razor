@@ -78,7 +78,7 @@ else {
 
 @code {
 
-    private List<ProjectPreviewDTO>? projectsList;
+    private ProjectPreviewDTO[]? projectsList;
 
 
     private async void NavToNewProject()
@@ -99,7 +99,7 @@ else {
 
         try
         {
-            projectsList = await Http.GetFromJsonAsync<List<ProjectPreviewDTO>>("Projects");
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
         }
         catch (AccessTokenNotAvailableException exception)
         {

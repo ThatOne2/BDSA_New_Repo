@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;  
 using System.Net.Http;  
 using TrialProject.Shared;
+using TrialProject.Server;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -15,7 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Identity.Web.Resource;
 
-namespace Server;
+namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -25,7 +26,7 @@ public class ProjectController : ControllerBase {
     private readonly DataContext _context;
     private readonly ILogger<ProjectController> _logger;
 
-    public ProjectController(ILogger<ProjectController> logger, Server.DataContext context)
+    public ProjectController(ILogger<ProjectController> logger, Controllers.DataContext context)
     {
         _logger = logger;
         _context = context;
@@ -73,9 +74,9 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public async Task<IReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>> GetAllProjects() {
+    public IEnumerable<TrialProject.Shared.DTO.ProjectPreviewDTO> Get() {
         var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
-            await foreach (var p in _context.Projects)
+             foreach (var p in _context.Projects)
             {
                 //int sID = p.SupervisorID;
                 //var superV = _context.Supervisors.Find(sID);
@@ -85,7 +86,7 @@ public class ProjectController : ControllerBase {
 
             if (list.Any())
             {
-                return new ReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>(list);
+                return list.ToArray();
             }
             else
             {

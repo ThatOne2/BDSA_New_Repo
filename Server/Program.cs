@@ -8,7 +8,7 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
-
+using TrialProject.Server.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,15 +34,15 @@ builder.Services.AddRazorPages();
 var configuration = LoadConfiguration();
 var connectionString = configuration.GetConnectionString("BDSA");
 
-var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>().UseSqlServer(connectionString); 
+var optionsBuilder = new DbContextOptionsBuilder<TrialProject.Server.Controllers.DataContext>().UseSqlServer(connectionString); 
 
-builder.Services.AddDbContext<Server.DataContext>(options =>
+builder.Services.AddDbContext<TrialProject.Server.Controllers.DataContext>(options =>
 options.UseSqlServer(connectionString));
 
 
-using var context = new Server.DataContext(optionsBuilder.Options);
+using var context = new TrialProject.Server.Controllers.DataContext(optionsBuilder.Options);
 
-DataContextFactory.Seed(context);
+TrialProject.Server.DataContextFactory.Seed(context);
 
 static IConfiguration LoadConfiguration()
 {

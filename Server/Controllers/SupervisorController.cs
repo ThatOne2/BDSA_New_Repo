@@ -12,17 +12,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 
-namespace Server;
+namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class SupervisorController : ControllerBase {
 
 
-    private readonly DataContext _context;
+    private readonly TrialProject.Server.Controllers.DataContext _context;
      private readonly ILogger<SupervisorController> _logger;
 
-    public SupervisorController(ILogger<SupervisorController> logger, Server.DataContext context)
+    public SupervisorController(ILogger<SupervisorController> logger, Controllers.DataContext context)
     {
         _logger = logger;
          _context = context;

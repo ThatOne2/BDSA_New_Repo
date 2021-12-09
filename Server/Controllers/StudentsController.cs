@@ -12,17 +12,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 
-namespace Server;
+namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class StudentsController : ControllerBase {
 
 
-    private readonly DataContext _context;
+    private readonly Controllers.DataContext _context;
      private readonly ILogger<StudentsController> _logger;
 
-    public StudentsController(ILogger<StudentsController> logger, Server.DataContext context)
+    public StudentsController(ILogger<StudentsController> logger, Controllers.DataContext context)
     {
         _logger = logger;
          _context = context;
@@ -30,7 +30,7 @@ public class StudentsController : ControllerBase {
 
 
     [HttpPost]
-    public HttpStatusCode CreateStudent(TrialProject.Shared.DTO.CreateStudentDTO s){
+    public HttpStatusCode CreateStudent(Controllers.DataContext s){
           return HttpStatusCode.NotFound;
       }
 
