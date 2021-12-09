@@ -19,5 +19,16 @@ namespace TrialProject.Shared.DTO
         public string shortDescription { get; set; }
         
         public ICollection<Tag> Tags { get; set; }
+
+        public string ToString()
+        {
+            var s = "[ID = " + ID 
+            if (name != null) s = s + ", name = " + name;
+            if (SupervisorName != null) s = s + ", supervisor = " + SupervisorName;
+            if (shortDescription != null) s = s + ", shortDescription = \"" + shortDescription + "\"";
+            if (Tags != null) s = s + ", tags = " + Tags.ToString();
+            s = s + "]";
+            return s;
+        }
     }
 }

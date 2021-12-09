@@ -31,5 +31,18 @@ namespace TrialProject.Shared.DTO
 
         [Required]
         public Status ProjectStatus { get; set; }
+
+        public string ToString()
+        {
+            var s = "[ID = " + ID 
+            if (name != null) s = s + ", name = " + name;
+            if (SupervisorName != null) s = s + ", supervisor = " + SupervisorName;
+            if (shortDescription != null) s = s + ", shortDescription = \"" + shortDescription + "\"";
+            if (longDescription != null) s = s + ", longDescription = \"" + longDescription + "\"";
+            if (Tags != null) s = s + ", tags = " + Tags.ToString();
+            if (ProjectStatus != null) s = s + ", status = " + ProjectStatus.ToString();
+            s = s + "]";
+            return s;
+        }
     }
 }
