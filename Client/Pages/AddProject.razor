@@ -44,12 +44,6 @@
             <button class="OurButton" @onclick="addProject">Post Project</button>
             <button class="OurButton" @onclick="NavToList">Cancel</button>
         </div>
-        <ul>
-            @foreach (var tag in checkedTags)
-           {
-               <li>@tag.Name</li>
-           }
-        </ul>
     </Authorized>
     <NotAuthorized>
         <p>You are not authorized to post projects</p>
