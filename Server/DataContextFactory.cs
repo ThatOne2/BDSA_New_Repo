@@ -26,7 +26,8 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
     public static void Seed(Server.DataContext context)
     {
         context.Database.EnsureCreated();
-         context.Database.ExecuteSqlRaw("DELETE dbo.Tag");
+        context.Database.ExecuteSqlRaw("DELETE dbo.ProjectTag");
+        context.Database.ExecuteSqlRaw("DELETE dbo.Tag");
         context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
         context.Database.ExecuteSqlRaw("DELETE dbo.Supervisors");
         context.Database.ExecuteSqlRaw("DELETE dbo.Students");
