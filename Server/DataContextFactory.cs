@@ -88,29 +88,29 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
         var Supervisor1 = new Supervisor {  isSupervisor = true,
                                             name = "Bjørn Sørensen",
                                             Projects = new List<Project> { Project1 },
-                                            Email = "bsørensen@gmail.com" };
+                                            Email = "bsørensen@FakeMail.com" };
         var Supervisor2 = new Supervisor {  isSupervisor = true,
                                             name = "Rasmus Rasmussen",
                                             Projects = new List<Project> { Project2 },
-                                            Email = "rrasmussen@gmail.com" };
+                                            Email = "rrasmussen@FakeMail.com" };
         var Supervisor3 = new Supervisor {  isSupervisor = true,
                                             name = "Karl Karlsson",
                                             Projects = new List<Project> { Project3 },
-                                            Email = "kkarlsson@gmail.com" };
+                                            Email = "kkarlsson@FakeMail.com" };
         var Supervisor4 = new Supervisor {  isSupervisor = true,
                                             name = "Niels Nielson",
                                             Projects = new List<Project> { Project4, Project5 },
-                                            Email = "nielsnson@gmail.com" };
+                                            Email = "nielsnson@FakeMail.com" };
 
         var Student1 = new Student {  isSupervisor = false,
                                             name = "Jens Jensen",
-                                            Email = "jjensen@gmail.com" };
+                                            Email = "jjensen@FakeMail.com" };
         var Student2 = new Student {  isSupervisor = false,
                                             name = "Søren Sørensen",
-                                            Email = "ssørensen@gmail.com" };
+                                            Email = "ssørensen@FakeMail.com" };
         var Student3 = new Student {  isSupervisor = false,
                                             name = "Lars Larsen",
-                                            Email = "llarsen@gmail.com" };
+                                            Email = "llarsen@FakeMail.com" };
 
           context.Supervisors.AddRange(
             Supervisor1,
