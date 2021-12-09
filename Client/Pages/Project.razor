@@ -1,0 +1,83 @@
+@page "/project"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+@using System.Collections.Generic
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Project</PageTitle>
+
+<div class = "searchBar" id = "bar">
+    <input type="text" id="searchInput" class = "white" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
+    <button title="searchButton" class="white searchBtn" @onclick="Search">
+        <span class="oi oi-magnifying-glass"></span>
+    </button>
+</div>
+
+<div class = "center">
+    <div class = "resultPane">
+        @foreach (var proj in DTOs)
+        {
+            <div class = "projectContainer white">
+                <div class = "projectContainerLeft">
+                        <div class = "pictureWannabe"></div>
+                        <div class = "text">
+                            <p>@proj.SupervisorName</p>
+                        </div>
+                    </div>
+                    <div class = "projectContainerRight">
+                        <div class = "centerText">
+                            <h2>@proj.name</h2>
+                        </div>
+                        <p>@proj.shortDescription</p>
+                        <div class = "tagBox">
+                        @foreach (var tag in proj.Tags)
+                        {
+                            <div class = "tag">
+                                <p>@tag.Name</p>
+                            </div>
+                        }
+                    </div>
+                    <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string searchInput = "";
+    private string searchOutput = "";
+    private ProjectPreviewDTO[]? DTOs;
+
+    private void ViewProj(ProjectPreviewDTO project)
+    {
+        var uri = $"{NavigationManager.BaseUri}project/{project.ID}";
+
+        NavigationManager.NavigateTo(uri);
+    }
+
+    private void Search()
+    {
+        if (!string.IsNullOrEmpty(searchInput))
+        {
+            searchOutput = searchInput;
+        }
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            Search();
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {   
+        var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("api/project");
+    }
+}
