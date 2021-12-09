@@ -1,11 +1,23 @@
-*{
-    box-sizing: border-box;
+.vertical {
+    display: block;
 }
 
-.child {
-    border: 5px solid blue;
+.center {
+    justify-content: center;
+    text-align: center;
 }
 
-.parent {
-    display: flex;
+.logo {
+    font-size: 15vw;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: -1vw;
+    word-spacing: -8vw;
+}
+
+.red {
+    color: #FF2E3F;
+}
+
+.grey {
+    color: #333138;
 }
