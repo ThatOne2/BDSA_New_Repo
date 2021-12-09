@@ -1,7 +1,11 @@
 ﻿body {
 }
 
-.txta {
-    width: 60%;
-    height: 40%;
+.pDescIn {
+    width: 100%;
+    height: 40vh;
+}
+
+.wFull {
+    width: 100%;
 }
