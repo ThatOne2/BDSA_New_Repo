@@ -1,4 +1,3 @@
-@page "/profilePage"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
@@ -13,40 +12,45 @@
     </NotAuthorized>
     <Authorized>
 
-        <div class="top_background">
+        <body>
+            <div class="top_background">
             <div class="profile_in_short">
-                <img src="" alt="profile picture">
-                <h5>@context.User.Identity?.Name</h5>
+                <div class="p_pic">
+                    <img src="css\open-iconic\user_icon.svg" alt="profile pic" width="100px" />
+                </div>
+                <h4>@context.User.Identity?.Name</h4>
             </div>
         </div>
 
-        <p role="status">Please specify whether you are a student or a professor:</p>
+        <div class="student_or_supervisor">
+            <p role="status"  >Please specify whether you are a student or a professor:</p>
 
-        <select id="role"  onchange="@SetRole">
-            @if(!currentuser.isSupervisor){
-                <option value="student" selected>Student</option>
-                <option value="professor">Supervisor</option>
-            } else {
-                <option value="student">Student</option>
-                <option value="professor" selected>Supervisor</option>
+            <select id="role"  onchange="@SetRole">
+                @if(!currentuser.isSupervisor){
+                    <option value="student" selected>Student</option>
+                    <option value="professor">Supervisor</option>
+                } else {
+                    <option value="student">Student</option>
+                    <option value="professor" selected>Supervisor</option>
+                }
+            </select>
+            @if(currentuser.isSupervisor){
+                <p role="status">Hello, Supervisor Kenobi - u look amaze </p>
             }
-        </select>
-        @if(currentuser.isSupervisor){
-            <p role="status">Hello, Supervisor Kenobi - u look amaze </p>
-        }
-
-        <div>
-            <h5>Bio</h5>
-            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled="true">lookin for a hottie boytoy</textarea>
-            <button>Edit</button>
         </div>
 
-        <div>
+        <div class="divs">
+            <h5>Bio</h5>
+            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled=@editenable>lookin for a hootie boytoy</textarea>
+        </div>
+        <button class="divs">Edit</button>
+
+        <div class="divs">
             <h5>About</h5>
             
         </div>
 
-        <div>
+        <div class="divs">
             <h5>Contact</h5>
             <p>Email: tempsnapelamail.com</p>
             <p>Phone: </p>
@@ -55,10 +59,11 @@
         </div>
 
         
-        <div>
+        <div class="divs" margin-bottom=4%>
             <h5>Prevoius Projects</h5>
             
         </div>
+        </body>
 
 
     </Authorized>
@@ -71,4 +76,6 @@
     }
     private void SetRoleAsStudent() => currentuser.isSupervisor = false;
     private void SetRoleAsSupervisor() => currentuser.isSupervisor = true;
-} 
+
+    private bool editenable = false;
+}
