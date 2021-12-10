@@ -1,16 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System;  
-using System.Collections.Generic;  
-using System.Linq;  
-using System.Net.Http;  
-using TrialProject.Shared;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Web.Resource;
 
 namespace Server;
 

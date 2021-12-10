@@ -1,13 +1,9 @@
 using Moq;
 using Xunit;
-using TrialProject.Server;
 using TrialProject.Shared;
-using System;
 using Microsoft.Extensions.Logging;
 using TrialProject.Shared.DTO;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Newtonsoft.Json;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;

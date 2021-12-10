@@ -1,8 +1,5 @@
-
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 using TrialProject.Shared;
 public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext>

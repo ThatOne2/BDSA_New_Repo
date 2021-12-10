@@ -1,12 +1,5 @@
-using Microsoft.AspNetCore.Authentication;
-using System.Data.SqlClient;
-using System.Data;
-using System.Data.SQLite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
 
 
