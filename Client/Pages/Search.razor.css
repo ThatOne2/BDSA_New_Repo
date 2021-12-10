@@ -1,0 +1,33 @@
+
+.white{
+    background-color: white;
+}
+
+.projectContainerLeft {
+    width: 33%;
+}
+
+.text {
+    height: 1em;
+}
+
+.resultPane {
+    width: 60%;
+    max-width: 800px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+.centerText {
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 950px) {
+    .resultPane {
+      width: 100%;
+    }
+}
+
