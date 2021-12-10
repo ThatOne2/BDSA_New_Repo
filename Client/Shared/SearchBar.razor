@@ -1,0 +1,33 @@
+@inject NavigationManager NavigationManager
+
+<div class = "searchBar" id = "bar">
+    <input type="text" id="searchInput" class = "white" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
+    <button title="searchButton" class="white searchBtn" @onclick="Search">
+        <span class="oi oi-magnifying-glass"></span>
+    </button>
+</div>
+
+
+@code {
+    private string searchInput = "";
+    private string searchOutput = "";
+    
+    private void Search()
+    {
+        if (!string.IsNullOrEmpty(searchInput))
+        {
+            searchOutput = searchInput;
+            
+            var uri = $"{NavigationManager.BaseUri}project/search/{searchOutput}";
+            NavigationManager.NavigateTo(uri);
+        }
+    }
+    
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            Search();
+        }
+    }
+}
