@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrialProject.Shared;
 
-namespace Server
+namespace TrialProject.Server.Controllers
 {
     public class DataContext : DbContext
     {

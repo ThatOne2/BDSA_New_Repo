@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-
+using Microsoft.Extensions.Configuration;
 using TrialProject.Shared;
-public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext>
+
+namespace TrialProject.Server;
+public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataContext>
 {
-    public Server.DataContext CreateDbContext(string[] args)
+    public Controllers.DataContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -14,13 +16,13 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Server.DataContext
 
         var connectionString = configuration.GetConnectionString("BDSA");
 
-        var optionsBuilder = new DbContextOptionsBuilder<Server.DataContext>()
+        var optionsBuilder = new DbContextOptionsBuilder<Controllers.DataContext>()
             .UseSqlServer(connectionString);
 
-        return new Server.DataContext(optionsBuilder.Options);
+        return new Controllers.DataContext(optionsBuilder.Options);
     }
 
-    public static void Seed(Server.DataContext context)
+    public static void Seed(Controllers.DataContext context)
     {
         context.Database.EnsureCreated();
         context.Database.ExecuteSqlRaw("DELETE dbo.ProjectTag");

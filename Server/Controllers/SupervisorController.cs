@@ -1,17 +1,20 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
+using TrialProject.Shared.DTO;
 
-namespace Server;
+
+namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class SupervisorController : ControllerBase {
 
 
-    private readonly DataContext _context;
+    private readonly TrialProject.Server.Controllers.DataContext _context;
      private readonly ILogger<SupervisorController> _logger;
 
-    public SupervisorController(ILogger<SupervisorController> logger, Server.DataContext context)
+    public SupervisorController(ILogger<SupervisorController> logger, Controllers.DataContext context)
     {
         _logger = logger;
          _context = context;
@@ -19,7 +22,7 @@ public class SupervisorController : ControllerBase {
 
 
     [HttpPost]
-    public HttpStatusCode CreateSuporvisor(TrialProject.Shared.DTO.CreateSupervisorDTO s){
+    public HttpStatusCode CreateSuporvisor( CreateSupervisorDTO s){
           return HttpStatusCode.NotFound;
       }
 
@@ -29,20 +32,20 @@ public class SupervisorController : ControllerBase {
 
      //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
      [HttpGet("{id}")]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
         return null;
     }
 
 
     //Returns a single suporvisor by ID
     [HttpGet("{id}")]
-    public Task<TrialProject.Shared.DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId){
+    public Task< SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId){
         return null;
     }
 
     //Returns a single suporvisor by ID'
     [HttpGet("{id}")]
-    public Task<TrialProject.Shared.DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId){
+    public Task< SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId){
         return null;
     }
 

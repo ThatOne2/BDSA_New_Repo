@@ -1,15 +1,17 @@
-﻿@page "/fetchdata"
+@page "/allprojects"
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO;
+@inject NavigationManager NavManager
 @* @attribute [Authorize] *@
 @inject HttpClient Http
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>We all just having the most fun</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Are you having fun? </h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>If you're not I'm gonna kill you uwu</p>
 
 @if (projectsList == null)
 {
@@ -17,29 +19,41 @@
 }
 else
 {
-    <table class="table">
+     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Project</th>
+                <th>Teacher</th>
+                <th>Discription</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var proj in projectsList)
             {
                 <tr>
-                    <td>@proj.ID</td>
-                    <td>@proj.shortDescription</td>
                     <td>@proj.name</td>
+                    <td>@proj.SupervisorName</td>
+                    <td>@proj.shortDescription</td>
                 </tr>
             }
         </tbody>
     </table>
 }
 
+<AuthorizeView Roles="supervisor">
+        
+    <Authorized>
+        <button class="OurButton" @onclick="NavToNewProject">Create New</button>
+    </Authorized>
+</AuthorizeView>
+
 @code {
+
+    private async void NavToNewProject()
+    {
+        NavManager.NavigateTo("/projects/new");
+    }
+
     private ProjectPreviewDTO[]? projectsList;
 
     protected override async Task OnInitializedAsync()
