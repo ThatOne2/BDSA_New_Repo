@@ -33,7 +33,7 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public HttpStatusCode CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
+    public HttpStatusCode CreateProject( CreateProjectDTO  p) {
         var s = _context.Supervisors.Find(p.SupervisorID);
 
         if (s == null) { return HttpStatusCode.BadRequest;}
@@ -52,7 +52,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("{id}")]
-    public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int id) {
+    public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
            
             var p = _context.Projects.Find(id);
 
@@ -60,7 +60,7 @@ public class ProjectController : ControllerBase {
                 return null;
             }
             
-            var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
+            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
             return DTOProject;
             
         
@@ -68,19 +68,19 @@ public class ProjectController : ControllerBase {
 
   /*    //Returns a single project by ID
     [HttpGet]
-    public Task<TrialProject.Shared.DTO.ProjectDescDTO> ReadDescProjectById(int projectId){
+    public Task< ProjectDescDTO> ReadDescProjectById(int projectId){
         return null;
     } */
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public IEnumerable<TrialProject.Shared.DTO.ProjectPreviewDTO> GetAllProjects() {
-        var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
+    public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
+        var list = new List< ProjectPreviewDTO>();
              foreach (var p in _context.Projects)
             {
                 //int sID = p.SupervisorID;
                 //var superV = _context.Supervisors.Find(sID);
-                var ProjDTO = new TrialProject.Shared.DTO.ProjectPreviewDTO{/* SupervisorName = superV.name, */ name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
+                var ProjDTO = new  ProjectPreviewDTO{/* SupervisorName = superV.name, */ name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
                 list.Add(ProjDTO);
             }
 
@@ -97,19 +97,19 @@ public class ProjectController : ControllerBase {
 
   /*    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
      [HttpGet]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
         return null;
     } */
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(string t){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByTag(string t){
         return null;
     }
      
 /*     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
     [HttpGet]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByDescription(string word){
         return null;
     } */
 
