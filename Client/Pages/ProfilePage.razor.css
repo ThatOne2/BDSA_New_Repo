@@ -19,6 +19,10 @@ body{
     margin-bottom: 5%;
 }
 
+.subtitle{
+    margin-bottom: 30px;
+}
+
 .sepH{
     height: 2%;
 }
@@ -28,7 +32,6 @@ body{
     height: 1px;
     background-color: #515052;
     margin-left: -2%;
-    margin-top: -2%;
     margin-bottom: 2%;
 }
 
