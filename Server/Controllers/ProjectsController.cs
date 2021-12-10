@@ -74,7 +74,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public IEnumerable<TrialProject.Shared.DTO.ProjectPreviewDTO> Get() {
+    public IEnumerable<TrialProject.Shared.DTO.ProjectPreviewDTO> GetAllProjects() {
         var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
              foreach (var p in _context.Projects)
             {

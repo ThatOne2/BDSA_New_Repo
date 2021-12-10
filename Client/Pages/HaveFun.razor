@@ -16,7 +16,7 @@
 
 <p>If you're not I'm gonna kill you uwu</p>
 
-@if (projectsList == null) {
+
     <table class="table">
         <thead>
             <tr>
@@ -26,29 +26,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var proj in projects)
+            @foreach (var proj in projectsList)
             {
                 <tr>
-                    <td>@proj.name</td>
-                    <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorName</td>
+                   <td>@proj.name</td>
+                    <td>@proj.SupervisorName.ToString()</td>
                     <td>@proj.shortDescription</td>
                 </tr>
             }
         </tbody>
     </table>
-}
-else {
-    <div>
-    @foreach (var proj in projectsList)
-        {
-            <tr>
-                <td>@proj.name</td>
-                <td> <span class="oi oi-person" aria-hidden="true"></span>     @proj.SupervisorName</td>
-                <td>@proj.shortDescription</td>
-            </tr>
-        }
-</div>  
-}
 
 
 
@@ -90,21 +77,15 @@ else {
     protected override async Task OnInitializedAsync()
     {
             
-        if(!projects.Any()){
-              var p1 = new ProjectPreviewDTO{name = "Fun Project", SupervisorName = "Bente", shortDescription = "This is the coolest project you can imagne"};
-              var p2 = new ProjectPreviewDTO{name = "Not so fun Project", SupervisorName = "Felix", shortDescription = "I don't actually care for this project"};
-            projects.Add(p1);
-            projects.Add(p2);
-        }
 
-        try
+         try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Projects");
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
-        }  
+        }
       
     }
 

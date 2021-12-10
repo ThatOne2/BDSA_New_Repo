@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
+@using TrialProject.Shared.DTO;
 @* @attribute [Authorize] *@
 @inject HttpClient Http
 
@@ -30,10 +31,9 @@ else
             @foreach (var forecast in forecasts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.ID</td>
+                    <td>@forecast.shortDescription</td>
+                    <td>@forecast.name</td>
                 </tr>
             }
         </tbody>
@@ -41,13 +41,13 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private ProjectPreviewDTO[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            forecasts = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
         }
         catch (AccessTokenNotAvailableException exception)
         {
