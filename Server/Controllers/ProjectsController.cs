@@ -33,12 +33,20 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public HttpStatusCode CreateProject( CreateProjectDTO  p) {
-        var s = _context.Supervisors.Find(p.SupervisorID);
+    public HttpStatusCode CreateProject(CreateProjectDTO p) {
 
-        if (s == null) { return HttpStatusCode.BadRequest;}
+        //var s = _context.Supervisors.Find(p.SupervisorID);
 
-        Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ Tags = p.Tags};
+        //if (s == null) { return HttpStatusCode.BadRequest;}
+
+        Project project = new Project {
+            name = p.name, 
+            longDescription = p.longDescription, 
+            shortDescription = p.shortDescription,
+            /*  SupervisorID = s.ID, */ 
+            Tags = p.Tags,
+            ProjectStatus = Status.Ongoing
+        };
 
         _context.Projects.Add(project);
         _context.SaveChanges();
