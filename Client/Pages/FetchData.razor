@@ -12,7 +12,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (projectsList == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -28,12 +28,12 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var proj in projectsList)
             {
                 <tr>
-                    <td>@forecast.ID</td>
-                    <td>@forecast.shortDescription</td>
-                    <td>@forecast.name</td>
+                    <td>@proj.ID</td>
+                    <td>@proj.shortDescription</td>
+                    <td>@proj.name</td>
                 </tr>
             }
         </tbody>
@@ -41,13 +41,13 @@ else
 }
 
 @code {
-    private ProjectPreviewDTO[]? forecasts;
+    private ProjectPreviewDTO[]? projectsList;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
         }
         catch (AccessTokenNotAvailableException exception)
         {

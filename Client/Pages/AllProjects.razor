@@ -1,14 +1,11 @@
-@page "/havefun"
+@page "/allprojects"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
-@using TrialProject.Shared.DTO
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject List<ProjectPreviewDTO> projects
-@inject CurrentUser currentuser
+@using TrialProject.Shared.DTO;
 @inject NavigationManager NavManager
+@* @attribute [Authorize] *@
 @inject HttpClient Http
-
 
 <PageTitle>We all just having the most fun</PageTitle>
 
@@ -16,8 +13,13 @@
 
 <p>If you're not I'm gonna kill you uwu</p>
 
-
-    <table class="table">
+@if (projectsList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+     <table class="table">
         <thead>
             <tr>
                 <th>Project</th>
@@ -29,56 +31,34 @@
             @foreach (var proj in projectsList)
             {
                 <tr>
-                   <td>@proj.name</td>
-                    <td>@proj.SupervisorName.ToString()</td>
+                    <td>@proj.name</td>
+                    <td>@proj.SupervisorName</td>
                     <td>@proj.shortDescription</td>
                 </tr>
             }
         </tbody>
     </table>
-
-
-
+}
 
 <AuthorizeView Roles="supervisor">
         
     <Authorized>
         <button class="OurButton" @onclick="NavToNewProject">Create New</button>
-        <!--
-        @if(currentuser.isSupervisor){
-            <div class="PostProject">
-                <label for="pname">Project Name</label>
-                <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
-
-                <label for="pdes">Project Description</label>
-                <input type="text" id="pdes" name="projdes" placeholder="Project description.."@bind="@inputDes" @oninput="OnInputDesEvent">
-                <button class="OurButton" @onclick="addProject">Post Project</button>
-            </div>
-        } 
-        -->
-       
-
     </Authorized>
 </AuthorizeView>
 
-
-
 @code {
-
-    private ProjectPreviewDTO[]? projectsList;
-
 
     private async void NavToNewProject()
     {
         NavManager.NavigateTo("/projects/new");
     }
 
+    private ProjectPreviewDTO[]? projectsList;
 
     protected override async Task OnInitializedAsync()
     {
-            
-
-         try
+        try
         {
             projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
         }
@@ -86,7 +66,5 @@
         {
             exception.Redirect();
         }
-      
     }
-
 }
