@@ -1,10 +1,4 @@
-@using TrialProject.Shared
-@using TrialProject.Shared.DTO
-@inject List<ProjectPreviewDTO> DTOs
-@using System.Collections.Generic
 @inject NavigationManager NavigationManager
-
-<h1>Welcome to TheStart of a great project or thesis!</h1>
 
 <div class = "searchBar" id = "bar">
     <input type="text" id="searchInput" class = "white" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
@@ -12,8 +6,6 @@
         <span class="oi oi-magnifying-glass"></span>
     </button>
 </div>
-
-<HomepageContentWelcome />
 
 
 @code {

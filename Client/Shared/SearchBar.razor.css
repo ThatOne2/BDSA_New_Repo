@@ -1,0 +1,27 @@
+
+.searchBar {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.searchBtn {
+    float: right;
+    border-radius: 30pt;
+    border-color: transparent;
+    margin-top: 7px;
+    height: 50px;
+    width: 50px;
+}
+
+
+
+#searchInput {
+    border-radius: 30pt;
+    width: calc(100% - 60px);
+    border-color: transparent;
+}
+
+
+.white{
+    background-color: white;
+}

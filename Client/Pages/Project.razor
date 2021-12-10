@@ -11,12 +11,7 @@
 
 <PageTitle>Project</PageTitle>
 
-<div class = "searchBar" id = "bar">
-    <input type="text" id="searchInput" class = "white" placeholder="Search" @bind="@searchInput" @onkeyup="@Enter">
-    <button title="searchButton" class="white searchBtn" @onclick="Search">
-        <span class="oi oi-magnifying-glass"></span>
-    </button>
-</div>
+<SearchBar />
 
 <div class = "center">
     <div class = "resultPane">
@@ -50,8 +45,6 @@
 </div>
 
 @code {
-    private string searchInput = "";
-    private string searchOutput = "";
     private ProjectPreviewDTO[]? DTOs;
 
     private void ViewProj(ProjectPreviewDTO project)
@@ -59,22 +52,6 @@
         var uri = $"{NavigationManager.BaseUri}project/{project.ID}";
 
         NavigationManager.NavigateTo(uri);
-    }
-
-    private void Search()
-    {
-        if (!string.IsNullOrEmpty(searchInput))
-        {
-            searchOutput = searchInput;
-        }
-    }
-
-    public void Enter(KeyboardEventArgs e)
-    {
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
-        {
-            Search();
-        }
     }
     protected override async Task OnInitializedAsync()
     {   
