@@ -12,6 +12,7 @@ using TrialProject.Server;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using TrialProject.Shared.DTO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Identity.Web.Resource;

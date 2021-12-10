@@ -11,6 +11,7 @@ using TrialProject.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server.Controllers;
 
