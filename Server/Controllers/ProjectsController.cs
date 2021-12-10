@@ -80,15 +80,30 @@ public class ProjectController : ControllerBase {
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
     public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
+           /*  var proj =  from pr in _context.Projects
+                        join su in _context.Supervisors on pr.SupervisorID equals su.ID
+                        select new {pr.ID, su.name}; */
+
+
         var list = new List< ProjectPreviewDTO>();
-             foreach (var p in _context.Projects.Include(tag => tag.Tags))
+             foreach (var p in _context.Projects.Include(tag => tag.Tags).Join(_context.Supervisors,
+                                                                                p => p.SupervisorID,
+                                                                                ss => ss.ID,
+                                                                                (p,ss) => new {
+                                                                                    Supervisor = ss.name,
+                                                                                    shortDesc = p.shortDescription,
+                                                                                    ID = p.ID,
+                                                                                    Tags = p.Tags,
+                                                                                    Name = p.name
+                                                                                }))
             {
+                 Console.WriteLine(p.Supervisor);
                 var tagList = new List<string>();
                 foreach (var t in p.Tags) {
                     tagList.Add(t.Name);
                 }
 
-                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = "name", name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = tagList};
+                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
                 list.Add(ProjDTO);
             }
             if (list.Any())
@@ -98,7 +113,7 @@ public class ProjectController : ControllerBase {
             else
             {
                 return null;
-            }
+            } 
     }
     
 
