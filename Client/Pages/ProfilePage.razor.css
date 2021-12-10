@@ -6,11 +6,9 @@ body{
 .top_background{
     height: 200px;
     background-color: black;
-    margin-top: -20px;
-    margin-left: -35px;
-    margin-right: -35px;
     align-content: center;
     display: grid;
+
 }
 
 .student_or_supervisor{
@@ -77,6 +75,8 @@ textarea{
 .preproj{
     width: 40vW;
     height: 8vw;
+    min-width: 180px;
+    min-height: 50px;
     box-shadow: 1px 1px #c9c9c9;
     border-radius: 5pt;
     background-color: rgb(247, 247, 247);
