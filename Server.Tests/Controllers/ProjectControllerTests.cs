@@ -54,7 +54,7 @@ public class ProjectControllerTests
         
          var Tag1 = new Tag { Name = "fun" };
         
-        var expected = new ProjectPreviewDTO{ID = 1, name = "Thesis", Tags =  new List<Tag> { Tag1 }, shortDescription = "This is a project", SupervisorName = null};
+        var expected = new ProjectPreviewDTO{ID = 1, name = "Thesis", Tags =  new List<string> { "fun" }, shortDescription = "This is a project", SupervisorName = null};
        
         
         //Act

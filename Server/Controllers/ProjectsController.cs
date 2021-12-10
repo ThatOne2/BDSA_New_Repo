@@ -59,8 +59,13 @@ public class ProjectController : ControllerBase {
             if(p.ID == null) {
                 return null;
             }
+
+            var tagList = new List<string>();
+                foreach (var t in p.Tags) {
+                    tagList.Add(t.Name);
+                }
             
-            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
+            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
             return DTOProject;
             
         
@@ -76,14 +81,16 @@ public class ProjectController : ControllerBase {
     [HttpGet]
     public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
         var list = new List< ProjectPreviewDTO>();
-             foreach (var p in _context.Projects)
+             foreach (var p in _context.Projects.Include(tag => tag.Tags))
             {
-                //int sID = p.SupervisorID;
-                //var superV = _context.Supervisors.Find(sID);
-                var ProjDTO = new  ProjectPreviewDTO{/* SupervisorName = superV.name, */ name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
+                var tagList = new List<string>();
+                foreach (var t in p.Tags) {
+                    tagList.Add(t.Name);
+                }
+
+                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = "name", name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = tagList};
                 list.Add(ProjDTO);
             }
-
             if (list.Any())
             {
                 return list.ToArray();

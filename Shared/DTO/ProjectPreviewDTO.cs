@@ -12,7 +12,7 @@ namespace TrialProject.Shared.DTO
 
         public string shortDescription { get; set; }
         
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<string> Tags { get; set; }
 
         /* public string ToString()
         {
