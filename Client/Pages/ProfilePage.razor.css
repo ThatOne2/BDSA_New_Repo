@@ -15,14 +15,32 @@ body{
 
 .student_or_supervisor{
     margin-left: 10%;
-    margin-top: 5%;
+    margin-top: 2%;
     margin-bottom: 5%;
+}
+
+.subtitle{
+    margin-bottom: 30px;
+}
+
+.sepH{
+    height: 2%;
+}
+
+.divider{
+    width: 50vw;
+    height: 1px;
+    background-color: #515052;
+    margin-left: -2%;
+    margin-bottom: 2%;
 }
 
 textarea{
     height: 100px;
     background-color: #fff;
     border: #fff;
+    resize: none;
+    max-height: 75px;
 }
 
 .profile_in_short{
@@ -44,11 +62,26 @@ textarea{
     margin-bottom: 5%;
     margin-left: 10%;
     width: fit-content;
+    display: grid;
 }
 
+.biobtns{
+    display: flex;
+}
+
+.sep{
+    width: 2%;
+}
+
+.preproj{
+    width: 40vW;
+    height: 8vw;
+    box-shadow: 1px 1px #c9c9c9;
+    border-radius: 5pt;
+    background-color: rgb(247, 247, 247);
+}
 
 button {
-    margin-top: 20px;
     border-radius: 30pt;
     float: left;
     width: 100%;
@@ -61,9 +94,9 @@ button {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    width: 100%;
+    width: 20%;
     will-change: transform;
-
+    margin-top: 2%;
 }
 
 button:hover {

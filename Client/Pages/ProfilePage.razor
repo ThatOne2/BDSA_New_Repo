@@ -1,9 +1,11 @@
+@page "/profilePage"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
 @using Shared
 @inject CurrentUser currentuser
 @inject HttpClient Http
+@using System.Text;
 
 
 <AuthorizeView>
@@ -41,28 +43,41 @@
 
         <div class="divs">
             <h5>Bio</h5>
-            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled=@editenable>lookin for a hootie boytoy</textarea>
+            <div class="divider" ></div>
+            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled=@editenable>@biotxt</textarea>
+            <div class="biobtns">
+                <button onclick="@setEditable">Edit</button>
+                <div class="sep"></div>
+                <button onclick="@saveBio">Save</button>
+            </div>
+            
         </div>
-        <button class="divs">Edit</button>
+        
 
         <div class="divs">
-            <h5>About</h5>
-            
+            <h5 class="subtitle">About</h5>
+            <div class="divider" ></div>
+            <p>Experience: </p>
+            <p>Current job position: </p>
+            <p>Education: </p>
         </div>
 
         <div class="divs">
             <h5>Contact</h5>
+            <div class="divider" ></div>
             <p>Email: tempsnapelamail.com</p>
             <p>Phone: </p>
-            <p></p>
-            
         </div>
 
         
-        <div class="divs" margin-bottom=4%>
+        <div class="divs" >
             <h5>Prevoius Projects</h5>
-            
+            <div class="divider" ></div>
+            <div class="preproj">
+
+            </div>
         </div>
+        <div class="sepH"></div>
         </body>
 
 
@@ -78,4 +93,12 @@
     private void SetRoleAsSupervisor() => currentuser.isSupervisor = true;
 
     private bool editenable = false;
+    private StringBuilder biotxt = new StringBuilder();
+
+    private void setEditable() => editenable = !editenable;
+
+    private void saveBio(){
+        biotxt.Clear();
+        biotxt.Append(biotxt);
+    }
 }
