@@ -10,7 +10,8 @@ namespace TrialProject.Server.Controllers
          public DbSet<Project>? Projects { get; set; }
          public DbSet<Student>? Students { get; set; }
          public DbSet<Supervisor>? Supervisors { get; set; }
-         
+         public DbSet<Tag>? Tags { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 

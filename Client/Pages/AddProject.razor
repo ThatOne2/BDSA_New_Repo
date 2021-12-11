@@ -35,7 +35,7 @@
                 <div>
                     @foreach (var tag in tagList!)
                     {
-                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag<br />
+                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.ToString()<br />
                     }
                 </div>
             </div>
@@ -57,15 +57,21 @@
     private string? inputLongDes = null;
     private string? inputTag = null;
 
-    private List<string> checkedTags = new List<string>();
+    private List<TagsEnums> checkedTags = new List<TagsEnums>();
 
-    private List<string>? tagList;
+    private List<TagsEnums>? tagList;
 
     protected override async Task OnInitializedAsync()
     {
+        /*
         tagList = Enum.GetValues(typeof(TagsEnums))
         .Cast<TagsEnums>()
         .Select(v => v.ToString())
+        .ToList();
+        */
+
+        tagList = Enum.GetValues(typeof(TagsEnums))
+        .Cast<TagsEnums>()
         .ToList();
     }
 
@@ -85,7 +91,7 @@
         inputLongDes = (string)changeEvent.Value!;
     }
 
-    private void OnInputTagEvent(string tag, ChangeEventArgs changeEvent)
+    private void OnInputTagEvent(TagsEnums tag, ChangeEventArgs changeEvent)
     {
         var tagChecked = (bool)changeEvent.Value!;
         if (tagChecked)

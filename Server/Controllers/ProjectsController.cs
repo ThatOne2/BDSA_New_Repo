@@ -25,12 +25,18 @@ public class ProjectController : ControllerBase {
         //var s = _context.Supervisors.Find(p.SupervisorID);
 
         //if (s == null) { return HttpStatusCode.BadRequest;}
+        var tags = new List<Tag>();
+        foreach (TagsEnums tag in p.Tags) {
+            tags.Add(new Tag { Name = tag.ToString() });
+        }
 
         Project project = new Project {
-            name = p.name, 
-            longDescription = p.longDescription, 
+            name = p.name,
+            longDescription = p.longDescription,
             shortDescription = p.shortDescription,
-            /*  SupervisorID = s.ID, */ 
+            /*  SupervisorID = s.ID, */
+            Tags = tags,
+            ProjectStatus = Status.Ongoing
         };
 
         _context.Projects!.Add(project);
