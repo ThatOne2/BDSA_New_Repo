@@ -1,20 +1,8 @@
 using System.Net;
- using TrialProject.Shared;
+using TrialProject.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System;  
-using System.Collections.Generic;  
-using System.Linq;  
-using System.Net.Http;  
-using TrialProject.Shared;
-using TrialProject.Server;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using TrialProject.Shared.DTO;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace TrialProject.Server.Controllers;
 
@@ -54,11 +42,7 @@ public class ProjectController : ControllerBase {
     [HttpGet("{id}")]
     public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
            
-            var p = _context.Projects.Find(id);
-
-            if(p.ID == null) {
-                return null;
-            }
+            var p = await _context.Projects.FindAsync(id);
 
             var tagList = new List<string>();
                 foreach (var t in p.Tags) {

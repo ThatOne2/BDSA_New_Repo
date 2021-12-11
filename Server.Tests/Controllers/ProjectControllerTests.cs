@@ -14,7 +14,7 @@ namespace Server.Tests.Controllers;
 public class ProjectControllerTests
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext context;
+       private readonly TrialProject.Server.Controllers.DataContext? context;
 
         public readonly ProjectController repo;
         Tag Tag1 = new Tag { Name = "fun" };

@@ -8,17 +8,17 @@ public class Project
     
     [Required(ErrorMessage = "Project name is required field")]
     [MaxLength(50)]
-    public string name { get; set; }
+    public string? name { get; set; }
 
     [Required(ErrorMessage = "Description is required")]
-    public string shortDescription { get; set; }
+    public string? shortDescription { get; set; }
 
      [Required(ErrorMessage = "Description is required")]
-    public string longDescription { get; set; }
+    public string? longDescription { get; set; }
 
     public int? SupervisorID { get; set; }
 
-    public ICollection<Tag> Tags {get; set;} 
+    public ICollection<Tag>? Tags {get; set;} 
 
     [Required]
     public Status ProjectStatus { get; set; }
