@@ -100,8 +100,9 @@
     private async void addProject() {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+        
 
-        var p1 = new CreateProjectDTO{name = inputName, SupervisorID = 1, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
+        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
 
         // Send to database
 

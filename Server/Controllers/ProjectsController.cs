@@ -22,9 +22,9 @@ public class ProjectController : ControllerBase {
 
     [HttpPost]
     public HttpStatusCode CreateProject( CreateProjectDTO  p) {
-        var s = _context.Supervisors.Find(p.SupervisorID);
+       // var s = _context.Supervisors.Find(p.SupervisorID);
 
-        if (s == null) { return HttpStatusCode.BadRequest;}
+       // if (s == null) { return HttpStatusCode.BadRequest;}
 
         Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ };
 
