@@ -42,7 +42,7 @@ public class ProjectControllerTests
                                         longDescription = "A very cool project"
                                     };
 
-            context.Projects.Add(Project1);
+            context.Projects!.Add(Project1);
         }
 
 

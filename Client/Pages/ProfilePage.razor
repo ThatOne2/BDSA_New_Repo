@@ -26,7 +26,7 @@
         <div class="student_or_supervisor">
             <p role="status"  >Please specify whether you are a student or a professor:</p>
 
-            <select id="role"  onchange="@SetRole">
+            <select id="role"  @onchange="@SetRole">
                 @if(!currentuser.isSupervisor){
                     <option value="student" selected>Student</option>
                     <option value="professor">Supervisor</option>
@@ -45,9 +45,9 @@
             <div class="divider" ></div>
             <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled=@editenable>@biotxt</textarea>
             <div class="biobtns">
-                <button onclick="@setEditable">Edit</button>
+                <button @onclick="@setEditable">Edit</button>
                 <div class="sep"></div>
-                <button onclick="@saveBio">Save</button>
+                <button @onclick="@saveBio">Save</button>
             </div>
             
         </div>
@@ -85,7 +85,7 @@
 
 @code {
     private void SetRole(ChangeEventArgs e){
-        if(e.Value.ToString() == "student") {currentuser.isSupervisor = false;}
+        if(e.Value!.ToString() == "student") {currentuser.isSupervisor = false;}
         else currentuser.isSupervisor = true;
     }
     private void SetRoleAsStudent() => currentuser.isSupervisor = false;

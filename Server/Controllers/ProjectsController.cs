@@ -22,13 +22,13 @@ public class ProjectController : ControllerBase {
 
     [HttpPost]
     public HttpStatusCode CreateProject( CreateProjectDTO  p) {
-        var s = _context.Supervisors.Find(p.SupervisorID);
+       // var s = _context.Supervisors.Find(p.SupervisorID);
 
-        if (s == null) { return HttpStatusCode.BadRequest;}
+       // if (s == null) { return HttpStatusCode.BadRequest;}
 
-        Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ Tags = p.Tags};
+        Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ };
 
-        _context.Projects.Add(project);
+        _context.Projects!.Add(project);
         _context.SaveChanges();
 
         return HttpStatusCode.Created;
@@ -42,11 +42,11 @@ public class ProjectController : ControllerBase {
     [HttpGet("{id}")]
     public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
            
-            var p = await _context.Projects.FindAsync(id);
+            var p = await _context.Projects!.FindAsync(id);
 
             var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
+                foreach (var t in p!.Tags!) {
+                    tagList.Add(t.Name!);
                 }
             
             var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
@@ -70,7 +70,7 @@ public class ProjectController : ControllerBase {
 
 
         var list = new List< ProjectPreviewDTO>();
-             foreach (var p in _context.Projects.Include(tag => tag.Tags).Join(_context.Supervisors,
+             foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
                                                                                 p => p.SupervisorID,
                                                                                 ss => ss.ID,
                                                                                 (p,ss) => new {
@@ -83,8 +83,8 @@ public class ProjectController : ControllerBase {
             {
                  Console.WriteLine(p.Supervisor);
                 var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
+                foreach (var t in p.Tags!) {
+                    tagList.Add(t.Name!);
                 }
 
                 var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
@@ -96,7 +96,7 @@ public class ProjectController : ControllerBase {
             }
             else
             {
-                return null;
+                return null!;
             } 
     }
     
@@ -109,7 +109,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByTag(string t){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>>? ReadProjectListByTag(string t){
         return null;
     }
      

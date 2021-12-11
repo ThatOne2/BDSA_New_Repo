@@ -11,7 +11,7 @@ namespace TrialProject.Shared.DTO
 
         [Required(ErrorMessage = "Teacher name is required field")]
         [MaxLength(50)]
-        public int SupervisorID { get; set; }
+        public string? Supervisor { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         public string? shortDescription { get; set; }
@@ -20,7 +20,7 @@ namespace TrialProject.Shared.DTO
         public string? longDescription { get; set; }
 
         [Required(ErrorMessage = "A least one tag required")]
-        public ICollection<Tag>? Tags { get; set; }
+        public ICollection<string>? Tags { get; set; }
 
     }
 }
