@@ -46,3 +46,8 @@ span {
     margin-bottom: 3px;
 }
 
+@media (max-width: 500px) {
+    .menuitem {
+        font-size:  4vw;
+    }
+}
