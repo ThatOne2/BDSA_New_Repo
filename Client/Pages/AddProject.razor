@@ -32,7 +32,7 @@
             <div>
                 <label for="ptag">Tags</label>
                 <div>
-                    @foreach (var tag in tagList)
+                    @foreach (var tag in tagList!)
                     {
                         <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag<br />
                     }
@@ -102,7 +102,7 @@
         var user = authState.User;
         
 
-        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
+        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity!.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
 
         // Send to database
 
