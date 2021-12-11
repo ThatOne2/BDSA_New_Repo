@@ -78,3 +78,9 @@ a {
     }
 }
 
+@media (max-width: 800px) {
+    .topBtn {
+        font-size:  2vw;
+    }
+}
+
