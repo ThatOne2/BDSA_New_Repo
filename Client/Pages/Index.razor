@@ -39,6 +39,9 @@
         .Cast<TagsEnums>()
         .Select(v => v.ToString())
         .ToList();
+
+        // TODO: Find where to put await
+        await Task.FromResult(0);
     }
 
     private void goToTag(string tag)

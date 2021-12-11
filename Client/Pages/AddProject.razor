@@ -55,7 +55,6 @@
     private string? inputName = null;
     private string? inputDes = null;
     private string? inputLongDes = null;
-    private string? inputTag = null;
 
     private List<TagsEnums> checkedTags = new List<TagsEnums>();
 
@@ -73,6 +72,9 @@
         tagList = Enum.GetValues(typeof(TagsEnums))
         .Cast<TagsEnums>()
         .ToList();
+
+        // TODO: Find where to put await
+        await Task.FromResult(0);
     }
 
 
@@ -128,7 +130,7 @@
         
     }
 
-    private async void NavToList()
+    private void NavToList()
     {
       NavManager.NavigateTo("/allprojects");
     }

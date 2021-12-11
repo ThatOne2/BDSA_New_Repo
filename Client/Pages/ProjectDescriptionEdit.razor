@@ -3,12 +3,13 @@
 @using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
 @inject CurrentUser currentuser
+@inject HttpClient Http
 
 <PageTitle>Edit Project</PageTitle>
 
 @if (project == null)
 {
-	<p>No project found!</p>
+	<p>@fStatus</p>
 } else
 {
 	<AuthorizeView Roles="supervisor">
@@ -55,7 +56,9 @@
 	public int id { get; set; }
 	private string inputLongDes = null!;
 
-	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
+	private ProjectDescDTO? project;
+
+	private string fStatus = "Searching...";
 
 	private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
 	{
@@ -67,17 +70,15 @@
 	{
 		try
 		{
-			// Get project by ID
-			//var rep = new TaskRepository();
-			//project = rep.ReadProjectById(id);
-			inputLongDes = project.longDescription!;
+			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/" + id);
+			if (project != null) inputLongDes = project.longDescription!;
 		}
 		catch
 		{
 			// Exception handling
 
 		}
-		await Task.FromResult(0);
+		if (project == null) fStatus = "Project not found!";
 	}
 
 	private void NavToDetails()
