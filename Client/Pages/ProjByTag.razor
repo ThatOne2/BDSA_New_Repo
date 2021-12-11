@@ -68,7 +68,7 @@ else
     {
         try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/tag/"+ Text);
         }
         catch (AccessTokenNotAvailableException exception)
         {
