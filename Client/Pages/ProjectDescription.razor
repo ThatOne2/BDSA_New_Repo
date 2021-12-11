@@ -3,6 +3,7 @@
 @using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
 @inject CurrentUser currentuser
+@inject HttpClient Http
 
 <PageTitle>View Project</PageTitle>
 
@@ -79,7 +80,7 @@
 	[Parameter]
 	public int id { get; set; }
 
-	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Cool ass titile", SupervisorName = "Mr. Bean", shortDescription = "This is the short description", 
+	private ProjectDescDTO? project; /* = new ProjectDescDTO{ID = 5, name = "Cool ass titile", SupervisorName = "Mr. Bean", shortDescription = "This is the short description", 
 	longDescription = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vestibulum ante ac congue sodales. Pellentesque lacinia ligula ac nunc eleifend scelerisque. Sed mollis arcu in leo mollis pellentesque. Vivamus sit amet nibh vel justo ultricies efficitur at vitae massa. Vivamus et lacinia ipsum. Nam pretium tempus lacinia. Donec vestibulum neque sit amet leo lobortis, quis elementum sem iaculis. Sed vulputate tellus in ex volutpat blandit. Suspendisse velit leo, posuere at bibendum non, pharetra eget velit.
 
 Sed quis tellus fermentum ex dignissim cursus sit amet ut sem. Duis porttitor odio at erat dignissim, vel elementum urna dapibus. In ac tincidunt nulla. Quisque vitae ex nulla. Donec congue blandit consequat. Curabitur diam ligula, laoreet vitae urna sit amet, condimentum bibendum mi. Donec felis mi, facilisis vel mollis sit amet, tristique sit amet mi. Nullam feugiat laoreet leo vitae pellentesque. Proin sit amet vulputate massa, nec consequat felis.
@@ -90,14 +91,13 @@ Integer sodales felis nec gravida mattis. Phasellus elementum porta felis eu cur
 
 Duis vel leo diam. Phasellus at magna tincidunt, gravida purus in, vehicula magna. Mauris a ex ut tellus accumsan congue. Sed auctor tortor eu velit sollicitudin elementum id ut massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas tincidunt placerat lacus id feugiat. Ut eget porta lacus. Duis posuere non risus scelerisque cursus.
 	"};
+	*/
 
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
-			// Get project by ID
-			//var rep = new TaskRepository();
-			//project = rep.ReadProjectById(id);
+			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/" + id);
 
 		}
 		catch

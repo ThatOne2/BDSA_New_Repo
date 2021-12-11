@@ -20,7 +20,7 @@ namespace TrialProject.Shared.DTO
         public string? longDescription { get; set; }
 
         [Required(ErrorMessage = "A least one tag required")]
-        public ICollection<string>? Tags { get; set; }
-
+        public ICollection<TagsEnums>? Tags { get; set; }
+        
     }
 }
