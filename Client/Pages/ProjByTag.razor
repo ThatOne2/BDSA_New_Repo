@@ -59,13 +59,16 @@ else
         NavManager.NavigateTo("/projects/new");
     }
 
+    [Parameter]
+    public string? Text { get; set; }
+
     private ProjectPreviewDTO[]? projectsList;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/tag/"+ Text);
         }
         catch (AccessTokenNotAvailableException exception)
         {
