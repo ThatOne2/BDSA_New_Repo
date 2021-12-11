@@ -1,6 +1,10 @@
-﻿
-@page "/"
+﻿@page "/"
 @inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO;
+@* @attribute [Authorize] *@
+@inject HttpClient Http
 
 <PageTitle>TheStart</PageTitle>
 
@@ -21,6 +25,8 @@
 @code {
     private string[]? tagList;
 
+
+    private ProjectPreviewDTO[]? projectsList;
     protected override async Task OnInitializedAsync()
     {
         try
