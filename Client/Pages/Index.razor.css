@@ -5,4 +5,25 @@
 .center {
     justify-content: center;
     text-align: center;
+    padding-bottom: 10px;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10pt;
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+hr.rounded {
+    border-top: 8px solid #bbb;
+    border-radius: 5px;
+}
+
+
+@media only screen and (max-width: 950px) {
+    .container {
+      width: 100%;
+    }
 }

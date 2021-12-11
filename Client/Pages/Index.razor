@@ -1,5 +1,43 @@
 ﻿
 @page "/"
+@inject NavigationManager NavigationManager
+
 <PageTitle>TheStart</PageTitle>
 
 <SearchBar />
+
+<div class = "center vertical">
+    <div class = "container">
+        <h3>Tags:</h3>
+        <hr class="rounded">
+        <div class = "tagcontainer">
+            @foreach (var tag in tagList) {
+                 <button class = "tagBtn" @onclick="@(() => goToTag())"> @tag </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string[]? tagList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    private void goToTag(string tag)
+    {
+        var uri = $"{NavigationManager.BaseUri}project/tag/{tag}";
+        NavigationManager.NavigateTo(uri);
+    }
+
+
+}
