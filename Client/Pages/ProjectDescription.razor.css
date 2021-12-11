@@ -26,6 +26,10 @@ textarea{
     place-content: space-around;
 }
 
+.topfiller{
+    height: 25px;
+}
+
 .content_left{
     margin-left: 10%;
     width: 50%;
@@ -46,8 +50,12 @@ h1{
     color: #fff;
 }
 
-p{
-    margin-top: 5%;
+h4{
+    margin-top: 8%;
+}
+
+h5{
+    margin-top: 8%;
 }
 
 .profilePic{
@@ -63,7 +71,15 @@ p{
     height: 175px;
 }
 
-h5{
+.abouttitle{
     margin: 7%;
     float: left;
+}
+
+h6{
+    margin-top: 5%;
+}
+
+.aboutcontainer{
+    margin-left: 5%;
 }

@@ -21,6 +21,7 @@
 
 		<div class="content_left">
 		
+		<div class="topfiller"></div>
 
 		<p>By @project.SupervisorName</p>
 
@@ -33,10 +34,10 @@
 		</textarea>
 		<p></p>
 
-		<h4>Deadline</h4>
+		<h4>Contact information</h4>
 		<p></p>
 
-		<h4>Contact information</h4>
+		<h5>Deadline</h5>
 		<p></p>
 
 		<AuthorizeView Context="LoggedIn">
@@ -54,6 +55,7 @@
 			</AuthorizeView>
 		</Authorized>
 		<NotAuthorized>
+			<div class="filler"></div>
 			<p>Log in to apply for project!</p>
 		</NotAuthorized>
 	</AuthorizeView>
@@ -63,16 +65,22 @@
 	<div class="content_center"></div>
 
 	<div class="content_right">
-		<h5>About</h5>
+		<div class="abouttitle"><h5>About</h5></div>
 		<div class="profilePic"></div>
 		<div class="filler"></div>
 
-		<div class="">
-			<p>Author: </p>
+		<div class="aboutcontainer">
+			<h6>Author: </h6>
+			<p></p>
 
-			<p>Created: </p>
+			<h6>Created: </h6>
+			<p></p>
 
-			<p>Deadline: </p>
+			<h6>Deadline: </h6>
+			<p></p>
+
+			<h6>Bio: </h6>
+			<p></p>
 		</div>
 
 	</div>
