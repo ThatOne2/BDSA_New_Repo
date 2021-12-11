@@ -14,16 +14,54 @@
     width: 60%;
     padding: 10px;
     margin-bottom: 10px;
+    display: block;
 }
 
 hr.rounded {
-    border-top: 8px solid #bbb;
+    border-top: 8px solid grey;
     border-radius: 5px;
+    margin-bottom: 0;
 }
 
+.tagcontainer {
+    align-items: center;
+    display: block;
+    align-content: flex-start;
+}
 
 @media only screen and (max-width: 950px) {
     .container {
       width: 100%;
     }
 } 
+
+.tagBtn {
+    margin-top: 10px;
+    border-radius: 30pt;
+    float: left;
+    background-color:#FF2E3F;
+    color: white;
+    font-weight: bold;
+    border-color: transparent;
+
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+
+    margin-right: 10px;
+}
+
+.tagBtn:hover {
+  color: #FF2E3F;
+  background-color: transparent;
+  
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.tagBtn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
