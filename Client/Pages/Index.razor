@@ -20,10 +20,12 @@
     <p><em>Loading...</em></p>
 } else {
         <div class = "tagcontainer">
+
             @foreach (var tag in tagList) {
                 <button class = "tagBtn" @onclick="@(() => goToTag(@tag))"> @tag </button> 
             }
         </div> }
+
     </div>
 </div>
 

@@ -1,4 +1,5 @@
 using System.Net;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Shared;
 public interface ITaskRepository : IDisposable

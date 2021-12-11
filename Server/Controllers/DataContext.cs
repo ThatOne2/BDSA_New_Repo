@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrialProject.Shared;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server.Controllers
 {
@@ -31,10 +32,10 @@ namespace TrialProject.Server.Controllers
             .HasMany(c => c.Tags);
         }
   
-        // public async Task<IReadOnlyCollection<ProjectPreviewDTO>> ReadAsync() =>
-        // (await _context.Characters
-        //                .Select(c => new CharacterDto(c.Id, c.AlterEgo, c.GivenName, c.Surname))
-        //                .ToListAsync())
-        //                .AsReadOnly();
+        /* public async Task<IReadOnlyCollection<ProjectPreviewDTO>> ReadAsync() =>
+        (await _context.Characters
+                        .Select(c => new CharacterDto(c.Id, c.AlterEgo, c.GivenName, c.Surname))
+                        .ToListAsync())
+                        .AsReadOnly(); */
     }
 }
