@@ -62,22 +62,22 @@
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
-        inputName = (string)changeEvent.Value;
+        inputName = (string)changeEvent.Value!;
     }
 
     private void OnInputDesEvent(ChangeEventArgs changeEvent)
     {
-        inputDes = (string)changeEvent.Value;
+        inputDes = (string)changeEvent.Value!;
     }
 
     private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
     {
-        inputLongDes = (string)changeEvent.Value;
+        inputLongDes = (string)changeEvent.Value!;
     }
 
     private void OnInputTagEvent(Tag tag, ChangeEventArgs changeEvent)
     {
-        var tagChecked = (bool)changeEvent.Value;
+        var tagChecked = (bool)changeEvent.Value!;
         if (tagChecked)
         {
             if (!checkedTags.Contains(tag)) checkedTags.Add(tag);
@@ -100,6 +100,6 @@
 
     private async void NavToList()
     {
-        NavManager.NavigateTo("/allprojects");
+      NavManager.NavigateTo("/allprojects");
     }
 }
