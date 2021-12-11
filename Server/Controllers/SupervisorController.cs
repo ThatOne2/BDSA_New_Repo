@@ -24,7 +24,7 @@ public class SupervisorController : ControllerBase {
 
     [HttpPost]
     public HttpStatusCode CreateSuporvisor( CreateSupervisorDTO s){
-        Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email, Projects = new List<Project>()};
+        Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
 
         try {
         _context.Supervisors.Add(supervisor);

@@ -21,9 +21,14 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public HttpStatusCode CreateProject( CreateProjectDTO p ) {
-        //var s = _context.Supervisors.Find(p.SupervisorID);
-        //if (s == null) { return HttpStatusCode.BadRequest;}
+    public async Task<ActionResult<Project>> CreateProject([FromBody]CreateProjectDTO p) {
+        Console.WriteLine(p.SupervisorEmail);
+      if(p == null ){
+          return BadRequest();
+      }
+      if(p.Tags == null) {
+          return BadRequest();
+      }
 
         var tags = new List<Tag>();
         if (p.Tags != null)
@@ -38,15 +43,24 @@ public class ProjectController : ControllerBase {
             name = p.name,
             longDescription = p.longDescription,
             shortDescription = p.shortDescription,
-            SupervisorID = 1, // TODO: Input proper supervisor id
             Tags = tags,
             ProjectStatus = Status.Ongoing
         };
-
+/* 
+        var s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
+        if (s == null) {
+             Supervisor newSupervisor = new Supervisor {name = s.name, Email = s.Email};
+            _context.Add(newSupervisor);
+            _context.SaveChanges();
+            s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
+        }
+ */
+        project.SupervisorID = 1;
+  
         _context.Projects!.Add(project);
         _context.SaveChanges();
 
-        return HttpStatusCode.Created;
+        return CreatedAtAction("Created project", project,200);
     }
 
 
@@ -204,51 +218,6 @@ public class ProjectController : ControllerBase {
             return null!;
         } 
     }
-
-
-/* 
-       //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-   [HttpGet("supervisor/{supervisorID}")]
-    public  IEnumerable<ProjectPreviewDTO> ReadAllProjectsPostedBySupervisor(int supervisorID){
-          var list = new List<ProjectPreviewDTO>();
-             foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
-                                                                                p => p.SupervisorID,
-                                                                                ss => ss.ID,
-                                                                                (p,ss) => new {
-                                                                                    Supervisor = ss.name,
-                                                                                    supervisorID = ss.ID,
-                                                                                    shortDesc = p.shortDescription,
-                                                                                    ID = p.ID,
-                                                                                    Tags = p.Tags,
-                                                                                    Name = p.name
-                                                                                }).Where(x => x.supervisorID == supervisorID))
-            {
-
-                var tagList = new List<string>();
-                foreach (var t in p.Tags!) {
-                    tagList.Add(t.Name!);
-                }
-
-                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
-                list.Add(ProjDTO);
-            }
-            if (list.Any())
-            {
-                return list.ToArray();
-            }
-            else
-            {
-                return null!;
-            } 
-    }  */
-
-
-     
-/*     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
-    [HttpGet]
-    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByDescription(string word){
-        return null;
-    } */
 
 
     //=============================================

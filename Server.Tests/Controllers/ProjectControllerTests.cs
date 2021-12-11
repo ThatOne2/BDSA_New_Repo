@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrialProject.Server.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Server.Tests.Controllers;
@@ -94,14 +95,16 @@ public class ProjectControllerTests
                                         Supervisor = "",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<string> { "Tag1" }
+                                        Tags = new List<TagsEnums> { TagsEnums.Programming }
                                     };
        
        //Act
-       var result = repo.CreateProject(Project2);
+       var result = repo.CreateProject(Project2).IsFaulted;
        
        //Assert
-       Assert.Equal(result, System.Net.HttpStatusCode.BadRequest);
+
+     
+       Assert.True(result);
     }
 
     [Fact]
@@ -119,7 +122,7 @@ public class ProjectControllerTests
                                         Supervisor = "Frederik Muspelheim",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<string> { "Tag1" }
+                                        Tags = new List<TagsEnums> { TagsEnums.Programming }
                                     };
        
        //Act
@@ -131,6 +134,6 @@ public class ProjectControllerTests
        var result = repo.CreateProject(Project2);
        
        //Assert
-       Assert.Equal(result, System.Net.HttpStatusCode.Accepted);
+       Assert.True(result.IsCompletedSuccessfully);
     }
 }
