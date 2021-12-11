@@ -17,10 +17,6 @@
     display: grid;
 }
 
-.titledivider{
-    align-content: center;
-}
-
 hr.rounded {
     border-top: 8px solid grey;
     border-radius: 5px;
@@ -28,7 +24,7 @@ hr.rounded {
 }
 
 .tagcontainer {
-    align-content: flex-start;
+    align-items: center;
 }
 
 @media only screen and (max-width: 950px) {
@@ -40,7 +36,6 @@ hr.rounded {
 .tagBtn {
     margin-top: 10px;
     border-radius: 30pt;
-    float: left;
     background-color:#FF2E3F;
     color: white;
     font-weight: bold;
