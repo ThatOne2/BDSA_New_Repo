@@ -59,6 +59,9 @@ else
         NavManager.NavigateTo("/projects/new");
     }
 
+    [Parameter]
+    public string? Text { get; set; }
+
     private ProjectPreviewDTO[]? projectsList;
 
     protected override async Task OnInitializedAsync()
