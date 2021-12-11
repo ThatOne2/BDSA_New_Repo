@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
         [Required]
         [MaxLength(50)]
-        public string Name {get; set;}
+        public string? Name {get; set;}
 
-        public ICollection<Project> Projects {get; set;} 
+        public ICollection<Project>? Projects {get; set;} 
         
     }

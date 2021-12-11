@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Shared\TrialProject.Shared.csproj" />
     <ProjectReference Include="..\Server\TrialProject.Server.csproj" />
     <ProjectReference Include="..\Server\Server.csproj" />
+    <ProjectReference Include="..\Server\Controllers" />
   </ItemGroup>
 
   <ItemGroup>

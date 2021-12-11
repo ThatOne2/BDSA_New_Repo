@@ -1,0 +1,60 @@
+@page "/project"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+@using System.Collections.Generic
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Project</PageTitle>
+
+<SearchBar />
+
+<div class = "center">
+    <div class = "resultPane">
+        @foreach (var proj in DTOs)
+        {
+            <div class = "projectContainer white">
+                <div class = "projectContainerLeft">
+                        <div class = "pictureWannabe"></div>
+                        <div class = "text">
+                            <p>@proj.SupervisorName</p>
+                        </div>
+                    </div>
+                    <div class = "projectContainerRight">
+                        <div class = "centerText">
+                            <h2>@proj.name</h2>
+                        </div>
+                        <p>@proj.shortDescription</p>
+                        <div class = "tagBox">
+                        @foreach (var tag in proj.Tags)
+                        {
+                            <div class = "tag">
+                                <p>@tag</p>
+                            </div>
+                        }
+                    </div>
+                    <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private ProjectPreviewDTO[]? DTOs;
+
+    private void ViewProj(ProjectPreviewDTO project)
+    {
+        var uri = $"{NavigationManager.BaseUri}project/{project.ID}";
+
+        NavigationManager.NavigateTo(uri);
+    }
+    protected override async Task OnInitializedAsync()
+    {   
+        var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("api/project");
+    }
+}

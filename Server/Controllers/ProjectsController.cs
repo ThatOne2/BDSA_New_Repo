@@ -1,9 +1,10 @@
 using System.Net;
- using TrialProject.Shared;
+using TrialProject.Shared;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using TrialProject.Shared.DTO;
 
-namespace Server;
+namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -13,14 +14,14 @@ public class ProjectController : ControllerBase {
     private readonly DataContext _context;
     private readonly ILogger<ProjectController> _logger;
 
-    public ProjectController(ILogger<ProjectController> logger, Server.DataContext context)
+    public ProjectController(ILogger<ProjectController> logger, Controllers.DataContext context)
     {
         _logger = logger;
         _context = context;
     }
 
     [HttpPost]
-    public HttpStatusCode CreateProject(TrialProject.Shared.DTO.CreateProjectDTO  p) {
+    public HttpStatusCode CreateProject( CreateProjectDTO  p) {
         var s = _context.Supervisors.Find(p.SupervisorID);
 
         if (s == null) { return HttpStatusCode.BadRequest;}
@@ -39,15 +40,16 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("{id}")]
-    public async Task<TrialProject.Shared.DTO.ProjectPreviewDTO> ReadPreviewProjectById(int id) {
+    public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
            
-            var p = _context.Projects.Find(id);
+            var p = await _context.Projects.FindAsync(id);
 
-            if(p.ID == null) {
-                return null;
-            }
+            var tagList = new List<string>();
+                foreach (var t in p.Tags) {
+                    tagList.Add(t.Name);
+                }
             
-            var DTOProject = new TrialProject.Shared.DTO.ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = p.Tags};
+            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
             return DTOProject;
             
         
@@ -55,48 +57,65 @@ public class ProjectController : ControllerBase {
 
   /*    //Returns a single project by ID
     [HttpGet]
-    public Task<TrialProject.Shared.DTO.ProjectDescDTO> ReadDescProjectById(int projectId){
+    public Task< ProjectDescDTO> ReadDescProjectById(int projectId){
         return null;
     } */
 
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
-    public async Task<IReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>> GetAllProjects() {
-        var list = new List<TrialProject.Shared.DTO.ProjectPreviewDTO>();
-            await foreach (var p in _context.Projects)
+    public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
+           /*  var proj =  from pr in _context.Projects
+                        join su in _context.Supervisors on pr.SupervisorID equals su.ID
+                        select new {pr.ID, su.name}; */
+
+
+        var list = new List< ProjectPreviewDTO>();
+             foreach (var p in _context.Projects.Include(tag => tag.Tags).Join(_context.Supervisors,
+                                                                                p => p.SupervisorID,
+                                                                                ss => ss.ID,
+                                                                                (p,ss) => new {
+                                                                                    Supervisor = ss.name,
+                                                                                    shortDesc = p.shortDescription,
+                                                                                    ID = p.ID,
+                                                                                    Tags = p.Tags,
+                                                                                    Name = p.name
+                                                                                }))
             {
-                //int sID = p.SupervisorID;
-                //var superV = _context.Supervisors.Find(sID);
-                var ProjDTO = new TrialProject.Shared.DTO.ProjectPreviewDTO{/* SupervisorName = superV.name, */ name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = p.Tags};
+                 Console.WriteLine(p.Supervisor);
+                var tagList = new List<string>();
+                foreach (var t in p.Tags) {
+                    tagList.Add(t.Name);
+                }
+
+                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
                 list.Add(ProjDTO);
             }
-
             if (list.Any())
             {
-                return new ReadOnlyCollection<TrialProject.Shared.DTO.ProjectPreviewDTO>(list);
+                return list.ToArray();
             }
             else
             {
                 return null;
-            }
+            } 
     }
     
 
   /*    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
      [HttpGet]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadAllProjectsPostedBySupervisor(int supervisorID){
         return null;
     } */
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByTag(string t){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByTag(string t){
         return null;
     }
      
 /*     //Returns a list of projects that matches the given word with the short description  (Maybe using  yield return?)
     [HttpGet]
-    public IReadOnlyCollection<Task<TrialProject.Shared.DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByDescription(string word){
         return null;
     } */
 

@@ -6,13 +6,13 @@ namespace TrialProject.Shared.DTO
         
         public int ID { get; set; }
 
-        public string name { get; set; }
+        public string? name { get; set; }
 
-        public string SupervisorName { get; set; }
+        public string? SupervisorName { get; set; }
 
-        public string shortDescription { get; set; }
+        public string? shortDescription { get; set; }
         
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<string>? Tags { get; set; }
 
         /* public string ToString()
         {

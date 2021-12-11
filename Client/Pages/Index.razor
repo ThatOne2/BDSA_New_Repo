@@ -1,5 +1,49 @@
-﻿
-@page "/"
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO;
+@* @attribute [Authorize] *@
+@inject HttpClient Http
+
 <PageTitle>TheStart</PageTitle>
 
-<HomepageContent />
+<SearchBar />
+
+<div class = "center vertical">
+    <div class = "container">
+        <h3>Tags:</h3>
+        <hr class="rounded">
+        <div class = "tagcontainer">
+            @foreach (var tag in tagList) {
+                 <button class = "tagBtn" @onclick="@(() => goToTag(@tag))"> @tag </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string[]? tagList;
+
+
+    private ProjectPreviewDTO[]? projectsList;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    private void goToTag(string tag)
+    {
+        var uri = $"{NavigationManager.BaseUri}project/tag/{tag}";
+        NavigationManager.NavigateTo(uri);
+    }
+
+
+}

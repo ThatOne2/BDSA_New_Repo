@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\TrialProject.Client.csproj" />
     <ProjectReference Include="..\Shared\TrialProject.Shared.csproj" />
+    <ProjectReference Include="TrialProject.Shared.DTO" />
   </ItemGroup>
 
   <ItemGroup>
