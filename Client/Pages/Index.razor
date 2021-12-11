@@ -16,7 +16,7 @@
         <hr class="rounded">
         <div class = "tagcontainer">
             @foreach (var tag in tagList) {
-                 <button class = "tagBtn" @onclick="@(() => goToTag())"> @tag </button>
+                 <button class = "tagBtn" @onclick="@(() => goToTag(@tag))"> @tag </button>
             }
         </div>
     </div>
