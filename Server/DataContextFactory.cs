@@ -159,7 +159,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         };
 
         int i = rand.Next(1, 5);
-        while(project.Tags.Count > i){
+        while(project.Tags!.Count > i){
             Tag tag = new Tag{ Name = tags[rand.Next(0, tags.Count - 1)] };
             if(!project.Tags.Contains(tag)){
                 project.Tags.Add(tag);

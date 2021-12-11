@@ -45,8 +45,8 @@ public class ProjectController : ControllerBase {
             var p = await _context.Projects.FindAsync(id);
 
             var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
+                foreach (var t in p!.Tags!) {
+                    tagList.Add(t.Name!);
                 }
             
             var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
@@ -83,8 +83,8 @@ public class ProjectController : ControllerBase {
             {
                  Console.WriteLine(p.Supervisor);
                 var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
+                foreach (var t in p.Tags!) {
+                    tagList.Add(t.Name!);
                 }
 
                 var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
@@ -96,7 +96,7 @@ public class ProjectController : ControllerBase {
             }
             else
             {
-                return null;
+                return null!;
             } 
     }
     
@@ -109,7 +109,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByTag(string t){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>>? ReadProjectListByTag(string t){
         return null;
     }
      

@@ -33,7 +33,7 @@ public class StudentsController : ControllerBase {
     [HttpGet("{id}")]
     public async Task< StudentDescDTO> ReadStudentDEscById(int id){
         
-        var s = new  StudentDescDTO{ID = _context.Students.Find(id).ID, name = _context.Students.Find(id).name, Email = _context.Students.Find(id).Email};
+        var s = new  StudentDescDTO{ID = _context.Students.Find(id)!.ID, name = _context.Students.Find(id)!.name, Email = _context.Students.Find(id)!.Email};
         return s;
     }
 
