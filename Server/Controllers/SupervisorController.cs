@@ -22,7 +22,7 @@ public class SupervisorController : ControllerBase {
 
 
     [HttpPost]
-    public HttpStatusCode CreateSuporvisor( CreateSupervisorDTO s){
+    public HttpStatusCode CreateSupervisor( CreateSupervisorDTO s){
           return HttpStatusCode.NotFound;
       }
 
@@ -39,13 +39,13 @@ public class SupervisorController : ControllerBase {
 
     //Returns a single suporvisor by ID
     [HttpGet("{id}")]
-    public Task< SuperviosPreviewDTO>? ReadSuporvisorPreviewById(int supervisorId){
+    public Task< SuperviosPreviewDTO>? ReadSupervisorPreviewById(int supervisorId){
         return null;
     }
 
     //Returns a single suporvisor by ID'
     [HttpGet("{id}")]
-    public Task< SupervisorDescDTO>? ReadSuporvisorDescById(int supervisorId){
+    public Task< SupervisorDescDTO>? ReadSupervisorDescById(int supervisorId){
         return null;
     }
 
