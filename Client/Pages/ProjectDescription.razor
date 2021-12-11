@@ -11,15 +11,29 @@
 	<p>No project found!</p>
 } else
 {
-	<div>
+
+	<body>
 		<h1>@project.name</h1>
 
 		<p>By @project.SupervisorName</p>
 
+		<h5>Short</h5>
 		<p>@project.shortDescription</p>
 
-		<p>@project.longDescription</p>
-	</div>
+		<h5>Description</h5>
+		<textarea name="longdescription" id="longdescription" cols="30" rows="10">
+			@project.longDescription
+		</textarea>
+		<p></p>
+
+		<h5>Deadline</h5>
+		<p></p>
+
+		<h5>Contact information</h5>
+		<p></p>
+
+	</body>
+	
 
 
 	<AuthorizeView Context="LoggedIn">

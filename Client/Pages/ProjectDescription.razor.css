@@ -1,0 +1,7 @@
+.longdescription{
+    height: 100px;
+    background-color: #fff;
+    border: #fff;
+    resize: none;
+    max-height: 75px;
+}
