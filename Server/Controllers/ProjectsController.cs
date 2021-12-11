@@ -40,19 +40,36 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("{id}")]
-    public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
+    public async Task<IActionResult> ReadDescProjectById(int id) {
            
-            var p = await _context.Projects.FindAsync(id);
-
+            var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors,
+                                                                                p => p.SupervisorID,
+                                                                                ss => ss.ID,
+                                                                                (p,ss) => new {
+                                                                                    Supervisor = ss.name,
+                                                                                    shortDesc = p.shortDescription,
+                                                                                    ID = p.ID,
+                                                                                    Tags = p.Tags,
+                                                                                    Name = p.name,
+                                                                                    LongDesc = p.longDescription,
+                                                                                    Status = p.ProjectStatus
+                                                                                }).Where(x => x.ID == id).FirstOrDefault();
             var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
-                }
+            if (p == null) {
+                return BadRequest();
+            } else {
+                if (p.Tags != null) {
+
+                foreach (var t in p!.Tags!) {
+                    tagList.Add(t.Name!);
+                } 
+            }
             
-            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
-            return DTOProject;
-            
-        
+            var DTOProject = new ProjectDescDTO{ID = p.ID, name = p.Name, shortDescription = p.shortDesc, Tags = tagList, 
+                                                SupervisorName = p.Supervisor, longDescription = p.LongDesc, ProjectStatus = p.Status.ToString()};
+            return Ok(DTOProject);
+
+            }
     }
 
   /*    //Returns a single project by ID
@@ -64,11 +81,6 @@ public class ProjectController : ControllerBase {
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet]
     public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
-           /*  var proj =  from pr in _context.Projects
-                        join su in _context.Supervisors on pr.SupervisorID equals su.ID
-                        select new {pr.ID, su.name}; */
-
-
         var list = new List< ProjectPreviewDTO>();
              foreach (var p in _context.Projects.Include(tag => tag.Tags).Join(_context.Supervisors,
                                                                                 p => p.SupervisorID,

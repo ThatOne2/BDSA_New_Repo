@@ -58,7 +58,7 @@ public class ProjectControllerTests
        
         
         //Act
-        var actual = repo.ReadPreviewProjectById(1).Result;
+        var actual = repo.ReadDescProjectById(1);
 
         //Assert
         Assert.Equal(actual.ToString(), expected.ToString());
@@ -72,7 +72,7 @@ public class ProjectControllerTests
        
         //Act
         var expected = "thing";
-        var proj = repo.ReadPreviewProjectById(-1);
+        var proj = repo.ReadDescProjectById(-1);
        
         //Assert
        Assert.True(proj.IsFaulted);

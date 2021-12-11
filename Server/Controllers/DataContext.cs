@@ -19,7 +19,10 @@ namespace TrialProject.Server.Controllers
             modelBuilder
                 .Entity<Project>()
                 .Property(e => e.ProjectStatus)
-                .HasConversion(new EnumToStringConverter<Status>());
+                .HasConversion( v => v.ToString(),
+                                v => (Status)Enum.Parse(typeof(Status), v));
+
+
             
             modelBuilder.Entity<Project>() 
                 .HasIndex(u => u.shortDescription)
