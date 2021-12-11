@@ -14,7 +14,11 @@
     width: 60%;
     padding: 10px;
     margin-bottom: 10px;
-    display: block;
+    display: grid;
+}
+
+.titledivider{
+    align-content: center;
 }
 
 hr.rounded {
@@ -24,8 +28,6 @@ hr.rounded {
 }
 
 .tagcontainer {
-    align-items: center;
-    display: block;
     align-content: flex-start;
 }
 
