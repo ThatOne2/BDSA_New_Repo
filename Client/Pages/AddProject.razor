@@ -32,9 +32,9 @@
             <div>
                 <label for="ptag">Tags</label>
                 <div>
-                    @foreach (var tag in tags)
+                    @foreach (var tag in tagList)
                     {
-                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.Name<br />
+                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag<br />
                     }
                 </div>
             </div>
@@ -56,9 +56,19 @@
     private string? inputDes = null;
     private string? inputLongDes = null;
     private string? inputTag = null;
-    private List<Tag> tags = new List<Tag>(){new Tag{Name = "Tag 1"}, new Tag{Name = "Tag 2"}};
 
-    private List<Tag> checkedTags = new List<Tag>();
+    private List<string> checkedTags = new List<string>();
+
+    private List<string>? tagList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tagList = Enum.GetValues(typeof(TagsEnums))
+        .Cast<TagsEnums>()
+        .Select(v => v.ToString())
+        .ToList();
+    }
+
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
@@ -75,7 +85,7 @@
         inputLongDes = (string)changeEvent.Value!;
     }
 
-    private void OnInputTagEvent(Tag tag, ChangeEventArgs changeEvent)
+    private void OnInputTagEvent(string tag, ChangeEventArgs changeEvent)
     {
         var tagChecked = (bool)changeEvent.Value!;
         if (tagChecked)
@@ -90,8 +100,9 @@
     private async void addProject() {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+        
 
-        var p1 = new CreateProjectDTO{name = inputName, SupervisorID = 1, shortDescription = inputDes, longDescription = inputLongDes, Tags = tags};
+        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
 
         // Send to database
 

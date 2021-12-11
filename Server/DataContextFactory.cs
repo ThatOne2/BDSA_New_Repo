@@ -36,10 +36,10 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Students', RESEED, 0)");
 
 
-        var Tag1 = new Tag { Name = "Engineering" };
-        var Tag2 = new Tag { Name = "Programming" };
-        var Tag3 = new Tag { Name = "Security" };
-        var Tag4 = new Tag { Name = "Database" };
+        var Tag1 = new Tag { Name = TagsEnums.Engineering.ToString() };
+        var Tag2 = new Tag { Name = TagsEnums.Programming.ToString() };
+        var Tag3 = new Tag { Name = TagsEnums.Database.ToString() };
+        var Tag4 = new Tag { Name = TagsEnums.Security.ToString() };
 
         
         var Project1 = new Project {    name = "Photoscanning Thesis", 
