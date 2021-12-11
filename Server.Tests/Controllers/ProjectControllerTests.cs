@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrialProject.Server.Controllers;
+using System;
 
 namespace Server.Tests.Controllers;
 
@@ -54,7 +55,13 @@ public class ProjectControllerTests
         
          var Tag1 = new Tag { Name = "fun" };
         
-        var expected = new ProjectPreviewDTO{ID = 1, name = "Thesis", Tags =  new List<string> { "fun" }, shortDescription = "This is a project", SupervisorName = null};
+        var expected = new ProjectPreviewDTO{
+            ID = 1, 
+            name = "Thesis", 
+            Tags =  new List<string> { "fun" }, 
+            shortDescription = "This is a project", 
+            SupervisorName = null
+        };
        
         
         //Act
@@ -76,5 +83,54 @@ public class ProjectControllerTests
        
         //Assert
        Assert.True(proj.IsFaulted);
+    }
+
+    [Fact]
+    public void Create_Project_Without_Supervisor_returns_bad_request()
+    {
+       //Arrange
+       var Project2 = new CreateProjectDTO {   
+                                        name = "Projecto", 
+                                        Supervisor = "",
+                                        shortDescription = "This is a test project",
+                                        longDescription = "A very testy project",
+                                        Tags = new List<string> { "Tag1" }
+                                    };
+       
+       //Act
+       var result = repo.CreateProject(Project2);
+       
+       //Assert
+       Assert.Equal(result, System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public void Create_Project_with_existing_supervisor_returns_accepted()
+    {
+       //Arrange
+       var Supervisor1 = new Supervisor    {
+                                                ID = 1,
+                                                name = "Frederik Muspelheim",
+                                                Email = "asdfyterqwerhjgdf@gmail.com"
+                                            };
+       var Tag2 = new Tag { Name = "new" };
+       var Project2 = new CreateProjectDTO {   
+                                        name = "Projecto", 
+                                        Supervisor = "Frederik Muspelheim",
+                                        shortDescription = "This is a test project",
+                                        longDescription = "A very testy project",
+                                        Tags = new List<string> { "Tag1" }
+                                    };
+       
+       //Act
+       try{
+       context.Supervisors.Add(Supervisor1);
+       } catch (Exception e){
+           Console.WriteLine(e.Message);
+       }
+       var result = repo.CreateProject(Project2);
+       
+       //Assert
+       Assert.Equal(result, System.Net.HttpStatusCode.Accepted);
     }
 }
