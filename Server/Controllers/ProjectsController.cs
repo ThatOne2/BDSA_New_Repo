@@ -28,7 +28,7 @@ public class ProjectController : ControllerBase {
 
         Project project = new Project {name = p.name, longDescription = p.longDescription, shortDescription = p.shortDescription,/*  SupervisorID = s.ID, */ };
 
-        _context.Projects.Add(project);
+        _context.Projects!.Add(project);
         _context.SaveChanges();
 
         return HttpStatusCode.Created;
@@ -42,7 +42,7 @@ public class ProjectController : ControllerBase {
     [HttpGet("{id}")]
     public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
            
-            var p = await _context.Projects.FindAsync(id);
+            var p = await _context.Projects!.FindAsync(id);
 
             var tagList = new List<string>();
                 foreach (var t in p!.Tags!) {
@@ -70,7 +70,7 @@ public class ProjectController : ControllerBase {
 
 
         var list = new List< ProjectPreviewDTO>();
-             foreach (var p in _context.Projects.Include(tag => tag.Tags).Join(_context.Supervisors,
+             foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
                                                                                 p => p.SupervisorID,
                                                                                 ss => ss.ID,
                                                                                 (p,ss) => new {
