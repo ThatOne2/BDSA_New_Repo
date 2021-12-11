@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using TrialProject.Shared;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server;
 public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataContext>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using System.Text.Json.Serialization;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Client
 {
