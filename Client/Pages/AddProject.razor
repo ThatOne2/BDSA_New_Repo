@@ -13,37 +13,45 @@
 <h1>New Project </h1>
 <AuthorizeView Roles="supervisor">
     <Authorized>
-        <div class="PostProject">
+        <EditForm class="PostProject" Model="@projDTO" OnValidSubmit="addProject" Context="ProjForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
             <div>
                 <label for="pname">Project Name</label>
-                <input type="text" id="pname" name="projname" placeholder="Project name.." @bind="@inputName" @oninput="OnInputNameEvent">
+                <input type="text" id="pname" name="projname" placeholder="Project name.." @bind-value="@projDTO.name">
             </div>
 
             <div>
                 <label for="pdes">Short Project Description</label>
-                <input type="text" id="pdes" name="projdes" placeholder="Short description to catch interest.."@bind="@inputDes" @oninput="OnInputDesEvent">
+                <input type="text" id="pdes" name="projdes" placeholder="Short description to catch interest.." @bind-value="@projDTO.shortDescription">
             </div>
 
             <div class="wFull">
                 <label for="pldes">Project Description</label>
-                <!--input type="text" id="pldes" name="projlongdes" placeholder="Project description.."@bind="@inputLongDes" @oninput="OnInputLongDesEvent"-->
-                <textarea id="pldes" name="projlongdes" class="pDescIn" placeholder="Project description.."@bind="@inputLongDes" /><!--@oninput="OnInputLongDesEvent"/-->
+                <textarea id="pldes" name="projlongdes" class="pDescIn" placeholder="Project description.." @bind="@projDTO.longDescription" @bind:event="oninput"/>
             </div>
 
             <div>
                 <label for="ptag">Tags</label>
                 <div>
-                    @foreach (var tag in tagList!)
+                    @if (tagList != null)
                     {
-                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.ToString()<br />
+                        @foreach (var tag in tagList!)
+                        {
+                            <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.ToString()<br />
+                        }
+                    } else
+                    {
+                        <p>Failed to load tags</p>
                     }
+                    
                 </div>
             </div>
 
             
-            <button class="OurButton" @onclick="addProject">Post Project</button>
+            <button type="submit" class="OurButton">Post Project</button>
             <button class="OurButton" @onclick="NavToList">Cancel</button>
-        </div>
+        </EditForm>
     </Authorized>
     <NotAuthorized>
         <p>You are not authorized to post projects</p>
@@ -52,11 +60,9 @@
 
 
 @code {
-    private string? inputName = null;
-    private string? inputDes = null;
-    private string? inputLongDes = null;
+    private System.Security.Claims.ClaimsPrincipal? user;
 
-    private List<TagsEnums> checkedTags = new List<TagsEnums>();
+    private CreateProjectDTO projDTO = new CreateProjectDTO();
 
     private List<TagsEnums>? tagList;
 
@@ -69,57 +75,37 @@
         .ToList();
         */
 
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+
+        projDTO.Supervisor = user.Identity!.Name;
+
         tagList = Enum.GetValues(typeof(TagsEnums))
         .Cast<TagsEnums>()
         .ToList();
-
-        // TODO: Find where to put await
-        await Task.FromResult(0);
-    }
-
-
-    private void OnInputNameEvent(ChangeEventArgs changeEvent)
-    {
-        inputName = (string)changeEvent.Value!;
-    }
-
-    private void OnInputDesEvent(ChangeEventArgs changeEvent)
-    {
-        inputDes = (string)changeEvent.Value!;
-    }
-
-    private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
-    {
-        inputLongDes = (string)changeEvent.Value!;
     }
 
     private void OnInputTagEvent(TagsEnums tag, ChangeEventArgs changeEvent)
     {
         var tagChecked = (bool)changeEvent.Value!;
+
         if (tagChecked)
         {
-            if (!checkedTags.Contains(tag)) checkedTags.Add(tag);
-        } else
+            if (projDTO.Tags == null) projDTO.Tags = new List<TagsEnums>();
+            if (!projDTO.Tags.Contains(tag)) projDTO.Tags.Add(tag);
+
+        } else if (projDTO.Tags != null)
         {
-            if (checkedTags.Contains(tag)) checkedTags.Remove(tag);
+            if (!projDTO.Tags.Contains(tag)) projDTO.Tags.Remove(tag);
+            if (projDTO.Tags.Count == 0) projDTO.Tags = null;
         }
     }
 
     private async void addProject() {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        var p1 = new CreateProjectDTO { 
-            name = inputName, 
-            Supervisor = user.Identity!.Name, 
-            shortDescription = inputDes, 
-            longDescription = inputLongDes, 
-            Tags = checkedTags
-        };
 
         // Send to database
         try {
-            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", p1);
+            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
             
             if (ans.IsSuccessStatusCode) {
                 NavToList();

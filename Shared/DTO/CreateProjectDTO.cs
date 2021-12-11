@@ -13,10 +13,10 @@ namespace TrialProject.Shared.DTO
         [MaxLength(50)]
         public string? Supervisor { get; set; }
 
-        [Required(ErrorMessage = "Description is required")]
+        [Required(ErrorMessage = "Short description is required")]
         public string? shortDescription { get; set; }
 
-        [Required(ErrorMessage = "Description is required")]
+        [Required(ErrorMessage = "Project description is required")]
         public string? longDescription { get; set; }
 
         [Required(ErrorMessage = "A least one tag required")]
