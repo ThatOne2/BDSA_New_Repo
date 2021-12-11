@@ -1,4 +1,4 @@
-﻿@page "/projects/{id:int}"
+﻿@page "/project/{id:int}"
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
@@ -82,13 +82,13 @@
 	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Cool ass titile", SupervisorName = "Mr. Bean", shortDescription = "This is the short description", 
 	longDescription = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vestibulum ante ac congue sodales. Pellentesque lacinia ligula ac nunc eleifend scelerisque. Sed mollis arcu in leo mollis pellentesque. Vivamus sit amet nibh vel justo ultricies efficitur at vitae massa. Vivamus et lacinia ipsum. Nam pretium tempus lacinia. Donec vestibulum neque sit amet leo lobortis, quis elementum sem iaculis. Sed vulputate tellus in ex volutpat blandit. Suspendisse velit leo, posuere at bibendum non, pharetra eget velit.
 
-Sed quis tellus fermentum ex dignissim cursus sit amet ut sem. Duis porttitor odio at erat dignissim, vel elementum urna dapibus. In ac tincidunt nulla. Quisque vitae ex nulla. Donec congue blandit consequat. Curabitur diam ligula, laoreet vitae urna sit amet, condimentum bibendum mi. Donec felis mi, facilisis vel mollis sit amet, tristique sit amet mi. Nullam feugiat laoreet leo vitae pellentesque. Proin sit amet vulputate massa, nec consequat felis.
+	Sed quis tellus fermentum ex dignissim cursus sit amet ut sem. Duis porttitor odio at erat dignissim, vel elementum urna dapibus. In ac tincidunt nulla. Quisque vitae ex nulla. Donec congue blandit consequat. Curabitur diam ligula, laoreet vitae urna sit amet, condimentum bibendum mi. Donec felis mi, facilisis vel mollis sit amet, tristique sit amet mi. Nullam feugiat laoreet leo vitae pellentesque. Proin sit amet vulputate massa, nec consequat felis.
 
-Cras tempor imperdiet cursus. Integer in ipsum in massa finibus ornare ut eu ex. Suspendisse volutpat tempus eleifend. Sed rutrum justo et fringilla sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut auctor at mi quis lobortis. Aenean vel tempus tellus, nec maximus urna. Pellentesque ac metus dictum, efficitur arcu in, feugiat est. Mauris efficitur mi in molestie posuere. Suspendisse potenti.
+	Cras tempor imperdiet cursus. Integer in ipsum in massa finibus ornare ut eu ex. Suspendisse volutpat tempus eleifend. Sed rutrum justo et fringilla sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut auctor at mi quis lobortis. Aenean vel tempus tellus, nec maximus urna. Pellentesque ac metus dictum, efficitur arcu in, feugiat est. Mauris efficitur mi in molestie posuere. Suspendisse potenti.
 
-Integer sodales felis nec gravida mattis. Phasellus elementum porta felis eu cursus. Nam ultrices tincidunt libero, nec euismod felis consequat sit amet. Phasellus scelerisque metus sit amet risus ultricies, vitae auctor dui feugiat. Duis non ligula quis erat blandit sollicitudin. Quisque efficitur nunc eget odio rhoncus, at iaculis mauris lacinia. In hac habitasse platea dictumst.
+	Integer sodales felis nec gravida mattis. Phasellus elementum porta felis eu cursus. Nam ultrices tincidunt libero, nec euismod felis consequat sit amet. Phasellus scelerisque metus sit amet risus ultricies, vitae auctor dui feugiat. Duis non ligula quis erat blandit sollicitudin. Quisque efficitur nunc eget odio rhoncus, at iaculis mauris lacinia. In hac habitasse platea dictumst.
 
-Duis vel leo diam. Phasellus at magna tincidunt, gravida purus in, vehicula magna. Mauris a ex ut tellus accumsan congue. Sed auctor tortor eu velit sollicitudin elementum id ut massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas tincidunt placerat lacus id feugiat. Ut eget porta lacus. Duis posuere non risus scelerisque cursus.
+	Duis vel leo diam. Phasellus at magna tincidunt, gravida purus in, vehicula magna. Mauris a ex ut tellus accumsan congue. Sed auctor tortor eu velit sollicitudin elementum id ut massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas tincidunt placerat lacus id feugiat. Ut eget porta lacus. Duis posuere non risus scelerisque cursus.
 	"};
 
 	protected override async Task OnInitializedAsync()
