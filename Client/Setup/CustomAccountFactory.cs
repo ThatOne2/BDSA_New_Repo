@@ -16,7 +16,7 @@ namespace TrialProject.Client
             RemoteAuthenticationUserOptions options)
         {
             var initialUser = await base.CreateUserAsync(account, options);
-            if (initialUser.Identity.IsAuthenticated)
+            if (initialUser.Identity!.IsAuthenticated)
             {
                 var userIdentity = (ClaimsIdentity)initialUser.Identity;
 

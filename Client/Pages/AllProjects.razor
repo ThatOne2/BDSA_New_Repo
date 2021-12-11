@@ -35,7 +35,7 @@ else
                     <td>@proj.name</td>
                     <td>@proj.SupervisorName</td>
                     <td>@proj.shortDescription</td>
-                    <td>@foreach (var tag in proj.Tags)
+                    <td>@foreach (var tag in proj.Tags!)
                     {
                         <p>@tag, </p>
                     }</td>

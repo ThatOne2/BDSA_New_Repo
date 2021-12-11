@@ -74,7 +74,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
                                         longDescription = "We're trying to make a proper tutorial on how to use GoLang. Join us!"};
 
       
-        context.Projects.AddRange(
+        context.Projects!.AddRange(
             Project1,
             Project2,
             Project3,
@@ -112,14 +112,14 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
                                             name = "Lars Larsen",
                                             Email = "llarsen@FakeMail.com" };
 
-          context.Supervisors.AddRange(
+          context.Supervisors!.AddRange(
             Supervisor1,
             Supervisor2,
             Supervisor3,
             Supervisor4
         );
 
-        context.Students.AddRange(
+        context.Students!.AddRange(
             Student1,
             Student2,
             Student3
@@ -159,7 +159,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         };
 
         int i = rand.Next(1, 5);
-        while(project.Tags.Count > i){
+        while(project.Tags!.Count > i){
             Tag tag = new Tag{ Name = tags[rand.Next(0, tags.Count - 1)] };
             if(!project.Tags.Contains(tag)){
                 project.Tags.Add(tag);

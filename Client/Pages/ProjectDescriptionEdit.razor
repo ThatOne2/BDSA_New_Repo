@@ -53,13 +53,13 @@
 @code {
 	[Parameter]
 	public int id { get; set; }
-	private string inputLongDes = null;
+	private string inputLongDes = null!;
 
 	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
 	private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
 	{
-		inputLongDes = (string)changeEvent.Value;
+		inputLongDes = (string)changeEvent.Value!;
 	}
 
 
@@ -70,7 +70,7 @@
 			// Get project by ID
 			//var rep = new TaskRepository();
 			//project = rep.ReadProjectById(id);
-			inputLongDes = project.longDescription;
+			inputLongDes = project.longDescription!;
 		}
 		catch
 		{

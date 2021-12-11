@@ -32,7 +32,7 @@
             <div>
                 <label for="ptag">Tags</label>
                 <div>
-                    @foreach (var tag in tagList)
+                    @foreach (var tag in tagList!)
                     {
                         <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag<br />
                     }
@@ -72,22 +72,22 @@
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
-        inputName = (string)changeEvent.Value;
+        inputName = (string)changeEvent.Value!;
     }
 
     private void OnInputDesEvent(ChangeEventArgs changeEvent)
     {
-        inputDes = (string)changeEvent.Value;
+        inputDes = (string)changeEvent.Value!;
     }
 
     private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
     {
-        inputLongDes = (string)changeEvent.Value;
+        inputLongDes = (string)changeEvent.Value!;
     }
 
     private void OnInputTagEvent(string tag, ChangeEventArgs changeEvent)
     {
-        var tagChecked = (bool)changeEvent.Value;
+        var tagChecked = (bool)changeEvent.Value!;
         if (tagChecked)
         {
             if (!checkedTags.Contains(tag)) checkedTags.Add(tag);
@@ -102,7 +102,7 @@
         var user = authState.User;
         
 
-        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
+        var p1 = new CreateProjectDTO{name = inputName, Supervisor = user.Identity!.Name, shortDescription = inputDes, longDescription = inputLongDes, Tags = checkedTags};
 
         // Send to database
 
@@ -111,6 +111,6 @@
 
     private async void NavToList()
     {
-        NavManager.NavigateTo("/allprojects");
+      NavManager.NavigateTo("/allprojects");
     }
 }
