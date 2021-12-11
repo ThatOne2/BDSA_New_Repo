@@ -7,6 +7,7 @@
 @inject NavigationManager NavManager
 
 
+
 <PageTitle>Add Project</PageTitle>
 
 <h1>New Project </h1>
@@ -32,9 +33,9 @@
             <div>
                 <label for="ptag">Tags</label>
                 <div>
-                    @foreach (var tag in tags)
+                    @foreach (var tag in tagList!)
                     {
-                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag.Name<br />
+                        <input type="checkbox" @onchange="eventArgs => { OnInputTagEvent(tag, eventArgs); }" />@tag<br />
                     }
                 </div>
             </div>
@@ -51,36 +52,42 @@
 
 
 @code {
+    private string? inputName = null;
+    private string? inputDes = null;
+    private string? inputLongDes = null;
+    private string? inputTag = null;
 
-    private string inputName = null;
-    private string inputDes = null;
-    private string inputLongDes = null;
-    private string inputTag = null;
-    private List<Tag> tags = new List<Tag>(){
-        new Tag{Name = "Tag 1"}, 
-        new Tag{Name = "Tag 2"}
-    };
+    private List<string> checkedTags = new List<string>();
 
-    private List<Tag> checkedTags = new List<Tag>();
+    private List<string>? tagList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tagList = Enum.GetValues(typeof(TagsEnums))
+        .Cast<TagsEnums>()
+        .Select(v => v.ToString())
+        .ToList();
+    }
+
 
     private void OnInputNameEvent(ChangeEventArgs changeEvent)
     {
-        inputName = (string)changeEvent.Value;
+        inputName = (string)changeEvent.Value!;
     }
 
     private void OnInputDesEvent(ChangeEventArgs changeEvent)
     {
-        inputDes = (string)changeEvent.Value;
+        inputDes = (string)changeEvent.Value!;
     }
 
     private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
     {
-        inputLongDes = (string)changeEvent.Value;
+        inputLongDes = (string)changeEvent.Value!;
     }
 
-    private void OnInputTagEvent(Tag tag, ChangeEventArgs changeEvent)
+    private void OnInputTagEvent(string tag, ChangeEventArgs changeEvent)
     {
-        var tagChecked = (bool)changeEvent.Value;
+        var tagChecked = (bool)changeEvent.Value!;
         if (tagChecked)
         {
             if (!checkedTags.Contains(tag)) checkedTags.Add(tag);
@@ -94,16 +101,13 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        var s = 1;
-
         var p1 = new CreateProjectDTO { 
             name = inputName, 
-            SupervisorID = s, 
+            Supervisor = user.Identity!.Name, 
             shortDescription = inputDes, 
             longDescription = inputLongDes, 
             Tags = checkedTags
         };
-        
 
         // Send to database
         try {
@@ -120,6 +124,6 @@
 
     private async void NavToList()
     {
-        NavManager.NavigateTo("/allprojects");
+      NavManager.NavigateTo("/allprojects");
     }
 }

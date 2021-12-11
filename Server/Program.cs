@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using TrialProject.Server.Controllers;
+using TrialProject.Shared.DTO;
 
 var builder = WebApplication.CreateBuilder(args);
 

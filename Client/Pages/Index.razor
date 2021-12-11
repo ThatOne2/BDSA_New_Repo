@@ -1,5 +1,51 @@
-﻿
-@page "/"
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using TrialProject.Shared
+@using TrialProject.Shared.DTO;
+@using System.Collections.Generic
+@* @attribute [Authorize] *@
+@inject HttpClient Http
+
 <PageTitle>TheStart</PageTitle>
 
 <SearchBar />
+
+<div class = "center vertical">
+    <div class = "container">
+        <h3>Tags:</h3>
+        <hr class="rounded">
+        @if (tagList == null)
+        {
+            <p><em>Loading...</em></p>
+        } else 
+        {
+        <div class = "tagcontainer">
+            @foreach (var tag in tagList) {
+                <button class = "tagBtn" @onclick="@(() => goToTag(@tag))"> @tag </button> 
+            }
+        </div> 
+        }
+
+    </div>
+</div>
+
+@code {
+    private List<string>? tagList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tagList = Enum.GetValues(typeof(TagsEnums))
+        .Cast<TagsEnums>()
+        .Select(v => v.ToString())
+        .ToList();
+    }
+
+    private void goToTag(string tag)
+    {
+        var uri = $"{NavigationManager.BaseUri}project/tag/{tag}";
+        NavigationManager.NavigateTo(uri);
+    }
+
+
+}

@@ -14,7 +14,7 @@ namespace Server.Tests.Controllers;
 public class ProjectControllerTests
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext context;
+       private readonly TrialProject.Server.Controllers.DataContext? context;
 
         public readonly ProjectController repo;
         Tag Tag1 = new Tag { Name = "fun" };
@@ -42,7 +42,7 @@ public class ProjectControllerTests
                                         longDescription = "A very cool project"
                                     };
 
-            context.Projects.Add(Project1);
+            context.Projects!.Add(Project1);
         }
 
 
@@ -58,7 +58,7 @@ public class ProjectControllerTests
        
         
         //Act
-        var actual = repo.ReadPreviewProjectById(1).Result;
+        var actual = repo.ReadDescProjectById(1);
 
         //Assert
         Assert.Equal(actual.ToString(), expected.ToString());
@@ -72,7 +72,7 @@ public class ProjectControllerTests
        
         //Act
         var expected = "thing";
-        var proj = repo.ReadPreviewProjectById(-1);
+        var proj = repo.ReadDescProjectById(-1);
        
         //Assert
        Assert.True(proj.IsFaulted);

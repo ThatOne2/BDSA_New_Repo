@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
 using System.Security.Claims;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Client
 {
@@ -15,7 +16,7 @@ namespace TrialProject.Client
             RemoteAuthenticationUserOptions options)
         {
             var initialUser = await base.CreateUserAsync(account, options);
-            if (initialUser.Identity.IsAuthenticated)
+            if (initialUser.Identity!.IsAuthenticated)
             {
                 var userIdentity = (ClaimsIdentity)initialUser.Identity;
 

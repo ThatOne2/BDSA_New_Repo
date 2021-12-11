@@ -1,20 +1,8 @@
 using System.Net;
- using TrialProject.Shared;
+using TrialProject.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System;  
-using System.Collections.Generic;  
-using System.Linq;  
-using System.Net.Http;  
-using TrialProject.Shared;
-using TrialProject.Server;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using TrialProject.Shared.DTO;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace TrialProject.Server.Controllers;
 
@@ -33,8 +21,7 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public HttpStatusCode CreateProject(CreateProjectDTO p) {
-
+    public HttpStatusCode CreateProject( CreateProjectDTO p ) {
         //var s = _context.Supervisors.Find(p.SupervisorID);
 
         //if (s == null) { return HttpStatusCode.BadRequest;}
@@ -44,11 +31,9 @@ public class ProjectController : ControllerBase {
             longDescription = p.longDescription, 
             shortDescription = p.shortDescription,
             /*  SupervisorID = s.ID, */ 
-            Tags = p.Tags,
-            ProjectStatus = Status.Ongoing
         };
 
-        _context.Projects.Add(project);
+        _context.Projects!.Add(project);
         _context.SaveChanges();
 
         return HttpStatusCode.Created;
@@ -60,23 +45,38 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("{id}")]
-    public async Task<ProjectPreviewDTO> ReadPreviewProjectById(int id) {
+    public async Task<IActionResult> ReadDescProjectById(int id) {
            
-            var p = _context.Projects.Find(id);
 
-            if(p.ID == null) {
-                return null;
+            var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors,
+                                                                                p => p.SupervisorID,
+                                                                                ss => ss.ID,
+                                                                                (p,ss) => new {
+                                                                                    Supervisor = ss.name,
+                                                                                    shortDesc = p.shortDescription,
+                                                                                    ID = p.ID,
+                                                                                    Tags = p.Tags,
+                                                                                    Name = p.name,
+                                                                                    LongDesc = p.longDescription,
+                                                                                    Status = p.ProjectStatus
+                                                                                }).Where(x => x.ID == id).FirstOrDefault();
+            var tagList = new List<string>();
+            if (p == null) {
+                return BadRequest();
+            } else {
+                if (p.Tags != null) {
+
+                foreach (var t in p!.Tags!) {
+                    tagList.Add(t.Name!);
+                } 
             }
 
-            var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
-                }
             
-            var DTOProject = new ProjectPreviewDTO{ID = p.ID, name = p.name, shortDescription = p.shortDescription, Tags = tagList};
-            return DTOProject;
-            
-        
+            var DTOProject = new ProjectDescDTO{ID = p.ID, name = p.Name, shortDescription = p.shortDesc, Tags = tagList, 
+                                                SupervisorName = p.Supervisor, longDescription = p.LongDesc, ProjectStatus = p.Status.ToString()};
+            return Ok(DTOProject);
+
+            }
     }
 
   /*    //Returns a single project by ID
@@ -89,14 +89,24 @@ public class ProjectController : ControllerBase {
     [HttpGet]
     public IEnumerable< ProjectPreviewDTO> GetAllProjects() {
         var list = new List< ProjectPreviewDTO>();
-             foreach (var p in _context.Projects.Include(tag => tag.Tags))
+             foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
+                                                                                p => p.SupervisorID,
+                                                                                ss => ss.ID,
+                                                                                (p,ss) => new {
+                                                                                    Supervisor = ss.name,
+                                                                                    shortDesc = p.shortDescription,
+                                                                                    ID = p.ID,
+                                                                                    Tags = p.Tags,
+                                                                                    Name = p.name
+                                                                                }))
             {
+                 Console.WriteLine(p.Supervisor);
                 var tagList = new List<string>();
-                foreach (var t in p.Tags) {
-                    tagList.Add(t.Name);
+                foreach (var t in p.Tags!) {
+                    tagList.Add(t.Name!);
                 }
 
-                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = "name", name = p.name, shortDescription = p.shortDescription, ID = p.ID, Tags = tagList};
+                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
                 list.Add(ProjDTO);
             }
             if (list.Any())
@@ -105,8 +115,8 @@ public class ProjectController : ControllerBase {
             }
             else
             {
-                return null;
-            }
+                return null!;
+            } 
     }
     
 
@@ -118,7 +128,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IReadOnlyCollection<Task< ProjectPreviewDTO>> ReadProjectListByTag(string t){
+    public IReadOnlyCollection<Task< ProjectPreviewDTO>>? ReadProjectListByTag(string t){
         return null;
     }
      

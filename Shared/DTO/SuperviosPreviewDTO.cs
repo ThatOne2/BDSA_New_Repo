@@ -9,14 +9,14 @@ namespace TrialProject.Shared.DTO
 
         [Required(ErrorMessage = "Supervisor name is required field")]
         [MaxLength(50)]
-        public string name { get; set; }
+        public string? name { get; set; }
 
         [Required(ErrorMessage = "Email required")]
         [EmailAddress]
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        public string ToString()
+        override public string ToString()
         {
             var s = "[ID = " + ID + ", name = " + name;
             if (Email != null) s = s + ", email = " + Email;

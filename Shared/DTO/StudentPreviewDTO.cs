@@ -9,9 +9,9 @@ namespace TrialProject.Shared.DTO
 
         [Required(ErrorMessage = "Student name is required field")]
         [MaxLength(50)]
-        public string name { get; set; }
+        public string? name { get; set; }
 
-        public string ToString()
+        override public string ToString()
         {
             var s = "[ID = " + ID + ", name = " + name + "]";
             return s;

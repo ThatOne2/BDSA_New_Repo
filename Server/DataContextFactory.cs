@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using TrialProject.Shared;
+using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server;
 public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataContext>
@@ -35,10 +36,10 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Students', RESEED, 0)");
 
 
-        var Tag1 = new Tag { Name = "Engineering" };
-        var Tag2 = new Tag { Name = "Programming" };
-        var Tag3 = new Tag { Name = "Security" };
-        var Tag4 = new Tag { Name = "Database" };
+        var Tag1 = new Tag { Name = TagsEnums.Engineering.ToString() };
+        var Tag2 = new Tag { Name = TagsEnums.Programming.ToString() };
+        var Tag3 = new Tag { Name = TagsEnums.Database.ToString() };
+        var Tag4 = new Tag { Name = TagsEnums.Security.ToString() };
 
         
         var Project1 = new Project {    name = "Photoscanning Thesis", 
@@ -73,7 +74,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
                                         longDescription = "We're trying to make a proper tutorial on how to use GoLang. Join us!"};
 
       
-        context.Projects.AddRange(
+        context.Projects!.AddRange(
             Project1,
             Project2,
             Project3,
@@ -111,14 +112,14 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
                                             name = "Lars Larsen",
                                             Email = "llarsen@FakeMail.com" };
 
-          context.Supervisors.AddRange(
+          context.Supervisors!.AddRange(
             Supervisor1,
             Supervisor2,
             Supervisor3,
             Supervisor4
         );
 
-        context.Students.AddRange(
+        context.Students!.AddRange(
             Student1,
             Student2,
             Student3
@@ -158,7 +159,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         };
 
         int i = rand.Next(1, 5);
-        while(project.Tags.Count > i){
+        while(project.Tags!.Count > i){
             Tag tag = new Tag{ Name = tags[rand.Next(0, tags.Count - 1)] };
             if(!project.Tags.Contains(tag)){
                 project.Tags.Add(tag);

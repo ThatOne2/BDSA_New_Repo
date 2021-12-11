@@ -25,6 +25,7 @@ else
                 <th>Project</th>
                 <th>Teacher</th>
                 <th>Discription</th>
+                <th>Tags</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,10 @@ else
                     <td>@proj.name</td>
                     <td>@proj.SupervisorName</td>
                     <td>@proj.shortDescription</td>
+                    <td>@foreach (var tag in proj.Tags!)
+                    {
+                        <p>@tag, </p>
+                    }</td>
                 </tr>
             }
         </tbody>
@@ -49,7 +54,7 @@ else
 
 @code {
 
-    private async void NavToNewProject()
+    private void NavToNewProject()
     {
         NavManager.NavigateTo("/projects/new");
     }

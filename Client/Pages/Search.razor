@@ -15,10 +15,17 @@
 
 <div class = "center">
     <div class = "resultPane">
-        @foreach (var proj in DTOs)
+        @if (DTOs == null)
         {
-            <div class = "projectContainer white">
-                <div class = "projectContainerLeft">
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+
+            @foreach (var proj in DTOs)
+            {
+                <div class = "projectContainer white">
+                    <div class = "projectContainerLeft">
                         <div class = "pictureWannabe"></div>
                         <div class = "text">
                             <p>@proj.SupervisorName</p>
@@ -30,16 +37,17 @@
                         </div>
                         <p>@proj.shortDescription</p>
                         <div class = "tagBox">
-                        @foreach (var tag in proj.Tags)
-                        {
-                            <div class = "tag">
-                                <p>@tag</p>
-                            </div>
-                        }
+                            @foreach (var tag in proj.Tags!)
+                            {
+                                <div class = "tag">
+                                    <p>@tag</p>
+                                </div>
+                            }
+                        </div>
+                        <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
                     </div>
-                    <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
@@ -56,6 +64,13 @@
 
     protected override async Task OnInitializedAsync()
     {   
-        var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("api/project");
+        try
+        {
+            var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("api/project");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
     }
 }
