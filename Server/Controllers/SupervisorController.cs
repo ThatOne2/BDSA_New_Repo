@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using TrialProject.Shared;
 using TrialProject.Shared.DTO;
 
 
@@ -23,7 +24,16 @@ public class SupervisorController : ControllerBase {
 
     [HttpPost]
     public HttpStatusCode CreateSuporvisor( CreateSupervisorDTO s){
-          return HttpStatusCode.NotFound;
+        Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email, Projects = new List<Project>()};
+
+        try {
+        _context.Supervisors.Add(supervisor);
+        _context.SaveChanges();
+        } catch (NullReferenceException e){
+            Console.WriteLine(e.Message);
+        }
+
+        return HttpStatusCode.Created;
       }
 
 
