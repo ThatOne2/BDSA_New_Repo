@@ -103,7 +103,7 @@ public class ProjectController : ControllerBase {
                 }
             }
         }
-            
+        
         var DTOProject = new ProjectDescDTO
         {
             ID = p.ID, 
@@ -114,7 +114,8 @@ public class ProjectController : ControllerBase {
             longDescription = p.LongDesc, 
             ProjectStatus = p.Status
         };
-        return Ok(DTOProject);
+        if (DTOProject != null) return Ok(DTOProject);
+        return BadRequest();
     }
 
 //Ready to be tested

@@ -31,7 +31,7 @@ public interface ITaskRepository : IDisposable
      IReadOnlyCollection<Task<DTO.ProjectPreviewDTO>> ReadProjectListByDescription(string word);
 
     //Returns a single suporvisor by ID
-    Task<DTO.SuperviosPreviewDTO> ReadSuporvisorPreviewById(int supervisorId);
+    Task<DTO.SupervisorPreviewDTO> ReadSuporvisorPreviewById(int supervisorId);
 
     //Returns a single suporvisor by ID
     Task<DTO.SupervisorDescDTO> ReadSuporvisorDescById(int supervisorId);

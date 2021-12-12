@@ -21,7 +21,7 @@ public class StudentsController : ControllerBase {
     }
 
 //Ready to be tested
-    [HttpPost]
+    [HttpPost("api")]
     public async Task<ActionResult<Student>> CreateStudent([FromBody]CreateStudentDTO s){
           if (_context.Students.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
               return StatusCode(250, "User is created");
@@ -46,14 +46,25 @@ public class StudentsController : ControllerBase {
 
     //Returns a single student by ID
     //Might have to change back to Task<IActionResult>
-    [HttpGet("{id}")]
-    public async Task<IActionResult> ReadStudentDEscById(int id){
+    [HttpGet("api/{id}")]
+    public async Task<ActionResult<StudentDescDTO>> ReadStudentDescById(int id){
+        try
+        {
+            // TODO: Find where to put await
+            await Task.FromResult(0);
 
-        // TODO: Find where to put await
-        await Task.FromResult(0);
-
-        var s = new  StudentDescDTO{ID = _context.Students!.Find(id)!.ID, name = _context.Students.Find(id)!.name, Email = _context.Students.Find(id)!.Email};
-        return Ok(s);
+            var s = new StudentDescDTO
+            {
+                ID = _context.Students!.Find(id)!.ID,
+                name = _context.Students.Find(id)!.name,
+                Email = _context.Students.Find(id)!.Email
+            };
+            return Ok(s);
+        }
+        catch (Exception e) { 
+            return BadRequest();
+        }
+        
     }
 
 
@@ -62,10 +73,19 @@ public class StudentsController : ControllerBase {
     //============================================
  
 
-    [HttpDelete]
+    [HttpDelete("api")]
     public HttpStatusCode DeleteStudent(int studentId){
-      return HttpStatusCode.NotFound;
-      }
+        try
+        {
+            _context.Students!.Remove(_context.Students.Single(a => a.ID == studentId));
+            _context.SaveChanges();
+            return HttpStatusCode.OK;
+        }
+        catch (Exception)
+        {
+            return HttpStatusCode.InternalServerError;
+        }
+    }
 
     public void Dispose() {
 

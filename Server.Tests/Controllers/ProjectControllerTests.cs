@@ -28,7 +28,9 @@ public class ProjectControllerTests
         
         private readonly HttpClient client;
 
-        public ProjectControllerTests()
+    
+
+    public ProjectControllerTests()
         {
             var connection = new SqliteConnection("Data Source=:memory:");
             connection.Open();
@@ -39,8 +41,8 @@ public class ProjectControllerTests
 
             var logger = new Mock<ILogger<ProjectController>>();
 
-            Tag Tag1 = new Tag { Name = TagsEnums.Database.ToString() };
-            var Project1 = new Project {   
+        Tag Tag1 = new Tag { Name = TagsEnums.Database.ToString() };
+        var Project1 = new Project {   
                                         ID = 1,
                                         name = "Thesis", 
                                         shortDescription = "This is a project",
@@ -79,25 +81,40 @@ public class ProjectControllerTests
         Assert.IsType<OkObjectResult>(actual.Result);
     } 
     
-  [Fact]
+    [Fact]
     public async Task ReadPreviewProjectById_returns_Project()
     {
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
-        
+
+        /*
         var expected = new ProjectDescDTO{
             ID = 1, 
             name = "Thesis", 
             Tags =  new List<string> { TagsEnums.Database.ToString() }, 
             shortDescription = "This is a project", 
-            SupervisorName = "test"
+            SupervisorName = "Test Testson"
         };
-        
+        */
+
+        var expected = new ProjectDescDTO
+        {
+            ID = 1,
+            name = "Thesis",
+            SupervisorName = "Test Testson",
+            shortDescription = "This is a project",
+            longDescription = "A very cool project",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            ProjectStatus = Status.Ongoing
+        };
+
         //Act
-           var project = controller.ReadDescProjectById(1).Result;
-           
+        var result = controller.ReadDescProjectById(1).Result.Result;
+
 
         //Assert
+        var oor = Assert.IsType<OkObjectResult>(result);
+        var project = Assert.IsType<ProjectDescDTO>(oor.Value);
         Assert.Equal(project.ToString(), expected.ToString());
     } 
 
@@ -111,7 +128,7 @@ public class ProjectControllerTests
         var actual = await controller.ReadDescProjectById(-1);
        
         //Assert
-       Assert.IsType<BadRequestResult>(actual);
+        Assert.IsType<BadRequestResult>(actual.Result);
     }
 
     [Fact]
@@ -152,7 +169,7 @@ public class ProjectControllerTests
        var result = await controller.CreateProject(Project2);
        
        //Assert
-       Assert.IsType<StatusCodeResult>(result);
+       Assert.IsType<StatusCodeResult>(result.Result);
     }
 
     [Fact]
@@ -167,9 +184,9 @@ public class ProjectControllerTests
                                         Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
 
-       var result = controller.CreateProject(Project2).Result;
+       var result = controller.CreateProject(Project2);
        
        //Assert
-       Assert.IsType<CreatedAtActionResult>(result);
+       Assert.IsType<CreatedAtActionResult>(result.Result.Result);
     }
 }

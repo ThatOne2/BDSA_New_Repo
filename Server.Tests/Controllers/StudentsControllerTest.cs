@@ -43,20 +43,16 @@ public class StudentsControllerTest
         }
 
         [Fact]
-    public async Task Student_Reading_Returns_Null()
+    public async Task Read_Student_by_Id_Given_Negative_Returns_Bad_Request()
     {
         //Arrange
         var logger = new Mock<ILogger<StudentsController>>();
 
-
-
         //Act
-        var result = repo.ReadStudentDEscById(-1).IsFaulted;
+        var result = repo.ReadStudentDescById(-1).Result.Result;
 
         //Assert
-        Assert.True(result);
-
-      
+        Assert.IsType<BadRequestResult>(result);
     } 
 
     [Fact]
@@ -67,7 +63,7 @@ public class StudentsControllerTest
         var expected = new StudentDescDTO{ID = 1, name = "Bru", Email = "Mart@Brumail.com"};
 
         //Act
-        var project = repo.ReadStudentDEscById(1).Result as OkObjectResult;
+        var project = repo.ReadStudentDescById(1).Result.Result as OkObjectResult;
         var actual = project.Value;
 
         //Assert

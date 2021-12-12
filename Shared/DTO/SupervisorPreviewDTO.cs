@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TrialProject.Shared.DTO
 {
-	public class SuperviosPreviewDTO
+	public class SupervisorPreviewDTO
 	{
         [Key]
         public int ID { get; set; }
