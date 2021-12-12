@@ -21,9 +21,9 @@ public class SupervisorsController : ControllerBase {
          _context = context;
     }
 
-
+//Ready to be tested
         [HttpPost]
-    public async Task<IActionResult> CreateSupervisor([FromBody]CreateSupervisorDTO s){
+    public async Task<ActionResult<Supervisor>> CreateSupervisor([FromBody]CreateSupervisorDTO s){
           if (_context.Supervisors.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
               return StatusCode(250, "User is created"); 
           } else {
