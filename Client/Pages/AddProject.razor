@@ -53,10 +53,6 @@
             <button type="submit" class="OurButton">Post Project</button>
             <button class="OurButton" @onclick="NavToList">Cancel</button>
         </EditForm>
-  @*    @foreach (var e in email!)
-        {
-             <p>@e.Type = @e.Value</p>
-        }  *@
     </Authorized>
     <NotAuthorized>
         <p>You are not authorized to post projects</p>
@@ -75,12 +71,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        /*
-        tagList = Enum.GetValues(typeof(TagsEnums))
-        .Cast<TagsEnums>()
-        .Select(v => v.ToString())
-        .ToList();
-        */
+     
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
 
@@ -112,6 +103,7 @@
        
         // Send to database
         try {
+            //Don't add /api here
             var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
             
             //if (ans.IsSuccessStatusCode) {

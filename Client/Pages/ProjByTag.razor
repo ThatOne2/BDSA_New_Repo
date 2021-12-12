@@ -1,4 +1,4 @@
-@page "/project/tag/{text}"
+@page "/project/tag/{text?}"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
@@ -7,71 +7,80 @@
 @* @attribute [Authorize] *@
 @inject HttpClient Http
 
-<PageTitle>We all just having the most fun</PageTitle>
-
-<h1>Are you having fun? </h1>
-
-<p>If you're not I'm gonna kill you uwu</p>
+<PageTitle>Results for the tag: @Text </PageTitle>
 
 @if (projectsList == null)
 {
     <p><em>Loading...</em></p>
-}
+} 
 else
 {
-     <table class="table">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <th>Teacher</th>
-                <th>Discription</th>
-                <th>Tags</th>
-            </tr>
-        </thead>
-        <tbody>
+
+<h1>Results for: @Text</h1>
+
+<SearchBar />
+
+<div class = "center">
+    <div class = "resultPane">
+        @if (projectsList == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
             @foreach (var proj in projectsList)
             {
-                <tr>
-                    <td>@proj.name</td>
-                    <td>@proj.SupervisorName</td>
-                    <td>@proj.shortDescription</td>
-                    <td>@foreach (var tag in proj.Tags!)
-                    {
-                        <p>@tag, </p>
-                    }</td>
-                    <td>
-                        <button class="OurButton" @onclick="() => NavToDetails(proj.ID)">View</button>
-                    </td>
-                </tr>
+                <div class = "projectContainer white">
+                    <div class = "projectContainerLeft">
+                        <div class = "pictureWannabe"></div>
+                        <div class = "text">
+                            <p>@proj.SupervisorName</p>
+                        </div>
+                    </div>
+                    <div class = "projectContainerRight">
+                        <div class = "centerText">
+                            <h2>@proj.name</h2>
+                        </div>
+                        <p>@proj.shortDescription</p>
+                        <div class = "tagBox">
+                            @foreach (var tag in proj.Tags!)
+                            {
+                                <button class = "tagBtn" @onclick="@(() => GoToTag(@tag))"> @tag </button>
+                            }
+                        </div>
+                        <button class = "viewProjBtn" @onclick="@(() => ViewProj(proj))"> View </button>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        }
+    </div>
+</div>
 }
 
-<AuthorizeView Roles="supervisor">
-        
-    <Authorized>
-        <button class="OurButton" @onclick="NavToNewProject">Create New</button>
-    </Authorized>
-</AuthorizeView>
-
 @code {
-
-    private void NavToNewProject()
-    {
-        NavManager.NavigateTo("/projects/new");
-    }
-
     [Parameter]
     public string? Text { get; set; }
 
     private ProjectPreviewDTO[]? projectsList;
+    
+    private void ViewProj(ProjectPreviewDTO project)
+    {
+        var uri = $"{NavManager.BaseUri}project/{project.ID}";
+
+        NavManager.NavigateTo(uri);
+    }
+
+    private void GoToTag(string tag)
+    {
+        var uri = $"{NavManager.BaseUri}project/tag/{tag}";
+        NavManager.NavigateTo(uri, true);
+    }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/tag/"+ Text);
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api/tag/"+ Text);
         }
         catch (AccessTokenNotAvailableException exception)
         {

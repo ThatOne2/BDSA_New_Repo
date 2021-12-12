@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using TrialProject.Shared;
 using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server.Controllers;
@@ -21,8 +22,22 @@ public class StudentsController : ControllerBase {
 
 
     [HttpPost]
-    public HttpStatusCode CreateStudent(Controllers.DataContext s){
-          return HttpStatusCode.NotFound;
+    public async Task<IActionResult> CreateStudent([FromBody]CreateStudentDTO s){
+          if (_context.Students.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
+              return StatusCode(250, "User is created");
+          } else {
+            try {
+             Student student = new Student {name = s.name, Email = s.Email};
+            _context.Students.Add(student);
+
+            _context.SaveChanges();
+              return Created("Student creates", student);
+
+            }  catch (Exception e){
+                 Console.WriteLine(e.Message);
+           }
+          }
+          return StatusCode(500);
       }
 
 

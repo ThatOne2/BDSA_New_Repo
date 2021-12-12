@@ -88,7 +88,7 @@ public class StudentsControllerTest
    
 
         //Assert
-      
+        Assert.Equal(1,2);
     } 
 
     

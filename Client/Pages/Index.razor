@@ -4,6 +4,7 @@
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO;
 @using System.Collections.Generic
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @* @attribute [Authorize] *@
 @inject HttpClient Http
 
@@ -30,18 +31,48 @@
     </div>
 </div>
 
+<AuthorizeView >
+  @*   <Authorized>  
+        @foreach (var e in claims!)
+        {
+             <p>@e.Type = @e.Value</p>
+        } 
+    </Authorized> *@
+    <NotAuthorized>
+        <p>You are not authorized to post projects</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+  
+ 
+
 @code {
     private List<string>? tagList;
+    
+    private System.Security.Claims.ClaimsPrincipal? user;
+    IEnumerable<System.Security.Claims.Claim> claims;
+
+    bool UserIsRegistered = false;
+
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+
         tagList = Enum.GetValues(typeof(TagsEnums))
         .Cast<TagsEnums>()
         .Select(v => v.ToString())
         .ToList();
 
+        
         // TODO: Find where to put await
         await Task.FromResult(0);
+
+         if (user.Identity.IsAuthenticated && UserIsRegistered != true) {
+            await CreateUser();
+        } 
+       
     }
 
     private void goToTag(string tag)
@@ -50,5 +81,31 @@
         NavigationManager.NavigateTo(uri);
     }
 
-
+    private async Task CreateUser() {
+       
+            claims = user.Claims;
+            var usertype = claims.Where(x => x.Type == "appRole").Select(y => y.Value).FirstOrDefault();
+            
+            if(usertype.Equals("supervisor")) {
+                try {
+                    var name = user.Identity!.Name;
+                    var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
+                    var superDTO = new CreateSupervisorDTO{name = name, Email = email};
+                    var ans = await Http.PostAsJsonAsync<CreateSupervisorDTO>("Supervisors", superDTO);
+                        UserIsRegistered = true;
+                } catch(Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+        } else {
+                try {
+                    var name = user.Identity!.Name;
+                    var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
+                    var studDTO = new CreateStudentDTO{name = name, Email = email};
+                    var ans = await Http.PostAsJsonAsync<CreateStudentDTO>("Students", studDTO);
+                    UserIsRegistered = true;
+                } catch(Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+        }
+    } 
 }

@@ -13,7 +13,7 @@ public class SupervisorsControllerTest
 
        private readonly TrialProject.Server.Controllers.DataContext context;
 
-        public readonly SupervisorController repo;
+        public readonly SupervisorsController repo;
  
         
 
@@ -26,9 +26,9 @@ public class SupervisorsControllerTest
             var context = new TrialProject.Server.Controllers.DataContext(builder.Options);
             context.Database.EnsureCreated();
 
-            var logger = new Mock<ILogger<SupervisorController>>();
+            var logger = new Mock<ILogger<SupervisorsController>>();
 
-            repo = new SupervisorController(logger.Object, context);
+            repo = new SupervisorsController(logger.Object, context);
 
         }
 
@@ -43,7 +43,7 @@ public class SupervisorsControllerTest
    
 
         //Assert
-      
+        Assert.Equal(1,2);
     } 
 
     

@@ -21,7 +21,7 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public async Task<ActionResult<Project>> CreateProject([FromBody]CreateProjectDTO p) {
+    public async Task<IActionResult> CreateProject([FromBody]CreateProjectDTO p) {
         Console.WriteLine(p.SupervisorEmail);
       if(p == null ){
           return BadRequest();
@@ -39,28 +39,26 @@ public class ProjectController : ControllerBase {
             }
         }
 
-        Project project = new Project {
+        Project project = new Project 
+        {
             name = p.name,
             longDescription = p.longDescription,
             shortDescription = p.shortDescription,
             Tags = tags,
             ProjectStatus = Status.Ongoing
         };
-/* 
+ 
         var s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
         if (s == null) {
-             Supervisor newSupervisor = new Supervisor {name = s.name, Email = s.Email};
-            _context.Add(newSupervisor);
-            _context.SaveChanges();
-            s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
+          return StatusCode(500);
         }
- */
-        project.SupervisorID = 1;
+ 
+        project.SupervisorID = s.ID;
   
         _context.Projects!.Add(project);
         _context.SaveChanges();
 
-        return CreatedAtAction("Created project", project,200);
+        return Created("Created project", project);
     }
 
 
@@ -68,7 +66,7 @@ public class ProjectController : ControllerBase {
 
 
     //Returns a single project by ID
-    [HttpGet("{id}")]
+    [HttpGet("api/{id}")]
     public async Task<IActionResult> ReadDescProjectById(int id) {
 
         // TODO: Find where to put await
@@ -103,18 +101,23 @@ public class ProjectController : ControllerBase {
                 }
             }
         }
-
             
-        var DTOProject = new ProjectDescDTO{ID = p.ID, name = p.Name, shortDescription = p.shortDesc, Tags = tagList, 
-                                            SupervisorName = p.Supervisor, longDescription = p.LongDesc, ProjectStatus = p.Status.ToString()};
+        var DTOProject = new ProjectDescDTO
+        {
+            ID = p.ID, 
+            name = p.Name, 
+            shortDescription = p.shortDesc, 
+            Tags = tagList, 
+            SupervisorName = p.Supervisor, 
+            longDescription = p.LongDesc, 
+            ProjectStatus = p.Status.ToString()
+        };
         return Ok(DTOProject);
-
-        
     }
 
 
     //Returns a list of all projects (Maybe using  yield return?)
-    [HttpGet]
+    [HttpGet("api")]
     public IEnumerable<ProjectPreviewDTO> GetAllProjects() {
         var list = new List< ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
@@ -133,7 +136,14 @@ public class ProjectController : ControllerBase {
                 tagList.Add(t.Name!);
             }
 
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            var ProjDTO = new  ProjectPreviewDTO
+            {
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
@@ -149,7 +159,7 @@ public class ProjectController : ControllerBase {
     
 
    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-   [HttpGet("supervisor/{supervisorID}")]
+   [HttpGet("api/supervisor/{supervisorID}")]
     public  IEnumerable<ProjectPreviewDTO> ReadAllProjectsPostedBySupervisor(int supervisorID){
         var list = new List<ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
@@ -169,7 +179,15 @@ public class ProjectController : ControllerBase {
                 tagList.Add(t.Name!);
             }
 
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            
+            var ProjDTO = new ProjectPreviewDTO
+            {
+                SupervisorName = p.Supervisor,
+                name = p.Name,
+                shortDescription = p.shortDesc,
+                ID = p.ID,
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
@@ -184,7 +202,7 @@ public class ProjectController : ControllerBase {
     } 
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    [HttpGet("tag/{tag}")]
+    [HttpGet("api/tag/{tag}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
         var list = new List<ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
@@ -205,7 +223,57 @@ public class ProjectController : ControllerBase {
                 tagList.Add(ytag.Name!);
             }
                
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            var ProjDTO = new  ProjectPreviewDTO
+            { 
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
+            list.Add(ProjDTO);
+        }
+
+        if (list.Any())
+        {
+            return list.ToArray();
+        }
+        else
+        {
+            return null!;
+        } 
+    }
+
+     [HttpGet("api/search/{s}")]
+    public IEnumerable<ProjectPreviewDTO>? ReadProjectListBySearch(string s){
+        Console.WriteLine(s);
+        var list = new List<ProjectPreviewDTO>();
+        foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
+                                                                        p => p.SupervisorID,
+                                                                        ss => ss.ID,
+                                                                        (p,ss) => new {
+                                                                            Supervisor = ss.name,
+                                                                            supervisorID = ss.ID,
+                                                                            shortDesc = p.shortDescription,
+                                                                            ID = p.ID,
+                                                                            Tags = p.Tags,
+                                                                            Name = p.name
+                                                                        }).Where(x => x.Name.Contains(s)))
+           
+        {
+            var tagList = new List<string>();
+            foreach (var ytag in p.Tags!) {
+                tagList.Add(ytag.Name!);
+            }
+               
+            var ProjDTO = new  ProjectPreviewDTO
+            { 
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
@@ -222,19 +290,19 @@ public class ProjectController : ControllerBase {
 
     //=============================================
 
-    [HttpPut("{id}/{desc}")]
+    [HttpPut("api/{id}/{desc}")]
     public HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription){
           return HttpStatusCode.NotFound;
     }
 
-    [HttpPut("{id}/{status}")]
+    [HttpPut("api/{id}/{status}")]
     public HttpStatusCode UpdateProjectStatus(int projectId, Status s){
          return HttpStatusCode.NotFound;
     }
 
     //============================================
 
-    [HttpDelete("{id}")]
+    [HttpDelete("api/{id}")]
     public HttpStatusCode DeleteProject(int projectId){
           return HttpStatusCode.NotFound;
       }
