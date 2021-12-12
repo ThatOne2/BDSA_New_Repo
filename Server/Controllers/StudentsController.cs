@@ -20,9 +20,9 @@ public class StudentsController : ControllerBase {
          _context = context;
     }
 
-
+//Ready to be tested
     [HttpPost]
-    public async Task<IActionResult> CreateStudent([FromBody]CreateStudentDTO s){
+    public async Task<ActionResult<Student>> CreateStudent([FromBody]CreateStudentDTO s){
           if (_context.Students.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
               return StatusCode(250, "User is created");
           } else {

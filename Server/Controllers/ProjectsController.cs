@@ -20,8 +20,9 @@ public class ProjectController : ControllerBase {
         _context = context;
     }
 
+//Ready to be tested
     [HttpPost]
-    public async Task<IActionResult> CreateProject([FromBody]CreateProjectDTO p) {
+    public async Task<ActionResult<Project>> CreateProject([FromBody]CreateProjectDTO p) {
         Console.WriteLine(p.SupervisorEmail);
       if(p == null ){
           return BadRequest();
@@ -64,10 +65,11 @@ public class ProjectController : ControllerBase {
 
     //===============================================
 
-
+//Ready to be tested
     //Returns a single project by ID
     [HttpGet("api/{id}")]
-    public async Task<IActionResult> ReadDescProjectById(int id) {
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProjectDescDTO))]
+    public async Task<ActionResult<ProjectDescDTO>> ReadDescProjectById(int id) {
 
         // TODO: Find where to put await
         await Task.FromResult(0);
@@ -115,7 +117,7 @@ public class ProjectController : ControllerBase {
         return Ok(DTOProject);
     }
 
-
+//Ready to be tested
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet("api")]
     public IEnumerable<ProjectPreviewDTO> GetAllProjects() {
@@ -157,7 +159,7 @@ public class ProjectController : ControllerBase {
         } 
     }
     
-
+//Ready to be tested
    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
    [HttpGet("api/supervisor/{supervisorID}")]
     public  IEnumerable<ProjectPreviewDTO> ReadAllProjectsPostedBySupervisor(int supervisorID){
@@ -201,6 +203,7 @@ public class ProjectController : ControllerBase {
         } 
     } 
 
+//Ready to be tested
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("api/tag/{tag}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
@@ -244,6 +247,7 @@ public class ProjectController : ControllerBase {
         } 
     }
 
+//Ready to be tested
      [HttpGet("api/search/{s}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListBySearch(string s){
         Console.WriteLine(s);

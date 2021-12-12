@@ -36,7 +36,10 @@ options.UseSqlServer(connectionString));
 
 using var context = new TrialProject.Server.Controllers.DataContext(optionsBuilder.Options);
 
-TrialProject.Server.DataContextFactory.Seed(context);
+if(!context.Projects.Any()) {
+    TrialProject.Server.DataContextFactory.Seed(context);
+}
+
 
 static IConfiguration LoadConfiguration()
 {

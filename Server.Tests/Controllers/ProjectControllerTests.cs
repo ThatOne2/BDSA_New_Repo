@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity;
 using System;
 using System.Net.Http;
+
 using System.Net;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
@@ -61,7 +62,8 @@ public class ProjectControllerTests
             controller = new ProjectController(logger.Object, context);
 
             context.SaveChanges();
-        }
+           
+            }
     
 
     [Fact]
@@ -90,14 +92,13 @@ public class ProjectControllerTests
             shortDescription = "This is a project", 
             SupervisorName = "test"
         };
-       
         
         //Act
-           var project = controller.ReadDescProjectById(1).Result as OkObjectResult;
-           var actual = project.Value;
+           var project = controller.ReadDescProjectById(1).Result;
+           
 
         //Assert
-        Assert.Equal(actual.ToString(), expected.ToString());
+        Assert.Equal(project.ToString(), expected.ToString());
     } 
 
      [Fact]

@@ -21,25 +21,26 @@ public class SupervisorsController : ControllerBase {
          _context = context;
     }
 
-
+//Ready to be tested
         [HttpPost]
-    public async Task<IActionResult> CreateSupervisor([FromBody]CreateSupervisorDTO s){
+    public async Task<ActionResult<Supervisor>> CreateSupervisor([FromBody]CreateSupervisorDTO s){
           if (_context.Supervisors.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
               return StatusCode(250, "User is created"); 
           } else {
-            try {
-             Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
-            _context.Supervisors.Add(supervisor);
 
-            _context.SaveChanges();
-              return Created("Student creates", supervisor);
+            try {
+                Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
+                _context.Supervisors.Add(supervisor);
+
+                _context.SaveChanges();
+                return Created("Student created", supervisor);
               
-            }  catch (Exception e){
-                 Console.WriteLine(e.Message);
-           }
-          }
-          return StatusCode(500);
-      }
+            } catch (Exception e){
+                Console.WriteLine(e.Message);
+            }
+        }
+        return StatusCode(500);
+    }
 
     //===============================================
 
