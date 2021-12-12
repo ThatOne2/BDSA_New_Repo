@@ -49,7 +49,7 @@ public class ProjectController : ControllerBase {
             ProjectStatus = Status.Ongoing
         };
  
-        var s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
+        var s = _context.Supervisors!.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
         if (s == null) {
           return StatusCode(500);
         }

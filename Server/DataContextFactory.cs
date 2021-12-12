@@ -28,8 +28,8 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         context.Database.EnsureCreated();
         context.Database.ExecuteSqlRaw("DELETE dbo.ProjectTag");
         context.Database.ExecuteSqlRaw("DELETE dbo.Tag");
-        context.Database.ExecuteSqlRaw("DELETE dbo.Supervisors");
         context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
+        context.Database.ExecuteSqlRaw("DELETE dbo.Supervisors");
         context.Database.ExecuteSqlRaw("DELETE dbo.Students");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Projects', RESEED, 0)");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Supervisors', RESEED, 0)");
