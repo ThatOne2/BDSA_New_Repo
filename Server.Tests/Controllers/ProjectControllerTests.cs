@@ -65,7 +65,7 @@ public class ProjectControllerTests
     
 
     [Fact]
-    public async Task ReadPreviewProjectById_returns_Project()
+    public async Task ReadPreviewProjectById_returns_OkResponse()
     {
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
@@ -75,6 +75,29 @@ public class ProjectControllerTests
 
         //Assert
         Assert.IsType<OkObjectResult>(actual);
+    } 
+    
+  [Fact]
+    public async Task ReadPreviewProjectById_returns_Project()
+    {
+        //Arrange
+        var logger = new Mock<ILogger<ProjectController>>();
+        
+        var expected = new ProjectDescDTO{
+            ID = 1, 
+            name = "Thesis", 
+            Tags =  new List<string> { TagsEnums.Database.ToString() }, 
+            shortDescription = "This is a project", 
+            SupervisorName = "test"
+        };
+       
+        
+        //Act
+           var project = controller.ReadDescProjectById(1).Result as OkObjectResult;
+           var actual = project.Value;
+
+        //Assert
+        Assert.Equal(actual.ToString(), expected.ToString());
     } 
 
      [Fact]
