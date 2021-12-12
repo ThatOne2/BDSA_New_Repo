@@ -66,7 +66,7 @@
     {   
         try
         {
-            var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("api/project");
+            var DTOs = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("project/search/");
         }
         catch (AccessTokenNotAvailableException exception)
         {

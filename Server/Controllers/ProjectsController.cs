@@ -184,7 +184,7 @@ public class ProjectController : ControllerBase {
     } 
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    [HttpGet("tag/{tag}")]
+    [HttpGet("rawtag/{tag}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
         var list = new List<ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
