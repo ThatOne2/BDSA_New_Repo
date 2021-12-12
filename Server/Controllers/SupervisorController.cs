@@ -9,32 +9,37 @@ namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class SupervisorController : ControllerBase {
+public class SupervisorsController : ControllerBase {
 
 
     private readonly TrialProject.Server.Controllers.DataContext _context;
-     private readonly ILogger<SupervisorController> _logger;
+     private readonly ILogger<SupervisorsController> _logger;
 
-    public SupervisorController(ILogger<SupervisorController> logger, Controllers.DataContext context)
+    public SupervisorsController(ILogger<SupervisorsController> logger, Controllers.DataContext context)
     {
         _logger = logger;
          _context = context;
     }
 
 
-    [HttpPost]
-    public HttpStatusCode CreateSuporvisor( CreateSupervisorDTO s){
-        Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
+        [HttpPost]
+    public async Task<IActionResult> CreateSupervisor([FromBody]CreateSupervisorDTO s){
+          if (_context.Supervisors.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
+              return Conflict(409); 
+          } else {
+            try {
+             Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
+            _context.Supervisors.Add(supervisor);
 
-        try {
-        _context.Supervisors.Add(supervisor);
-        _context.SaveChanges();
-        } catch (NullReferenceException e){
-            Console.WriteLine(e.Message);
-        }
-
-        return HttpStatusCode.Created;
-    }
+            _context.SaveChanges();
+              return Created("Student creates", supervisor);
+              
+            }  catch (Exception e){
+                 Console.WriteLine(e.Message);
+           }
+          }
+          return StatusCode(500);
+      }
 
     //===============================================
 
