@@ -67,6 +67,7 @@ public class ProjectController : ControllerBase {
 
     //Returns a single project by ID
     [HttpGet("api/{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProjectDescDTO))]
     public async Task<IActionResult> ReadDescProjectById(int id) {
 
         // TODO: Find where to put await

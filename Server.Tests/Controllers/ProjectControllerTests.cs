@@ -90,11 +90,11 @@ public class ProjectControllerTests
             shortDescription = "This is a project", 
             SupervisorName = "test"
         };
-       
         
         //Act
            var project = controller.ReadDescProjectById(1).Result as OkObjectResult;
            var actual = project.Value;
+           
 
         //Assert
         Assert.Equal(actual.ToString(), expected.ToString());
