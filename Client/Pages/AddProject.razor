@@ -108,7 +108,7 @@
        
         // Send to database
         try {
-            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
+            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project/api", projDTO);
             
             //if (ans.IsSuccessStatusCode) {
                 NavToList();
