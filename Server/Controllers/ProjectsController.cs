@@ -46,15 +46,12 @@ public class ProjectController : ControllerBase {
             Tags = tags,
             ProjectStatus = Status.Ongoing
         };
-/* 
+ 
         var s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
         if (s == null) {
-             Supervisor newSupervisor = new Supervisor {name = s.name, Email = s.Email};
-            _context.Add(newSupervisor);
-            _context.SaveChanges();
-            s = _context.Supervisors.Where(x => x.name == p.Supervisor || x.Email == p.SupervisorEmail).FirstOrDefault();
+          return StatusCode(500);
         }
- */
+ 
         project.SupervisorID = 1;
   
         _context.Projects!.Add(project);
@@ -103,13 +100,10 @@ public class ProjectController : ControllerBase {
                 }
             }
         }
-
             
         var DTOProject = new ProjectDescDTO{ID = p.ID, name = p.Name, shortDescription = p.shortDesc, Tags = tagList, 
                                             SupervisorName = p.Supervisor, longDescription = p.LongDesc, ProjectStatus = p.Status.ToString()};
         return Ok(DTOProject);
-
-        
     }
 
 
