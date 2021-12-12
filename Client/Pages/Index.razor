@@ -66,8 +66,6 @@
         .ToList();
 
         
-        // TODO: Find where to put await
-        await Task.FromResult(0);
 
          if (user.Identity.IsAuthenticated && UserIsRegistered != true) {
             await CreateUser();
