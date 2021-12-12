@@ -52,7 +52,7 @@ public class ProjectController : ControllerBase {
           return StatusCode(500);
         }
  
-        project.SupervisorID = 1;
+        project.SupervisorID = s.ID;
   
         _context.Projects!.Add(project);
         _context.SaveChanges();

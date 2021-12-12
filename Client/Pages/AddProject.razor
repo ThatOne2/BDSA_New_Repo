@@ -71,12 +71,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        /*
-        tagList = Enum.GetValues(typeof(TagsEnums))
-        .Cast<TagsEnums>()
-        .Select(v => v.ToString())
-        .ToList();
-        */
+     
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
 
@@ -108,7 +103,8 @@
        
         // Send to database
         try {
-            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project/api", projDTO);
+            //Don't add /api here
+            var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
             
             //if (ans.IsSuccessStatusCode) {
                 NavToList();
