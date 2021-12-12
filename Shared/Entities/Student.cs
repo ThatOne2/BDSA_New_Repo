@@ -14,5 +14,13 @@ public class Student : CurrentUser
     [MaxLength(100)]
     public string? Email { get; set; }
 
+    override public string? ToString(){
+        
+            var s = "[ID = " + ID + ", name = " + name;
+            if (Email != null) s = s + ", email = " + Email;
+            s = s + "]";
+            return s;
+        }
+
 
 }

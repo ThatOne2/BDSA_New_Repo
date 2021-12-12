@@ -5,6 +5,9 @@ using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrialProject.Server.Controllers;
+using TrialProject.Shared;
+using TrialProject.Shared.DTO;
+
 
 namespace Server.Tests.Controllers;
 
@@ -30,7 +33,49 @@ public class StudentsControllerTest
 
             repo = new StudentsController(logger.Object, context);
 
+            var Stundent = new Student{ID = 1, name = "Bru", Email = "Mart@Brumail.com"};
+
+            context.Students!.Add(Stundent);
+
+
+
         }
+
+        [Fact]
+    public async Task Student_Reading_Returns_Null()
+    {
+        //Arrange
+        var logger = new Mock<ILogger<StudentsController>>();
+
+
+
+        //Act
+        var result = repo.ReadStudentDEscById(-1).IsFaulted;
+
+        //Assert
+        Assert.True(result);
+
+      
+    } 
+
+    [Fact]
+    public async Task Student_Reading_By_ID(){
+
+        //Arrange
+        var logger = new Mock<ILogger<StudentsController>>();
+        var expected = new StudentDescDTO{ID = 1, name = "Bru", Email = "Mart@Brumail.com"};
+
+        //Act
+        var actual = repo.ReadStudentDEscById(1);
+
+
+        //Assert
+        Assert.True(actual);
+        //Assert.Equal(expected.ToString(), actual.ToString());
+
+    }
+
+
 
 
     [Fact]

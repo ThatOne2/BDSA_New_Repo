@@ -1,7 +1,15 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<RemoteAuthenticatorView Action="@Action" />
+@inject NavigationManager NavigationManager
+
+<RemoteAuthenticatorView Action="@Action" OnLogOutSucceeded ="GoHome" />
 
 @code{
     [Parameter] public string? Action { get; set; }
+
+    public void GoHome(){
+
+        NavigationManager.NavigateTo("/allprojects");
+
+    }
 }

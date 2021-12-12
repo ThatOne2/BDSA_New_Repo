@@ -31,7 +31,7 @@ public class StudentsController : ControllerBase {
 
     //Returns a single student by ID
     [HttpGet("{id}")]
-    public async Task< StudentDescDTO> ReadStudentDEscById(int id){
+    public async Task<StudentDescDTO> ReadStudentDEscById(int id){
 
         // TODO: Find where to put await
         await Task.FromResult(0);
