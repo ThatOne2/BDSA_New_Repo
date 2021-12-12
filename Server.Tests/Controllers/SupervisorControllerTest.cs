@@ -69,7 +69,7 @@ public class SupervisorControllerTest
         };
 
         //Act
-        var result = repo.CreateSupervisor(s).Result;
+        var result = repo.CreateSupervisor(s).Result.Result;
 
         //Assert
         Assert.IsType<CreatedResult>(result);

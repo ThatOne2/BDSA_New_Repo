@@ -21,9 +21,8 @@
 
 			<p>@project.shortDescription</p>
 
-				<form action="/action_page.php" @onsubmit="NavToDetails">
-					<!--input type="text" id="pdes" name="projdes" value=@project.longDescription-->
-					<textarea id="pldes" name="projlongdes" class="txta"  @bind="@inputLongDes" @oninput="OnInputLongDesEvent"/>
+				<form action="/action_page.php" @onsubmit="Submit" width=50vw>
+					<textarea id="pldes" name="projlongdes" cols="30" rows="10" @bind="@inputLongDes" @bind:event="oninput"/>
             
 					<div >
 						<input type="submit" class="OurButton" value="Save">
@@ -40,7 +39,7 @@
 
 
 
-<style>
+<!--style>
 	form {
 		width: 50vw;
 	}
@@ -49,7 +48,7 @@
         width: 100%;
         height: 40vh;
     }
-</style>
+</style-->
 
 @code {
 	[Parameter]
@@ -79,6 +78,18 @@
 
 		}
 		if (project == null) fStatus = "Project not found!";
+	}
+
+	private async void Submit()
+	{
+		try
+		{
+			var response = await Http.PutAsJsonAsync<string>("Project/api/" + id + "/desc", inputLongDes);
+			if (response.IsSuccessStatusCode) NavToDetails();
+		} catch (Exception e)
+		{
+			Console.WriteLine(e.Message);
+		}
 	}
 
 	private void NavToDetails()

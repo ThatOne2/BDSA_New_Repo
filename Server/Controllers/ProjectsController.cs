@@ -112,7 +112,7 @@ public class ProjectController : ControllerBase {
             Tags = tagList, 
             SupervisorName = p.Supervisor, 
             longDescription = p.LongDesc, 
-            ProjectStatus = p.Status.ToString()
+            ProjectStatus = p.Status
         };
         return Ok(DTOProject);
     }
@@ -294,22 +294,58 @@ public class ProjectController : ControllerBase {
 
     //=============================================
 
-    [HttpPut("api/{id}/{desc}")]
-    public HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription){
-          return HttpStatusCode.NotFound;
+    [HttpPut("api/{id:int}/desc")]
+    public HttpStatusCode UpdateProjectDesciption(int id, [FromBody] string newDescription){
+        try
+        {
+            var proj = _context.Projects!.FirstOrDefault(x => x.ID == id);
+
+            if (proj != null)
+            {
+                proj.longDescription = newDescription;
+                _context.SaveChanges();
+            }
+            return HttpStatusCode.OK;
+        }
+        catch (Exception)
+        {
+            return HttpStatusCode.InternalServerError;
+        }
     }
 
-    [HttpPut("api/{id}/{status}")]
-    public HttpStatusCode UpdateProjectStatus(int projectId, Status s){
-         return HttpStatusCode.NotFound;
+    [HttpPut("api/{id}/status")]
+    public HttpStatusCode UpdateProjectStatus(int id, [FromBody] Status status){
+        try
+        {
+            var proj = _context.Projects!.FirstOrDefault(x => x.ID == id);
+
+            if (proj != null)
+			{
+                proj.ProjectStatus = status;
+                _context.SaveChanges();
+			}
+            return HttpStatusCode.OK;
+        }
+        catch (Exception)
+        {
+            return HttpStatusCode.InternalServerError;
+        }
     }
 
     //============================================
 
-    [HttpDelete("api/{id}")]
-    public HttpStatusCode DeleteProject(int projectId){
-          return HttpStatusCode.NotFound;
-      }
+    [HttpDelete("api/{id:int}")]
+    public HttpStatusCode DeleteProject(int id) {
+        try
+        {
+            _context.Projects!.Remove(_context.Projects.Single(a => a.ID == id));
+            _context.SaveChanges();
+            return HttpStatusCode.OK;
+        }
+        catch (Exception) { 
+            return HttpStatusCode.InternalServerError;
+        }
+    }
 
 
     public void Dispose() {

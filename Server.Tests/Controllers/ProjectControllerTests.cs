@@ -76,7 +76,7 @@ public class ProjectControllerTests
         var actual = await controller.ReadDescProjectById(1);
 
         //Assert
-        Assert.IsType<OkObjectResult>(actual);
+        Assert.IsType<OkObjectResult>(actual.Result);
     } 
     
   [Fact]

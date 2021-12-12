@@ -25,7 +25,7 @@ namespace TrialProject.Shared.DTO
         public ICollection<string>? Tags { get; set; }
 
         [Required]
-        public string ProjectStatus { get; set; }
+        public Status ProjectStatus { get; set; }
 
       /*   public string ToString()
         {
