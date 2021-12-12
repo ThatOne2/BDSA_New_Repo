@@ -28,8 +28,8 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         context.Database.EnsureCreated();
         context.Database.ExecuteSqlRaw("DELETE dbo.ProjectTag");
         context.Database.ExecuteSqlRaw("DELETE dbo.Tag");
-        context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
         context.Database.ExecuteSqlRaw("DELETE dbo.Supervisors");
+        context.Database.ExecuteSqlRaw("DELETE dbo.Projects");
         context.Database.ExecuteSqlRaw("DELETE dbo.Students");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Projects', RESEED, 0)");
         context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('dbo.Supervisors', RESEED, 0)");
@@ -129,117 +129,5 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
 
     }
 
-    private Project GenerateRandomProject(Supervisor supervisor){
-        Random rand = new Random();
-        Project project = new Project();
 
-        List<string> adjectives = new List<string> { 
-            ""
-        };
-        List<string> domain = new List<string> { 
-            ""
-        };
-        List<string> projectType = new List<string> { 
-            ""
-        };
-        List<string> name = new List<string>();
-
-        name.Add(adjectives[rand.Next(0, adjectives.Count - 1)]);
-        name.Add(adjectives[rand.Next(0, adjectives.Count - 1)]);
-        name.Add(domain[rand.Next(0, domain.Count - 1)]);
-        name.Add(projectType[rand.Next(0, projectType.Count - 1)]);
-
-        project.name = string.Join(" ", name);
-
-        project.shortDescription = GenerateRandomShortDescription();
-        project.longDescription = GenerateRandomLongDescription();
-
-        List<string> tags = new List<string> { 
-            ""
-        };
-
-        int i = rand.Next(1, 5);
-        while(project.Tags!.Count > i){
-            Tag tag = new Tag{ Name = tags[rand.Next(0, tags.Count - 1)] };
-            if(!project.Tags.Contains(tag)){
-                project.Tags.Add(tag);
-            }
-        }
-
-        return project;
-    }
-
-    private string GenerateRandomLongDescription(){
-        throw new NotImplementedException();
-    }
-
-    private string GenerateRandomShortDescription(){
-        throw new NotImplementedException();
-    }
-
-    private Student GenerateRandomStudent(List<string> existingEmails){
-        Random rand = new Random();
-        Student student = new Student();
-        student.isSupervisor = false;
-
-        List<string> firstNames = new List<string> { 
-            "Fritz", "Hjalte", "Bjørn", "Vagn", "Peter", "Michael", "Gabriel", "Benjamin", "Ronnie", "Ernst", 
-            "Dagmar", "Dorthe", "Maibritt", "Viktoria", "Karoline", "Helene", "Hertha", "Elin", "Alice", "Ester"
-            };
-        List<string> lastNames = new List<string> { 
-            "Aagard", "Therkelsen", "Johanessen", "Hviid", "Juul", "Mouritsen", "Frost", "Mikkelsen",
-             "Toft", "Loretzen"};
-        List<string> emailLastPart = new List<string> { "@live.dk", "@hotmail.com", "@outlook.com", "@gmail.com",};
-        List<string> fullName = new List<string>();
-
-        fullName.Add(firstNames[rand.Next(0, firstNames.Count - 1)]);
-        fullName.Add(lastNames[rand.Next(0, lastNames.Count - 1)]);
-
-        student.name = string.Join(" ", fullName);
-
-        var emailName = fullName[0].Substring(0, 1) + fullName[1];
-
-        while(existingEmails.Contains(emailName)){
-            emailName += rand.Next(1, 99);
-        }
-        existingEmails.Add(emailName);
-
-        emailName += emailLastPart[rand.Next(0, emailLastPart.Count - 1)];
-        student.Email = emailName;
-
-        return student;
-    }
-
-    private Supervisor GenerateRandomSupervisor(List<string> existingEmails)
-    {
-        Random rand = new Random();
-        Supervisor supervisor = new Supervisor();
-        supervisor.isSupervisor = true;
-        List<string> firstNames = new List<string> { 
-            "Jørgen", "Julius", "Valdemar", "Claus", "Marcus", "Danny", "Gabriel",  "Frans",  "Ivan",
-            "Karl", "Cathrine", "Asta", "Alice", "Kamilla", "Freja", "Sille", "Bianca", "Frida", "Agnes"
-            };
-        List<string> lastNames = new List<string> { 
-            "Petersen", "Birch", "Dahl", "Eskildsen", "Lund", "Andresen", "Høj", "Nygaard",
-             "Bang", "Johannesen", "Mouritsen", "Andersen", "Munch", "Fuglsang", "Laursen" };
-        List<string> emailLastPart = new List<string> { "@live.dk", "@hotmail.com", "@outlook.com", "@gmail.com",};
-        List<string> fullName = new List<string>();
-
-        fullName.Add(firstNames[rand.Next(0, firstNames.Count - 1)]);
-        fullName.Add(lastNames[rand.Next(0, lastNames.Count - 1)]);
-
-        supervisor.name = string.Join(" ", fullName);
-
-        var emailName = fullName[0].Substring(0, 1) + fullName[1];
-
-        while(existingEmails.Contains(emailName)){
-            emailName += rand.Next(1, 99);
-        }
-        existingEmails.Add(emailName);
-
-        emailName += emailLastPart[rand.Next(0, emailLastPart.Count - 1)];
-        supervisor.Email = emailName;
-
-        return supervisor;
-    }
 }
