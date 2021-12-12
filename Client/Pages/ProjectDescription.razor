@@ -1,6 +1,7 @@
 ﻿@page "/projects/{id:int}"
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO
+@using System.Net
 @inject NavigationManager NavManager
 @inject CurrentUser currentuser
 @using Microsoft.AspNetCore.Authorization
@@ -13,7 +14,6 @@
 	<p>No project found!</p>
 } else
 {
-
 	<div class="top">
 			<h1>@project.name</h1>
 		</div>
@@ -31,7 +31,9 @@
 		<p>@project.shortDescription</p>
 
 		<h4>Description</h4>
-		<input type="text" name="txtareainput" id="txtareainput" @bind="@txtareainput">
+		<EditForm class="ProjectDescription" Model="@project" OnInvalidSubmit="@save"> 
+			<textarea class="txtareainput" @bind="project.longDescription"></textarea>
+		</EditForm>
 		<p></p>
 
 		<h4>Contact information</h4>
@@ -81,20 +83,9 @@
 
 			<h6>Bio: </h6>
 			<p></p>
-		</div>
 
-	</div>
-
-	</body>
-	
-
-
-	
+		</div></div></body>
 }
-
-
-
-
 
 @code {
 	[Parameter]
@@ -133,7 +124,8 @@
 	private bool editenable = false;
 
 	private void edit() => editenable = true;
-	private string txtareainput = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vestibulum ante ac congue sodales. Pellentesque lacinia ligula ac nunc eleifend scelerisque. Sed mollis arcu in leo mollis pellentesque. Vivamus sit amet nibh vel justo ultricies efficitur at vitae massa. Vivamus et lacinia ipsum. Nam pretium tempus lacinia. Donec vestibulum neque sit amet leo lobortis, quis elementum sem iaculis. Sed vulputate tellus in ex volutpat blandit. Suspendisse velit leo, posuere at bibendum non, pharetra eget velit.
+	
+	public string txtareainput = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vestibulum ante ac congue sodales. Pellentesque lacinia ligula ac nunc eleifend scelerisque. Sed mollis arcu in leo mollis pellentesque. Vivamus sit amet nibh vel justo ultricies efficitur at vitae massa. Vivamus et lacinia ipsum. Nam pretium tempus lacinia. Donec vestibulum neque sit amet leo lobortis, quis elementum sem iaculis. Sed vulputate tellus in ex volutpat blandit. Suspendisse velit leo, posuere at bibendum non, pharetra eget velit.
 
 Sed quis tellus fermentum ex dignissim cursus sit amet ut sem. Duis porttitor odio at erat dignissim, vel elementum urna dapibus. In ac tincidunt nulla. Quisque vitae ex nulla. Donec congue blandit consequat. Curabitur diam ligula, laoreet vitae urna sit amet, condimentum bibendum mi. Donec felis mi, facilisis vel mollis sit amet, tristique sit amet mi. Nullam feugiat laoreet leo vitae pellentesque. Proin sit amet vulputate massa, nec consequat felis.
 

@@ -39,9 +39,6 @@ else
                     {
                         <p>@tag, </p>
                     }</td>
-                    <td>
-                        <button class="OurButton" @onclick="() => NavToDetails(proj.ID)">View</button>
-                    </td>
                 </tr>
             }
         </tbody>
@@ -75,9 +72,4 @@ else
             exception.Redirect();
         }
     }
-
-    private void NavToDetails(int id)
-	{
-		NavManager.NavigateTo("/project/" + id);
-	}
 }

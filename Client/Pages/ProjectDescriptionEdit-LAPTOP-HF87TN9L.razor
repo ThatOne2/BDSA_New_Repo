@@ -1,15 +1,14 @@
-﻿@page "/project/edit/{id:int}"
+﻿@page "/projects/edit/{id:int}"
 @using TrialProject.Shared
 @using TrialProject.Shared.DTO
 @inject NavigationManager NavManager
 @inject CurrentUser currentuser
-@inject HttpClient Http
 
 <PageTitle>Edit Project</PageTitle>
 
 @if (project == null)
 {
-	<p>@fStatus</p>
+	<p>No project found!</p>
 } else
 {
 	<AuthorizeView Roles="supervisor">
@@ -56,9 +55,7 @@
 	public int id { get; set; }
 	private string inputLongDes = null!;
 
-	private ProjectDescDTO? project;
-
-	private string fStatus = "Searching...";
+	private ProjectDescDTO project = new ProjectDescDTO{ID = 5, name = "Uwu", SupervisorName = "Carl", shortDescription = "This is the short description", longDescription = "This is the loooooooooooooooooooooooooooooooooooooooooo ooooooooooooooooooooooooo ooooooooooooooooooooooooooo oooooooooooooooo ooooooooooo ooooooooooooooooooooooo oooooooooooooooooooooooooooooooong description"};
 
 	private void OnInputLongDesEvent(ChangeEventArgs changeEvent)
 	{
@@ -70,19 +67,21 @@
 	{
 		try
 		{
-			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/" + id);
-			if (project != null) inputLongDes = project.longDescription!;
+			// Get project by ID
+			//var rep = new TaskRepository();
+			//project = rep.ReadProjectById(id);
+			inputLongDes = project.longDescription!;
 		}
 		catch
 		{
 			// Exception handling
 
 		}
-		if (project == null) fStatus = "Project not found!";
+		await Task.FromResult(0);
 	}
 
 	private void NavToDetails()
 	{
-		NavManager.NavigateTo("/project/" + id);
+		NavManager.NavigateTo("/projects/" + id);
 	}
 }
