@@ -89,7 +89,7 @@
                     var name = user.Identity!.Name;
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
                     var superDTO = new CreateSupervisorDTO{name = name, Email = email};
-                    var ans = await Http.PostAsJsonAsync<CreateSupervisorDTO>("Supervisors", superDTO);
+                    var ans = await Http.PostAsJsonAsync<CreateSupervisorDTO>("Supervisors/api", superDTO);
                         UserIsRegistered = true;
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
@@ -99,7 +99,7 @@
                     var name = user.Identity!.Name;
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
                     var studDTO = new CreateStudentDTO{name = name, Email = email};
-                    var ans = await Http.PostAsJsonAsync<CreateStudentDTO>("Students", studDTO);
+                    var ans = await Http.PostAsJsonAsync<CreateStudentDTO>("Students/api", studDTO);
                     UserIsRegistered = true;
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
