@@ -25,16 +25,23 @@ public class ProjectController : ControllerBase {
         //var s = _context.Supervisors.Find(p.SupervisorID);
         //if (s == null) { return HttpStatusCode.BadRequest;}
 
-        var tags = new List<Tag>();
-        foreach (TagsEnums tag in p.Tags) {
-            tags.Add(new Tag { Name = tag.ToString() });
+        var tags = new List<TagsEnums>();
+        foreach (TagsEnums tag in p.Tags!) {
+            tags.Add(tag);
+        }
+
+        Supervisor sup = new Supervisor{ID = -1};
+        try {
+            sup = _context.Supervisors!.Find(p.Supervisor);
+        } catch (NullReferenceException e){
+            Console.WriteLine(e.Message);
         }
 
         Project project = new Project {
             name = p.name,
             longDescription = p.longDescription,
             shortDescription = p.shortDescription,
-            SupervisorID = 1, // TODO: Change
+            SupervisorID = sup!.ID, // TODO: Change
             Tags = tags,
             ProjectStatus = Status.Ongoing
         };
@@ -52,23 +59,21 @@ public class ProjectController : ControllerBase {
     //Returns a single project by ID
     [HttpGet("{id}")]
     public async Task<IActionResult> ReadDescProjectById(int id) {
-
-        
-        var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors,
-                                                                            p => p.SupervisorID,
-                                                                            ss => ss.ID,
-                                                                            (p,ss) => new {
-                                                                                Supervisor = ss.name,
-                                                                                shortDesc = p.shortDescription,
-                                                                                ID = p.ID,
-                                                                                Tags = p.Tags,
-                                                                                Name = p.name,
-                                                                                LongDesc = p.longDescription,
-                                                                                Status = p.ProjectStatus
-                                                                            }).Where(x => x.ID == id).FirstOrDefault();
+        var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
+                                                        p => p.SupervisorID,
+                                                        ss => ss.ID,
+                                                        (p,ss) => new {
+                                                            Supervisor = ss.name,
+                                                            shortDesc = p.shortDescription,
+                                                            ID = p.ID,
+                                                            Tags = p.Tags,
+                                                            Name = p.name,
+                                                            LongDesc = p.longDescription,
+                                                            Status = p.ProjectStatus
+                                                        }).Where(x => x.ID == id).FirstOrDefault();
         
         
-        var tagList = new List<string>();
+        var tagList = new List<TagsEnums>();
         if (p == null)
         {
             return BadRequest();
@@ -79,7 +84,7 @@ public class ProjectController : ControllerBase {
             {
                 foreach (var t in p!.Tags!)
                 {
-                    tagList.Add(t.Name!);
+                    tagList.Add(t);
                 }
             }
         }
@@ -109,9 +114,9 @@ public class ProjectController : ControllerBase {
                                                                                 }))
             {
                
-                var tagList = new List<string>();
+                var tagList = new List<TagsEnums>();
                 foreach (var t in p.Tags!) {
-                    tagList.Add(t.Name!);
+                    tagList.Add(t);
                 }
 
                 var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
@@ -145,9 +150,9 @@ public class ProjectController : ControllerBase {
                                                                                 }).Where(x => x.supervisorID == supervisorID))
             {
 
-                var tagList = new List<string>();
+                var tagList = new List<TagsEnums>();
                 foreach (var t in p.Tags!) {
-                    tagList.Add(t.Name!);
+                    tagList.Add(t);
                 }
 
                 var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
@@ -165,28 +170,38 @@ public class ProjectController : ControllerBase {
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
     [HttpGet("tag/{tag}")]
-    public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
+    public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(TagsEnums tag){
              var list = new List<ProjectPreviewDTO>();
-             foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
-                                                                                p => p.SupervisorID,
-                                                                                ss => ss.ID,
-                                                                                (p,ss) => new {
-                                                                                    Supervisor = ss.name,
-                                                                                    supervisorID = ss.ID,
-                                                                                    shortDesc = p.shortDescription,
-                                                                                    ID = p.ID,
-                                                                                    Tags = p.Tags,
-                                                                                    Name = p.name
-                                                                                }).Where(x => x.Tags.Any(ptag => ptag.Name == tag)))
+             foreach (
+                var p in _context.Projects!.Include(xtag => xtag.Tags).Join(
+                        _context.Supervisors!,
+                        p => p.SupervisorID,
+                        ss => ss.ID,
+                        (p,ss) => new {
+                            Supervisor = ss.name,
+                            supervisorID = ss.ID,
+                            shortDesc = p.shortDescription,
+                            ID = p.ID,
+                            Tags = p.Tags,
+                            Name = p.name
+                        }
+                    ).Where(
+                        x => x.Tags!.Any(ptag => ptag == tag)
+                    )
+                )
 //.Where(x => x.Tags!.Any(tag => tag.Name!.ToString() == t))
-
             {
-                var tagList = new List<string>();
+                var tagList = new List<TagsEnums>();
                 foreach (var ytag in p.Tags!) {
-                    tagList.Add(ytag.Name!);
+                    tagList.Add(ytag);
                 }
                
-                var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+                var ProjDTO = new  ProjectPreviewDTO{
+                    SupervisorName = p.Supervisor, 
+                    name = p.Name, 
+                    shortDescription = p.shortDesc, 
+                    ID = p.ID, 
+                    Tags = tagList};
                 list.Add(ProjDTO);
             }
             if (list.Any())

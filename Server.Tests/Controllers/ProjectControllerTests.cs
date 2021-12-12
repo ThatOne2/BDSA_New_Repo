@@ -38,12 +38,20 @@ public class ProjectControllerTests
                                         ID = 1,
                                         name = "Thesis", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag1 }, 
+                                        Tags = new List<TagsEnums> { TagsEnums.Database }, 
                                         shortDescription = "This is a project",
                                         longDescription = "A very cool project"
                                     };
 
             context.Projects!.Add(Project1);
+
+            var Supervisor1 = new Supervisor    {
+                                                ID = 1,
+                                                name = "Frederik Muspelheim",
+                                                Email = "asdfyterqwerhjgdf@gmail.com"
+                                            };
+
+            context.Supervisors!.Add(Supervisor1);
         }
 
 
@@ -53,12 +61,10 @@ public class ProjectControllerTests
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
         
-         var Tag1 = new Tag { Name = "fun" };
-        
         var expected = new ProjectPreviewDTO{
             ID = 1, 
             name = "Thesis", 
-            Tags =  new List<string> { "fun" }, 
+            Tags =  new List<TagsEnums> { TagsEnums.Database }, 
             shortDescription = "This is a project", 
             SupervisorName = null
         };
@@ -94,7 +100,7 @@ public class ProjectControllerTests
                                         Supervisor = "",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<string> { "Tag1" }
+                                        Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
        
        //Act
@@ -108,26 +114,15 @@ public class ProjectControllerTests
     public void Create_Project_with_existing_supervisor_returns_accepted()
     {
        //Arrange
-       var Supervisor1 = new Supervisor    {
-                                                ID = 1,
-                                                name = "Frederik Muspelheim",
-                                                Email = "asdfyterqwerhjgdf@gmail.com"
-                                            };
-       var Tag2 = new Tag { Name = "new" };
        var Project2 = new CreateProjectDTO {   
                                         name = "Projecto", 
                                         Supervisor = "Frederik Muspelheim",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<string> { "Tag1" }
+                                        Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
        
        //Act
-       try{
-       context.Supervisors.Add(Supervisor1);
-       } catch (Exception e){
-           Console.WriteLine(e.Message);
-       }
        var result = repo.CreateProject(Project2);
        
        //Assert

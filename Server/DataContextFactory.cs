@@ -44,13 +44,13 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         
         var Project1 = new Project {    name = "Photoscanning Thesis", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag1 }, 
+                                        Tags = new List<TagsEnums> { Tag1 }, 
                                         shortDescription = "Photoscanning. What is it? I don't know! Help me find out! PLEASE!",
                                         longDescription = "I'm serious. I have no idea! Please help me find out. If you, or someone you know, is familiar with photoscanning, then please come and help me! I'm a desperate professor in need of assistance!"
                                     };
         var Project2 = new Project {    name = "Database Efficiency Study", 
                                         ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag2, Tag3 },
+                                        Tags = new List<TagsEnums> { Tag2, Tag3 },
                                         shortDescription = "Come with me and help me see how far we can go with databases!",
                                         longDescription = "In this project idea, I am hoping to work with somebody that is able to help me solve the mysteries behind how fast one can go in database management." 
                                         };

@@ -18,7 +18,7 @@ public class Project
 
     public int? SupervisorID { get; set; }
 
-    public ICollection<Tag>? Tags {get; set;} 
+    public ICollection<TagsEnums>? Tags {get; set;} 
 
     [Required]
     public Status ProjectStatus { get; set; }
