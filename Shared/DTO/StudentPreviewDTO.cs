@@ -13,7 +13,7 @@ namespace TrialProject.Shared.DTO
 
         override public string ToString()
         {
-            var s = "[ID = " + ID + ", name = " + name + "]";
+            var s = "StudentPreviewDTO [ID = " + ID + ", name = " + name + "]";
             return s;
         }
     }

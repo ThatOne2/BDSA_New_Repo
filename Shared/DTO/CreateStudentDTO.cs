@@ -13,5 +13,13 @@ namespace TrialProject.Shared.DTO
         [EmailAddress]
         [MaxLength(100)]
         public string? Email { get; set; }
+
+        override public string? ToString()
+        {
+            var s = "CreateStudentDTO [name = " + name;
+            if (Email != null) s = s + ", email = " + Email;
+            s = s + "]";
+            return s;
+        }
     }
 }

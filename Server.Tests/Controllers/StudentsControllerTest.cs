@@ -12,7 +12,7 @@ using TrialProject.Shared.DTO;
 
 namespace Server.Tests.Controllers;
 
-public class StudentsControllerTest
+public class StudentControllerTests
 {
 
        private readonly TrialProject.Server.Controllers.DataContext context;
@@ -21,7 +21,7 @@ public class StudentsControllerTest
  
         
 
-        public StudentsControllerTest()
+        public StudentControllerTests()
         {
             var connection = new SqliteConnection("Data Source=:memory:");
             connection.Open();

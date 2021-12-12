@@ -26,6 +26,18 @@ namespace TrialProject.Shared.DTO
 
         [Required(ErrorMessage = "A least one tag required")]
         public ICollection<TagsEnums>? Tags { get; set; }
-        
+
+        public string ToString()
+        {
+            var s = "CreateProjectDTO [name = " + name;
+            if (Supervisor != null) s = s + ", supervisor = " + Supervisor;
+            if (SupervisorEmail != null) s = s + ", supervisorEmail = " + SupervisorEmail;
+            if (shortDescription != null) s = s + ", shortDescription = \"" + shortDescription + "\"";
+            if (longDescription != null) s = s + ", longDescription = \"" + longDescription + "\"";
+            if (Tags != null) s = s + ", tags = " + Tags.ToString();
+            s = s + "]";
+            return s;
+        }
+
     }
 }

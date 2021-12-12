@@ -18,7 +18,7 @@ namespace TrialProject.Shared.DTO
 
         override public string? ToString()
         {
-            var s = "[ID = " + ID + ", name = " + name;
+            var s = "StudentDescDTO [ID = " + ID + ", name = " + name;
             if (Email != null) s = s + ", email = " + Email;
             s = s + "]";
             return s;
