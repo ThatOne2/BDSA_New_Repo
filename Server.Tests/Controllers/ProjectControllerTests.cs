@@ -18,8 +18,7 @@ public class ProjectControllerTests
 
        private readonly TrialProject.Server.Controllers.DataContext? context;
 
-        public readonly ProjectController repo;
-        Tag Tag1 = new Tag { Name = "fun" };
+        public readonly ProjectController controller;
         
 
         public ProjectControllerTests()
@@ -33,45 +32,53 @@ public class ProjectControllerTests
 
             var logger = new Mock<ILogger<ProjectController>>();
 
-            repo = new ProjectController(logger.Object, context);
+            controller = new ProjectController(logger.Object, context);
 
-             var Project1 = new Project {   
+            Tag Tag1 = new Tag { Name = TagsEnums.Database.ToString() };
+            var Project1 = new Project {   
                                         ID = 1,
                                         name = "Thesis", 
-                                        ProjectStatus = Status.Ongoing, 
-                                        Tags = new List<Tag> { Tag1 }, 
                                         shortDescription = "This is a project",
-                                        longDescription = "A very cool project"
+                                        longDescription = "A very cool project",
+                                        SupervisorID = 1,
+                                        Tags = new List<Tag> { Tag1 }, 
+                                        ProjectStatus = Status.Ongoing
                                     };
-
+            var Supervisor1 = new Supervisor{
+                ID = 1,
+                name = "test",
+                Email = "testmail@test.com",
+                Projects = new List<Project> {Project1}
+            };
+            
             context.Projects!.Add(Project1);
+            context.Supervisors!.Add(Supervisor1);
         }
 
-
+    //Fails
     [Fact]
     public async Task ReadPreviewProjectById_returns_Project()
     {
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
         
-         var Tag1 = new Tag { Name = "fun" };
-        
         var expected = new ProjectPreviewDTO{
             ID = 1, 
             name = "Thesis", 
-            Tags =  new List<string> { "fun" }, 
+            Tags =  new List<string> { TagsEnums.Database.ToString() }, 
             shortDescription = "This is a project", 
-            SupervisorName = null
+            SupervisorName = "test"
         };
        
         
         //Act
-        var actual = repo.ReadDescProjectById(1);
+        var actual = controller.ReadDescProjectById(1);
 
         //Assert
         Assert.Equal(actual.ToString(), expected.ToString());
     } 
 
+    //Fails
      [Fact]
     public async Task ReadPreviewProjectById_returns_null()
     {
@@ -79,13 +86,13 @@ public class ProjectControllerTests
         var logger = new Mock<ILogger<ProjectController>>();
        
         //Act
-        var expected = "thing";
-        var proj = repo.ReadDescProjectById(-1);
+        var proj = controller.ReadDescProjectById(-1);
        
         //Assert
        Assert.True(proj.IsFaulted);
     }
 
+    //Fails
     [Fact]
     public void Create_Project_Without_Supervisor_returns_bad_request()
     {
@@ -95,11 +102,11 @@ public class ProjectControllerTests
                                         Supervisor = "",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<TagsEnums> { TagsEnums.Programming }
+                                        Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
        
        //Act
-       var result = repo.CreateProject(Project2).IsFaulted;
+       var result = controller.CreateProject(Project2).IsFaulted;
        
        //Assert
 
@@ -107,6 +114,7 @@ public class ProjectControllerTests
        Assert.True(result);
     }
 
+    //Fails
     [Fact]
     public void Create_Project_with_existing_supervisor_returns_accepted()
     {
@@ -122,7 +130,7 @@ public class ProjectControllerTests
                                         Supervisor = "Frederik Muspelheim",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
-                                        Tags = new List<TagsEnums> { TagsEnums.Programming }
+                                        Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
        
        //Act
@@ -131,7 +139,7 @@ public class ProjectControllerTests
        } catch (Exception e){
            Console.WriteLine(e.Message);
        }
-       var result = repo.CreateProject(Project2);
+       var result = controller.CreateProject(Project2);
        
        //Assert
        Assert.True(result.IsCompletedSuccessfully);
