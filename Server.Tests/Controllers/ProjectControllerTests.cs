@@ -166,7 +166,7 @@ public class ProjectControllerTests
                                         Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
 
-       var result = controller.CreateProject(Project2);
+       var result = controller.CreateProject(Project2).Result;
        
        //Assert
        Assert.IsType<CreatedAtActionResult>(result);

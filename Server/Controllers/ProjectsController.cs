@@ -58,7 +58,7 @@ public class ProjectController : ControllerBase {
         _context.Projects!.Add(project);
         _context.SaveChanges();
 
-        return Created("Created project", project);
+        return CreatedAtAction("Created project", project);
     }
 
 

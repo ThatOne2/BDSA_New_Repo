@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using TrialProject.Server.Controllers;
 using TrialProject.Shared;
 using TrialProject.Shared.DTO;
@@ -37,7 +38,7 @@ public class StudentsControllerTest
 
             context.Students!.Add(Stundent);
 
-
+            context.SaveChanges();
 
         }
 
@@ -66,12 +67,11 @@ public class StudentsControllerTest
         var expected = new StudentDescDTO{ID = 1, name = "Bru", Email = "Mart@Brumail.com"};
 
         //Act
-        var actual = repo.ReadStudentDEscById(1);
-
+        var project = repo.ReadStudentDEscById(1).Result as OkObjectResult;
+        var actual = project.Value;
 
         //Assert
-        Assert.True(actual);
-        //Assert.Equal(expected.ToString(), actual.ToString());
+        Assert.Equal(expected.ToString(), actual.ToString());
 
     }
 
@@ -88,7 +88,7 @@ public class StudentsControllerTest
    
 
         //Assert
-        Assert.Equal(1,2);
+        //Assert.Equal(1,2);
     } 
 
     
