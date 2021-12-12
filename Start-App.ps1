@@ -1,4 +1,4 @@
-$project = "TrialProject.Server.csproj"
+$project = "$PSScriptRoot/Server/TrialProject.Server.csproj"
 
 $password = New-Guid
 
@@ -11,5 +11,8 @@ Write-Host "Configuring Connection String"
 dotnet user-secrets init --project $project
 dotnet user-secrets set "ConnectionStrings:BDSA" "$connectionString" --project $project
 
+dotnet dev-certs https -ep %USERPROFILE%.aspnet\https\aspnetapp.pfx -p localhost
+dotnet dev-certs https --trust
 
-dotnet ef migrations add InitialMigration --project .\TrialProject.Server.csproj
+dotnet ef migrations add InitialMigration --project $project
+<# dotnet ef database update --project $project #>

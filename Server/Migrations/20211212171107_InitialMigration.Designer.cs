@@ -12,7 +12,7 @@ using TrialProject.Server.Controllers;
 namespace TrialProject.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211211110951_InitialMigration")]
+    [Migration("20211212171107_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
