@@ -2,18 +2,9 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager NavigationManager
 
-<RemoteAuthenticatorView Action="@Action" OnLogOutSucceeded ="GoHome" />
+<RemoteAuthenticatorView Action="@Action" />
 
 @code{
     [Parameter] public string? Action { get; set; }
-<<<<<<< HEAD
-
-    public void GoHome(){
-
-        NavigationManager.NavigateTo("/allprojects");
-
-    }
-=======
     
->>>>>>> 50d7ca97a3b03e2047a0efb54d9b5f434f7178a1
 }
