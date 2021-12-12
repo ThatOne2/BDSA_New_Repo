@@ -43,7 +43,7 @@ public class SupervisorsControllerTest
    
 
         //Assert
-      
+        Assert.Equal(1,2);
     } 
 
     
