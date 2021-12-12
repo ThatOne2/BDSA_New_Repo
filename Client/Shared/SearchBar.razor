@@ -19,7 +19,7 @@
         {
             searchOutput = searchInput;
             
-            var uri = $"{NavigationManager.BaseUri}project/search/{searchOutput}";
+            var uri = $"{NavigationManager.BaseUri}project/api/search/{searchOutput}";
             NavigationManager.NavigateTo(uri);
         }
     }

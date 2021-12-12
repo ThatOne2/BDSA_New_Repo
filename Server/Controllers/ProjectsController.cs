@@ -244,6 +244,49 @@ public class ProjectController : ControllerBase {
         } 
     }
 
+     [HttpGet("api/search/{s}")]
+    public IEnumerable<ProjectPreviewDTO>? ReadProjectListBySearch(string s){
+        Console.WriteLine(s);
+        var list = new List<ProjectPreviewDTO>();
+        foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
+                                                                        p => p.SupervisorID,
+                                                                        ss => ss.ID,
+                                                                        (p,ss) => new {
+                                                                            Supervisor = ss.name,
+                                                                            supervisorID = ss.ID,
+                                                                            shortDesc = p.shortDescription,
+                                                                            ID = p.ID,
+                                                                            Tags = p.Tags,
+                                                                            Name = p.name
+                                                                        }).Where(x => x.Name.Contains(s)))
+           
+        {
+            var tagList = new List<string>();
+            foreach (var ytag in p.Tags!) {
+                tagList.Add(ytag.Name!);
+            }
+               
+            var ProjDTO = new  ProjectPreviewDTO
+            { 
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
+            list.Add(ProjDTO);
+        }
+
+        if (list.Any())
+        {
+            return list.ToArray();
+        }
+        else
+        {
+            return null!;
+        } 
+    }
+
 
     //=============================================
 
