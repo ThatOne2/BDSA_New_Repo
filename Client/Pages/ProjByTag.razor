@@ -16,7 +16,7 @@
 else
 {
 
-<h1>Results for the tag: @Text</h1>
+<h1>Results for: @Text</h1>
 
 <SearchBar />
 
@@ -80,7 +80,7 @@ else
     {
         try
         {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/rawtag/"+ Text);
+            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api/tag/"+ Text);
         }
         catch (AccessTokenNotAvailableException exception)
         {

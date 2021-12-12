@@ -68,7 +68,7 @@ public class ProjectController : ControllerBase {
 
 
     //Returns a single project by ID
-    [HttpGet("{id}")]
+    [HttpGet("api/{id}")]
     public async Task<IActionResult> ReadDescProjectById(int id) {
 
         // TODO: Find where to put await
@@ -114,7 +114,7 @@ public class ProjectController : ControllerBase {
 
 
     //Returns a list of all projects (Maybe using  yield return?)
-    [HttpGet]
+    [HttpGet("api")]
     public IEnumerable<ProjectPreviewDTO> GetAllProjects() {
         var list = new List< ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
@@ -149,7 +149,7 @@ public class ProjectController : ControllerBase {
     
 
    //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
-   [HttpGet("supervisor/{supervisorID}")]
+   [HttpGet("api/supervisor/{supervisorID}")]
     public  IEnumerable<ProjectPreviewDTO> ReadAllProjectsPostedBySupervisor(int supervisorID){
         var list = new List<ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
@@ -184,7 +184,7 @@ public class ProjectController : ControllerBase {
     } 
 
     //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
-    [HttpGet("rawtag/{tag}")]
+    [HttpGet("api/tag/{tag}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
         var list = new List<ProjectPreviewDTO>();
         foreach (var p in _context.Projects!.Include(xtag => xtag.Tags).Join(_context.Supervisors!,
@@ -222,19 +222,19 @@ public class ProjectController : ControllerBase {
 
     //=============================================
 
-    [HttpPut("{id}/{desc}")]
+    [HttpPut("api/{id}/{desc}")]
     public HttpStatusCode UpdateProjectDesciption(int projectId, string newDescription){
           return HttpStatusCode.NotFound;
     }
 
-    [HttpPut("{id}/{status}")]
+    [HttpPut("api/{id}/{status}")]
     public HttpStatusCode UpdateProjectStatus(int projectId, Status s){
          return HttpStatusCode.NotFound;
     }
 
     //============================================
 
-    [HttpDelete("{id}")]
+    [HttpDelete("api/{id}")]
     public HttpStatusCode DeleteProject(int projectId){
           return HttpStatusCode.NotFound;
       }
