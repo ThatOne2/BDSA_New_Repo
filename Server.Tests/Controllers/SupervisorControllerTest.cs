@@ -52,7 +52,7 @@ public class SupervisorControllerTest
 
         //Act
         var a = repo.CreateSupervisor(s1);
-        var result = repo.CreateSupervisor(s2).Result as ObjectResult;
+        var result = repo.CreateSupervisor(s2).Result.Result as ObjectResult;
 
         //Assert
         Assert.Equal(250, result!.StatusCode);
@@ -82,7 +82,8 @@ public class SupervisorControllerTest
         var s = new CreateSupervisorDTO() { Email = "Sasha@email.com" };
 
         //Act
-        var result = repo.CreateSupervisor(s).Result as StatusCodeResult;
+        //var result = repo.CreateSupervisor(s).Result as StatusCodeResult;
+        var result = repo.CreateSupervisor(s).Result.Result as StatusCodeResult;
 
         //Assert
         Assert.Equal(500, result!.StatusCode);
@@ -95,7 +96,7 @@ public class SupervisorControllerTest
         var s = new CreateSupervisorDTO() { name = "Sasha" };
 
         //Act
-        var result = repo.CreateSupervisor(s).Result as StatusCodeResult;
+        var result = repo.CreateSupervisor(s).Result.Result as StatusCodeResult;
 
         //Assert
         Assert.Equal(500, result!.StatusCode);
