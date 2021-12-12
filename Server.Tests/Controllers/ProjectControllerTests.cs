@@ -9,7 +9,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrialProject.Server.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity;
 using System;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Json;
+using static System.Net.WebRequestMethods;
 
 namespace Server.Tests.Controllers;
 
@@ -20,6 +25,7 @@ public class ProjectControllerTests
 
         public readonly ProjectController controller;
         
+        private readonly HttpClient client;
 
         public ProjectControllerTests()
         {
@@ -31,8 +37,6 @@ public class ProjectControllerTests
             context.Database.EnsureCreated();
 
             var logger = new Mock<ILogger<ProjectController>>();
-
-            controller = new ProjectController(logger.Object, context);
 
             Tag Tag1 = new Tag { Name = TagsEnums.Database.ToString() };
             var Project1 = new Project {   
@@ -46,23 +50,40 @@ public class ProjectControllerTests
                                     };
             var Supervisor1 = new Supervisor{
                 ID = 1,
-                name = "test",
+                name = "Test Testson",
                 Email = "testmail@test.com",
                 Projects = new List<Project> {Project1}
             };
             
             context.Projects!.Add(Project1);
             context.Supervisors!.Add(Supervisor1);
-        }
 
-    //Fails
+            controller = new ProjectController(logger.Object, context);
+
+            context.SaveChanges();
+        }
+    
+
     [Fact]
+    public async Task ReadPreviewProjectById_returns_OkResponse()
+    {
+        //Arrange
+        var logger = new Mock<ILogger<ProjectController>>();
+        
+        //Act
+        var actual = await controller.ReadDescProjectById(1);
+
+        //Assert
+        Assert.IsType<OkObjectResult>(actual);
+    } 
+    
+  [Fact]
     public async Task ReadPreviewProjectById_returns_Project()
     {
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
         
-        var expected = new ProjectPreviewDTO{
+        var expected = new ProjectDescDTO{
             ID = 1, 
             name = "Thesis", 
             Tags =  new List<string> { TagsEnums.Database.ToString() }, 
@@ -72,13 +93,13 @@ public class ProjectControllerTests
        
         
         //Act
-        var actual = controller.ReadDescProjectById(1);
+           var project = controller.ReadDescProjectById(1).Result as OkObjectResult;
+           var actual = project.Value;
 
         //Assert
         Assert.Equal(actual.ToString(), expected.ToString());
     } 
 
-    //Fails
      [Fact]
     public async Task ReadPreviewProjectById_returns_null()
     {
@@ -86,15 +107,36 @@ public class ProjectControllerTests
         var logger = new Mock<ILogger<ProjectController>>();
        
         //Act
-        var proj = controller.ReadDescProjectById(-1);
+        var actual = await controller.ReadDescProjectById(-1);
        
         //Assert
-       Assert.True(proj.IsFaulted);
+       Assert.IsType<BadRequestResult>(actual);
     }
 
-    //Fails
     [Fact]
-    public void Create_Project_Without_Supervisor_returns_bad_request()
+    public void Get_All_Projects_Returns_Projects()
+    {
+        //Arrange
+        var logger = new Mock<ILogger<ProjectController>>();
+        
+        var expected1 = new ProjectPreviewDTO{
+            ID = 1, 
+            name = "Thesis", 
+            Tags =  new List<string> { TagsEnums.Database.ToString() }, 
+            shortDescription = "This is a project", 
+            SupervisorName = "Test Testson"
+        };
+        ProjectPreviewDTO[] exptected = new ProjectPreviewDTO[] { expected1 };
+           
+        //Act
+        var actual = controller.GetAllProjects();
+        
+        //Assert
+        Assert.Equal(exptected.ToString(), actual.ToString());
+    }
+
+    [Fact]
+    public async Task Create_Project_Without_Supervisor_returns_bad_request()
     {
        //Arrange
        var Project2 = new CreateProjectDTO {   
@@ -106,42 +148,27 @@ public class ProjectControllerTests
                                     };
        
        //Act
-       var result = controller.CreateProject(Project2).IsFaulted;
+       var result = await controller.CreateProject(Project2);
        
        //Assert
-
-     
-       Assert.True(result);
+       Assert.IsType<StatusCodeResult>(result);
     }
 
-    //Fails
     [Fact]
     public void Create_Project_with_existing_supervisor_returns_accepted()
     {
        //Arrange
-       var Supervisor1 = new Supervisor    {
-                                                ID = 1,
-                                                name = "Frederik Muspelheim",
-                                                Email = "asdfyterqwerhjgdf@gmail.com"
-                                            };
-       var Tag2 = new Tag { Name = "new" };
        var Project2 = new CreateProjectDTO {   
                                         name = "Projecto", 
-                                        Supervisor = "Frederik Muspelheim",
+                                        Supervisor = "Test Testson",
                                         shortDescription = "This is a test project",
                                         longDescription = "A very testy project",
                                         Tags = new List<TagsEnums> { TagsEnums.Database }
                                     };
-       
-       //Act
-       try{
-       context.Supervisors.Add(Supervisor1);
-       } catch (Exception e){
-           Console.WriteLine(e.Message);
-       }
+
        var result = controller.CreateProject(Project2);
        
        //Assert
-       Assert.True(result.IsCompletedSuccessfully);
+       Assert.IsType<CreatedAtActionResult>(result);
     }
 }
