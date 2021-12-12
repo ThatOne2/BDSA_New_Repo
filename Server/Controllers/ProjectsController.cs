@@ -21,7 +21,7 @@ public class ProjectController : ControllerBase {
     }
 
     [HttpPost]
-    public async Task<ActionResult<Project>> CreateProject([FromBody]CreateProjectDTO p) {
+    public async Task<IActionResult> CreateProject([FromBody]CreateProjectDTO p) {
         Console.WriteLine(p.SupervisorEmail);
       if(p == null ){
           return BadRequest();
@@ -60,7 +60,7 @@ public class ProjectController : ControllerBase {
         _context.Projects!.Add(project);
         _context.SaveChanges();
 
-        return CreatedAtAction("Created project", project,200);
+        return Created("Created project", project);
     }
 
 
