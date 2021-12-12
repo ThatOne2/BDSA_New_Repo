@@ -86,7 +86,7 @@
                 switch(Action)
                 {
                     case "search":
-                        projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("project/api/search/");
+                        projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("project/api/search/"+ SecondParam);
                         break;
                     case "tag":
                         projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api/tag/"+ SecondParam);
