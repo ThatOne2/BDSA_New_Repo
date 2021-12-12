@@ -30,6 +30,12 @@
   transform: translateY(0);
 }
 
+
+h1 {
+    color: #333138;
+}
+
+
 .projectContainer {
     width: 100%;
     margin-bottom: 30px;
@@ -69,6 +75,7 @@
 .resultPane {
     width: 60%;
     max-width: 800px;
+    text-align: center;
 }
 
 .center {
@@ -84,7 +91,7 @@
     display: block;
 }
 
-.tag {
+.tagBtn {
     border-radius: 30pt;
     border: solid 2px lightgray;
 
@@ -97,14 +104,29 @@
     font-style: italic;
     color: gray;
     white-space: nowrap;
-    overflow: hidden;
-
 
     /*Jeg smadre en eller anden hvis i rør ved det her*/
     padding: 6px;
     line-height: 0.75em;
     height: 2em;
 }
+
+.tagBtn:hover {
+    color: #FF2E3F;
+    background-color: transparent;
+    border: solid 2px white;
+    
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+  
+  .tagBtn:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+  
+
+
 
 
 @media only screen and (max-width: 950px) {

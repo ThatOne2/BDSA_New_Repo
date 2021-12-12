@@ -1,4 +1,5 @@
-@page "/project/tag/{text?}"
+@page "/project/{action}/{secondParam}"
+@page "/project/{action}/"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
@@ -7,24 +8,20 @@
 @* @attribute [Authorize] *@
 @inject HttpClient Http
 
-<PageTitle>Results for the tag: @Text </PageTitle>
-
-@if (projectsList == null)
-{
-    <p><em>Loading...</em></p>
-} 
-else
-{
-
-<h1>Results for: @Text</h1>
+<PageTitle>Results for the tag: @SecondParam </PageTitle>
 
 <SearchBar />
+
+@if (!String.IsNullOrWhiteSpace(SecondParam))
+{
+    <h1>Results for: @SecondParam</h1>
+}
 
 <div class = "center">
     <div class = "resultPane">
         @if (projectsList == null)
         {
-            <p><em>Loading...</em></p>
+            <h1>No results found</h1>
         }
         else
         {
@@ -55,12 +52,12 @@ else
         }
     </div>
 </div>
-}
 
 @code {
     [Parameter]
-    public string? Text { get; set; }
-
+    public string? Action { get; set; }
+    [Parameter]
+    public string? SecondParam { get; set; }
     private ProjectPreviewDTO[]? projectsList;
     
     private void ViewProj(ProjectPreviewDTO project)
@@ -76,20 +73,40 @@ else
         NavManager.NavigateTo(uri, true);
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api/tag/"+ Text);
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
-    }
-
     private void NavToDetails(int id)
 	{
 		NavManager.NavigateTo("/project/" + id);
 	}
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsValidAction(Action)) {
+            try
+            {
+                switch(Action)
+                {
+                    case "search":
+                        projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("project/api/search/");
+                        break;
+                    case "tag":
+                        projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api/tag/"+ SecondParam);
+                        break;
+                    default:
+                        projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api");
+                        break;
+                }
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                exception.Redirect();
+            }
+            
+        }
+    }
+
+    private bool IsValidAction(string a)
+    {
+        if (a == "tag" || a == "search") {return true;}
+        return false;
+    }
 }
