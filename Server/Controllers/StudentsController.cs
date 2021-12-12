@@ -24,7 +24,7 @@ public class StudentsController : ControllerBase {
     [HttpPost]
     public async Task<IActionResult> CreateStudent([FromBody]CreateStudentDTO s){
           if (_context.Students.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
-              return Conflict(409); 
+              return StatusCode(250, "User is created");
           } else {
             try {
              Student student = new Student {name = s.name, Email = s.Email};
@@ -32,7 +32,7 @@ public class StudentsController : ControllerBase {
 
             _context.SaveChanges();
               return Created("Student creates", student);
-              
+
             }  catch (Exception e){
                  Console.WriteLine(e.Message);
            }
@@ -46,7 +46,7 @@ public class StudentsController : ControllerBase {
 
     //Returns a single student by ID
     [HttpGet("{id}")]
-    public async Task< StudentDescDTO> ReadStudentDEscById(int id){
+    public async Task<StudentDescDTO> ReadStudentDEscById(int id){
 
         // TODO: Find where to put await
         await Task.FromResult(0);

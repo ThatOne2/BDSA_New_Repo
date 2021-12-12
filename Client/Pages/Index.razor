@@ -32,12 +32,12 @@
 </div>
 
 <AuthorizeView >
-    <Authorized>  
+  @*   <Authorized>  
         @foreach (var e in claims!)
         {
              <p>@e.Type = @e.Value</p>
         } 
-    </Authorized>
+    </Authorized> *@
     <NotAuthorized>
         <p>You are not authorized to post projects</p>
     </NotAuthorized>
@@ -51,6 +51,8 @@
     
     private System.Security.Claims.ClaimsPrincipal? user;
     IEnumerable<System.Security.Claims.Claim> claims;
+
+    bool UserIsRegistered = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -66,9 +68,10 @@
         
         // TODO: Find where to put await
         await Task.FromResult(0);
-        if (user.Identity.IsAuthenticated) {
+
+         if (user.Identity.IsAuthenticated && UserIsRegistered != true) {
             await CreateUser();
-        }
+        } 
        
     }
 
@@ -89,6 +92,7 @@
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
                     var superDTO = new CreateSupervisorDTO{name = name, Email = email};
                     var ans = await Http.PostAsJsonAsync<CreateSupervisorDTO>("Supervisors", superDTO);
+                        UserIsRegistered = true;
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
                 }
@@ -98,12 +102,10 @@
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
                     var studDTO = new CreateStudentDTO{name = name, Email = email};
                     var ans = await Http.PostAsJsonAsync<CreateStudentDTO>("Students", studDTO);
+                    UserIsRegistered = true;
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
                 }
         }
-    }
-        
-    
-
+    } 
 }

@@ -70,7 +70,7 @@
 	{
 		try
 		{
-			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/" + id);
+			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/api/" + id);
 			if (project != null) inputLongDes = project.longDescription!;
 		}
 		catch
