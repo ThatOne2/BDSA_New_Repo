@@ -39,7 +39,8 @@ public class ProjectController : ControllerBase {
             }
         }
 
-        Project project = new Project {
+        Project project = new Project 
+        {
             name = p.name,
             longDescription = p.longDescription,
             shortDescription = p.shortDescription,
@@ -101,8 +102,16 @@ public class ProjectController : ControllerBase {
             }
         }
             
-        var DTOProject = new ProjectDescDTO{ID = p.ID, name = p.Name, shortDescription = p.shortDesc, Tags = tagList, 
-                                            SupervisorName = p.Supervisor, longDescription = p.LongDesc, ProjectStatus = p.Status.ToString()};
+        var DTOProject = new ProjectDescDTO
+        {
+            ID = p.ID, 
+            name = p.Name, 
+            shortDescription = p.shortDesc, 
+            Tags = tagList, 
+            SupervisorName = p.Supervisor, 
+            longDescription = p.LongDesc, 
+            ProjectStatus = p.Status.ToString()
+        };
         return Ok(DTOProject);
     }
 
@@ -127,7 +136,14 @@ public class ProjectController : ControllerBase {
                 tagList.Add(t.Name!);
             }
 
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            var ProjDTO = new  ProjectPreviewDTO
+            {
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
@@ -163,7 +179,15 @@ public class ProjectController : ControllerBase {
                 tagList.Add(t.Name!);
             }
 
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            
+            var ProjDTO = new ProjectPreviewDTO
+            {
+                SupervisorName = p.Supervisor,
+                name = p.Name,
+                shortDescription = p.shortDesc,
+                ID = p.ID,
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
@@ -199,7 +223,14 @@ public class ProjectController : ControllerBase {
                 tagList.Add(ytag.Name!);
             }
                
-            var ProjDTO = new  ProjectPreviewDTO{SupervisorName = p.Supervisor, name = p.Name, shortDescription = p.shortDesc, ID = p.ID, Tags = tagList};
+            var ProjDTO = new  ProjectPreviewDTO
+            { 
+                SupervisorName = p.Supervisor, 
+                name = p.Name, 
+                shortDescription = p.shortDesc, 
+                ID = p.ID, 
+                Tags = tagList
+            };
             list.Add(ProjDTO);
         }
 
