@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrialProject.Server.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Server.Tests.Controllers;
@@ -105,10 +106,12 @@ public class ProjectControllerTests
                                     };
        
        //Act
-       var result = controller.CreateProject(Project2);
+       var result = controller.CreateProject(Project2).IsFaulted;
        
        //Assert
-       Assert.Equal(result, System.Net.HttpStatusCode.BadRequest);
+
+     
+       Assert.True(result);
     }
 
     //Fails
@@ -139,6 +142,6 @@ public class ProjectControllerTests
        var result = controller.CreateProject(Project2);
        
        //Assert
-       Assert.Equal(result, System.Net.HttpStatusCode.Accepted);
+       Assert.True(result.IsCompletedSuccessfully);
     }
 }
