@@ -14,8 +14,8 @@
 {
 
 	<div class="top">
-			<h1>@project.name</h1>
-		</div>
+		<h1>@project.name</h1>
+	</div>
 
 	<body>
 		
@@ -23,34 +23,45 @@
 		<div class="content_left">
 			
 
-		<p>By @project.SupervisorName</p>
+			<p>By @project.SupervisorName</p>
 
-		<h4>Short</h4>
-		<p>@project.shortDescription</p>
+			<h4>Short</h4>
+			<p>@project.shortDescription</p>
 
-		<h4>Description</h4>
-		<textarea name="longdescription" id="longdescription" cols="30" rows="10" readonly>
-			@project.longDescription
-		</textarea>
+			<h4>Description</h4>
+			<textarea name="longdescription" id="longdescription" cols="30" rows="10" readonly>
+				@project.longDescription
+			</textarea>
 
-
-		<h4>Contact information</h4>
-
-		<AuthorizeView Context="LoggedIn">
-		<Authorized>
-			<AuthorizeView Roles="supervisor">
+			<AuthorizeView Context="LoggedIn">
 				<Authorized>
-					<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
-					<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
+					<AuthorizeView Roles="supervisor">
+						<Authorized>
+							<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
+							<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
+						</Authorized>
+					</AuthorizeView>
 				</Authorized>
+					<NotAuthorized>
+						<p>Log in to apply for project!</p>
+					</NotAuthorized>
 			</AuthorizeView>
-		</Authorized>
-		<NotAuthorized>
-			<p>Log in to apply for project!</p>
-		</NotAuthorized>
-	</AuthorizeView>
 	
-	</div>
+		</div>
+
+		<div class="content_center"></div>
+
+		<div class="content_right">
+			<div class="abouttitle"><h5>About</h5></div>
+
+			<div class="aboutcontainer">
+				<h6>Author: </h6>
+
+				<h6>Contact: </h6>
+			</div>
+
+		</div>
+
 
 	</body>
 	
