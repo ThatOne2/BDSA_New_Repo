@@ -17,6 +17,10 @@ Registered Supervisor emails are:
 
 - Group members chosen email
 
+- The fake email:
+  - Email: **supervisortemplatebdsa21@protonmail.com**
+  - Password: **hej3^!?,BGShM[\uY[**
+
 If you whish to see the website from a students point of view you can use this account to login with:
 
 - Email: **studenttemplatebdsa21@gmail.com**
