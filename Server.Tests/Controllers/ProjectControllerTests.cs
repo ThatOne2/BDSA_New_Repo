@@ -22,81 +22,156 @@ namespace Server.Tests.Controllers;
 public class ProjectControllerTests
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext? context;
+       //private readonly TrialProject.Server.Controllers.DataContext? context;
 
-        public readonly ProjectController controller;
+    public readonly ProjectController controller;
         
-        private readonly HttpClient client;
+        //private readonly HttpClient client;
 
     
 
     public ProjectControllerTests()
-        {
-            var connection = new SqliteConnection("Data Source=:memory:");
-            connection.Open();
-            var builder = new DbContextOptionsBuilder<TrialProject.Server.Controllers.DataContext>();
-            builder.UseSqlite(connection);
-            var context = new TrialProject.Server.Controllers.DataContext(builder.Options);
-            context.Database.EnsureCreated();
+    {
+        var connection = new SqliteConnection("Data Source=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<TrialProject.Server.Controllers.DataContext>();
+        builder.UseSqlite(connection);
+        var context = new TrialProject.Server.Controllers.DataContext(builder.Options);
+        context.Database.EnsureCreated();
 
-            var logger = new Mock<ILogger<ProjectController>>();
+        var logger = new Mock<ILogger<ProjectController>>();
 
         Tag Tag1 = new Tag { Name = TagsEnums.Database.ToString() };
-        var Project1 = new Project {   
-                                        ID = 1,
-                                        name = "Thesis", 
-                                        shortDescription = "This is a project",
-                                        longDescription = "A very cool project",
-                                        SupervisorID = 1,
-                                        Tags = new List<Tag> { Tag1 }, 
-                                        ProjectStatus = Status.Ongoing
-                                    };
-            var Supervisor1 = new Supervisor{
-                ID = 1,
-                name = "Test Testson",
-                Email = "testmail@test.com",
-                Projects = new List<Project> {Project1}
-            };
-            
-            context.Projects!.Add(Project1);
-            context.Supervisors!.Add(Supervisor1);
+        Tag Tag2 = new Tag { Name = TagsEnums.Engineering.ToString() };
 
-            controller = new ProjectController(logger.Object, context);
+        var Project1 = new Project 
+        {   
+            ID = 1,
+            name = "Thesis", 
+            shortDescription = "This is a project",
+            longDescription = "A very cool project",
+            SupervisorID = 1,
+            Tags = new List<Tag> { Tag1 }, 
+            ProjectStatus = Status.Ongoing
+        };
 
-            context.SaveChanges();
+        var Project2 = new Project
+        {
+            ID = 2,
+            name = "Uncool Thesis",
+            shortDescription = "This is not a project",
+            longDescription = "A very uncool not-project",
+            SupervisorID = 2,
+            Tags = new List<Tag> { Tag2 },
+            ProjectStatus = Status.Ongoing
+        };
+        var Project3 = new Project
+        {
+            ID = 3,
+            name = "Cooler Thesis",
+            shortDescription = "This is another project",
+            longDescription = "An unbelievably cool project",
+            SupervisorID = 1,
+            Tags = new List<Tag> { Tag1 },
+            ProjectStatus = Status.Ongoing
+        };
+
+        var Supervisor1 = new Supervisor{
+            ID = 1,
+            name = "Test Testson",
+            Email = "testmail@test.com",
+            Projects = new List<Project> {Project1, Project3}
+        };
+        var Supervisor2 = new Supervisor
+        {
+            ID = 2,
+            name = "Not Test Testson",
+            Email = "notmail@test.com",
+            Projects = new List<Project> { Project2 }
+        };
+
+        context.Projects!.Add(Project1);
+        context.Projects!.Add(Project2);
+        context.Supervisors!.Add(Supervisor1);
+        context.Supervisors!.Add(Supervisor2);
+
+        controller = new ProjectController(logger.Object, context);
+
+        context.SaveChanges();
            
-            }
-    
+    }
+
+    // ==============================================================================================
+    // CreateProject
+    // ==============================================================================================
 
     [Fact]
-    public async Task ReadPreviewProjectById_returns_OkResponse()
+    public async Task Create_Project_Supervisor_Doesnt_Exist_Returns_500()
     {
         //Arrange
-        var logger = new Mock<ILogger<ProjectController>>();
-        
+        var p = new CreateProjectDTO
+        {
+            name = "Projecto",
+            Supervisor = "",
+            shortDescription = "This is a test project",
+            longDescription = "A very testy project",
+            Tags = new List<TagsEnums> { TagsEnums.Database }
+        };
+
         //Act
-        var actual = await controller.ReadDescProjectById(1);
+        var result = await controller.CreateProject(p);
 
         //Assert
-        Assert.IsType<OkObjectResult>(actual.Result);
-    } 
-    
+        var scr = Assert.IsType<StatusCodeResult>(result.Result);
+        Assert.Equal(500, scr.StatusCode);
+    }
+
     [Fact]
-    public async Task ReadPreviewProjectById_returns_Project()
+    public void Create_Project_Returns_CreatedAtAction()
     {
         //Arrange
-        var logger = new Mock<ILogger<ProjectController>>();
-
-        /*
-        var expected = new ProjectDescDTO{
-            ID = 1, 
-            name = "Thesis", 
-            Tags =  new List<string> { TagsEnums.Database.ToString() }, 
-            shortDescription = "This is a project", 
-            SupervisorName = "Test Testson"
+        var p = new CreateProjectDTO
+        {
+            name = "Projecto",
+            Supervisor = "Test Testson",
+            shortDescription = "This is a test project",
+            longDescription = "A very testy project",
+            Tags = new List<TagsEnums> { TagsEnums.Database }
         };
-        */
 
+        var result = controller.CreateProject(p);
+
+        //Assert
+        Assert.IsType<CreatedAtActionResult>(result.Result.Result);
+    }
+
+    [Fact]
+    public async Task Create_Project_No_Tags_Returns_BadRequest()
+    {
+        //Arrange
+        var p = new CreateProjectDTO
+        {
+            name = "Projecto",
+            Supervisor = "Test Testson",
+            shortDescription = "This is a test project",
+            longDescription = "A very testy project"
+        };
+
+        //Act
+        var result = await controller.CreateProject(p);
+
+        //Assert
+        Assert.IsType<BadRequestResult>(result.Result);
+    }
+
+    // ==============================================================================================
+    // ReadPreviewProjectByID
+    // ==============================================================================================
+
+    [Fact]
+    public void ReadPreviewProjectById_Exists_Returns_ProjectDescDTO()
+    {
+        //Arrange
         var expected = new ProjectDescDTO
         {
             ID = 1,
@@ -119,10 +194,9 @@ public class ProjectControllerTests
     } 
 
      [Fact]
-    public async Task ReadPreviewProjectById_returns_null()
+    public async Task ReadPreviewProjectById_Doesnt_Exist_Returns_BadRequest()
     {
         //Arrange
-        var logger = new Mock<ILogger<ProjectController>>();
        
         //Act
         var actual = await controller.ReadDescProjectById(-1);
@@ -131,13 +205,16 @@ public class ProjectControllerTests
         Assert.IsType<BadRequestResult>(actual.Result);
     }
 
+    // ==============================================================================================
+    // GetAllProjects
+    // ==============================================================================================
+
     [Fact]
-    public void Get_All_Projects_Returns_Projects()
+    public void Get_All_Projects_Returns_ProjectPreviewDTOs()
     {
         //Arrange
-        var logger = new Mock<ILogger<ProjectController>>();
-        
-        var expected1 = new ProjectPreviewDTO{
+        var expected1 = new ProjectPreviewDTO
+        {
             ID = 1, 
             name = "Thesis", 
             Tags =  new List<string> { TagsEnums.Database.ToString() }, 
@@ -153,40 +230,204 @@ public class ProjectControllerTests
         Assert.Equal(exptected.ToString(), actual.ToString());
     }
 
+    // ==============================================================================================
+    // ReadAllProjectsPostedBySupervisor
+    // ==============================================================================================
+
     [Fact]
-    public async Task Create_Project_Without_Supervisor_returns_bad_request()
+    public void Get_All_Projects_By_Supervisor_Returns_ProjectPreviewDTOs()
     {
-       //Arrange
-       var Project2 = new CreateProjectDTO {   
-                                        name = "Projecto", 
-                                        Supervisor = "",
-                                        shortDescription = "This is a test project",
-                                        longDescription = "A very testy project",
-                                        Tags = new List<TagsEnums> { TagsEnums.Database }
-                                    };
-       
-       //Act
-       var result = await controller.CreateProject(Project2);
-       
-       //Assert
-       Assert.IsType<StatusCodeResult>(result.Result);
+        //Arrange
+        var expected1 = new ProjectPreviewDTO
+        {
+            ID = 1,
+            name = "Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is a project",
+            SupervisorName = "Test Testson"
+        };
+        var expected2 = new ProjectPreviewDTO
+        {
+            ID = 3,
+            name = "Cooler Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is another project",
+            SupervisorName = "Test Testson"
+        };
+        ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1,expected2 };
+
+        //Act
+        var actual = controller.ReadAllProjectsPostedBySupervisor(1) as ProjectPreviewDTO[];
+        //var a = actual.Cast<ProjectPreviewDTO>.ToArray();
+
+        //Assert
+        Assert.Equal(expected.Length, actual.Length);
+        Assert.Equal(expected[0].ToString(), actual![0].ToString());
+        Assert.Equal(expected[1].ToString(), actual![1]!.ToString());
     }
 
     [Fact]
-    public void Create_Project_with_existing_supervisor_returns_accepted()
+    public void Get_All_Projects_By_Supervisor_Doesnt_Exist_Returns_Null()
     {
-       //Arrange
-       var Project2 = new CreateProjectDTO {   
-                                        name = "Projecto", 
-                                        Supervisor = "Test Testson",
-                                        shortDescription = "This is a test project",
-                                        longDescription = "A very testy project",
-                                        Tags = new List<TagsEnums> { TagsEnums.Database }
-                                    };
+        //Arrange
 
-       var result = controller.CreateProject(Project2);
-       
-       //Assert
-       Assert.IsType<CreatedAtActionResult>(result.Result.Result);
+        //Act
+        var actual = controller.ReadAllProjectsPostedBySupervisor(-1);
+
+        //Assert
+        Assert.Null(actual);
+    }
+
+    // ==============================================================================================
+    // ReadProjectListByTag
+    // ==============================================================================================
+
+    [Fact]
+    public void Get_Projects_By_Tag_Given_Database_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+        var expected1 = new ProjectPreviewDTO
+        {
+            ID = 1,
+            name = "Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is a project",
+            SupervisorName = "Test Testson"
+        };
+        var expected2 = new ProjectPreviewDTO
+        {
+            ID = 3,
+            name = "Cooler Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is another project",
+            SupervisorName = "Test Testson"
+        };
+        ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1, expected2 };
+
+        //Act
+        var actual = controller.ReadProjectListByTag("Database") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.Equal(expected.Length, actual.Length);
+        Assert.Equal(expected[0].ToString(), actual![0].ToString());
+        Assert.Equal(expected[1].ToString(), actual![1]!.ToString());
+    }
+
+    [Fact]
+    public void Get_Projects_By_Tag_Given_Engineering_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+        var expected1 = new ProjectPreviewDTO
+        {
+            ID = 2,
+            name = "Uncool Thesis",
+            shortDescription = "This is not a project",
+            Tags = new List<string> { TagsEnums.Engineering.ToString() },
+            SupervisorName = "Not Test Testson"
+
+        };
+        ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1 };
+
+        //Act
+        var actual = controller.ReadProjectListByTag("Engineering") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected[0].ToString(), actual![0].ToString());
+    }
+
+    [Fact]
+    public void Get_Projects_By_Tag_Doesnt_Exist_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+
+        //Act
+        var actual = controller.ReadProjectListByTag("Nothing") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.Null(actual);
+    }
+
+    // ==============================================================================================
+    // ReadProjectListBySearch
+    // ==============================================================================================
+
+    [Fact]
+    public void Get_Projects_By_Search_Given_Cool_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+        
+        var expected1 = new ProjectPreviewDTO
+        {
+            ID = 1,
+            name = "Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is a project",
+            SupervisorName = "Test Testson"
+        };
+        
+        var expected2 = new ProjectPreviewDTO
+        {
+            ID = 2,
+            name = "Uncool Thesis",
+            shortDescription = "This is not a project",
+            Tags = new List<string> { TagsEnums.Engineering.ToString() },
+            SupervisorName = "Not Test Testson"
+
+        };
+        var expected3 = new ProjectPreviewDTO
+        {
+            ID = 3,
+            name = "Cooler Thesis",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            shortDescription = "This is another project",
+            SupervisorName = "Test Testson"
+        };
+        ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1, expected2, expected3 };
+
+        //Act
+        var actual = controller.ReadProjectListBySearch("Thesis") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.NotNull(actual);
+        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected[0].ToString(), actual![0].ToString());
+        Assert.Equal(expected[1].ToString(), actual![1].ToString());
+        Assert.Equal(expected[2].ToString(), actual![2].ToString());
+    }
+
+    [Fact]
+    public void Get_Projects_By_Search_Given_Engineering_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+        var expected1 = new ProjectPreviewDTO
+        {
+            ID = 2,
+            name = "Uncool Thesis",
+            shortDescription = "This is not a project",
+            Tags = new List<string> { TagsEnums.Engineering.ToString() },
+            SupervisorName = "Not Test Testson"
+
+        };
+        ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1 };
+
+        //Act
+        var actual = controller.ReadProjectListByTag("Engineering") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected[0].ToString(), actual![0].ToString());
+    }
+
+    [Fact]
+    public void Get_Projects_By_Search_Doesnt_Exist_Returns_ProjectPreviewDTOs()
+    {
+        //Arrange
+
+        //Act
+        var actual = controller.ReadProjectListByTag("Nothing") as ProjectPreviewDTO[];
+
+        //Assert
+        Assert.Null(actual);
     }
 }
