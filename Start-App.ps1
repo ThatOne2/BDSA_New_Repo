@@ -15,6 +15,6 @@ dotnet dev-certs https -ep %USERPROFILE%.aspnet\https\aspnetapp.pfx -p localhost
 dotnet dev-certs https --trust
 
 dotnet ef migrations add InitialMigration --project $project
-<# dotnet ef database update --project $project #>
+dotnet ef database update --project $project
 <# dotnet ef database update --project Server/TrialProject.Server.csproj#>
-<# dotnet run --project Server/TrialProject.Server.csproj #>
+dotnet run --project $project
