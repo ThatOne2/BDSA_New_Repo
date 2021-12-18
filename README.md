@@ -6,17 +6,8 @@
 
   ```❯ .\Start-App.ps1```
   
-- Then run the command:
+  (*An error will be thrown that says: "There is already an object named 'Students' in the database." We want Students to be in the database so this error can be ignored*)
 
-  ```❯ dotnet ef database update --project Server/TrialProject.Server.csproj```
-  
-  (*This will give thet error that "There is already an object named 'Students' in the database." We want Students to be in the database so this error can be ignored*)
-  
-- Now you can run the program with:
-
-  ```❯ dotnet run --project Server/TrialProject.Server.csproj```
-
-We really wanted to get everything to run together as one in the Start-App file but it doesn't do the database update correctly when inserted into this file.
 
 ## Login to the website
 
