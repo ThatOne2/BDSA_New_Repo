@@ -38,7 +38,7 @@
     private List<string>? tagList;
     
     private System.Security.Claims.ClaimsPrincipal? user;
-    IEnumerable<System.Security.Claims.Claim> claims;
+    IEnumerable<System.Security.Claims.Claim>? claims;
 
     bool UserIsRegistered = false;
 
@@ -55,7 +55,7 @@
 
         
 
-         if (user.Identity.IsAuthenticated && UserIsRegistered != true) {
+         if (user.Identity!.IsAuthenticated && UserIsRegistered != true) {
             await CreateUser();
         } 
        
@@ -69,10 +69,10 @@
 
     private async Task CreateUser() {
        
-            claims = user.Claims;
+            claims = user!.Claims;
             var usertype = claims.Where(x => x.Type == "appRole").Select(y => y.Value).FirstOrDefault();
             
-            if(usertype.Equals("supervisor")) {
+            if(usertype!.Equals("supervisor")) {
                 try {
                     var name = user.Identity!.Name;
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();

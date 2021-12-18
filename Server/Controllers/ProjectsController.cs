@@ -74,7 +74,7 @@ public class ProjectController : ControllerBase {
         // TODO: Find where to put await
         await Task.FromResult(0);
 
-        var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors,
+        var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
                                                                             p => p.SupervisorID,
                                                                             ss => ss.ID,
                                                                             (p,ss) => new {
@@ -219,7 +219,7 @@ public class ProjectController : ControllerBase {
                                                                             ID = p.ID,
                                                                             Tags = p.Tags,
                                                                             Name = p.name
-                                                                        }).Where(x => x.Tags.Any(ptag => ptag.Name == tag)))
+                                                                        }).Where(x => x.Tags!.Any(ptag => ptag.Name == tag)))
             //.Where(x => x.Tags!.Any(tag => tag.Name!.ToString() == t))
         {
             var tagList = new List<string>();
@@ -263,7 +263,7 @@ public class ProjectController : ControllerBase {
                                                                             ID = p.ID,
                                                                             Tags = p.Tags,
                                                                             Name = p.name
-                                                                        }).Where(x => x.Name.Contains(s)))
+                                                                        }).Where(x => x.Name!.Contains(s)))
            
         {
             var tagList = new List<string>();

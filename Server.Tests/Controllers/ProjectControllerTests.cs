@@ -22,11 +22,9 @@ namespace Server.Tests.Controllers;
 public class ProjectControllerTests
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext? context;
 
         public readonly ProjectController controller;
         
-        private readonly HttpClient client;
 
     
 
@@ -82,20 +80,12 @@ public class ProjectControllerTests
     } 
     
     [Fact]
-    public async Task ReadPreviewProjectById_returns_Project()
+    public void ReadPreviewProjectById_returns_Project()
     {
         //Arrange
         var logger = new Mock<ILogger<ProjectController>>();
 
-        /*
-        var expected = new ProjectDescDTO{
-            ID = 1, 
-            name = "Thesis", 
-            Tags =  new List<string> { TagsEnums.Database.ToString() }, 
-            shortDescription = "This is a project", 
-            SupervisorName = "Test Testson"
-        };
-        */
+
 
         var expected = new ProjectDescDTO
         {

@@ -13,8 +13,6 @@ namespace Server.Tests.Controllers;
 public class SupervisorControllerTest
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext context;
-
         public readonly SupervisorsController repo;
  
         
@@ -36,7 +34,7 @@ public class SupervisorControllerTest
 
 
     [Fact]
-    public async Task Create_Supervisor_Already_Exists_Returns_250()
+    public void Create_Supervisor_Already_Exists_Returns_250()
     {
         //Arrange
         var s1 = new CreateSupervisorDTO()
@@ -59,7 +57,7 @@ public class SupervisorControllerTest
     }
 
     [Fact]
-    public async Task Create_Supervisor_Proper_Returns_Created()
+    public void Create_Supervisor_Proper_Returns_Created()
     {
         //Arrange
         var s = new CreateSupervisorDTO()
@@ -76,7 +74,7 @@ public class SupervisorControllerTest
     }
 
     [Fact]
-    public async Task Create_Supervisor_No_Name_Returns_500()
+    public void Create_Supervisor_No_Name_Returns_500()
     {
         //Arrange
         var s = new CreateSupervisorDTO() { Email = "Sasha@email.com" };
@@ -90,7 +88,7 @@ public class SupervisorControllerTest
     }
 
     [Fact]
-    public async Task Create_Supervisor_No_Email_Returns_500()
+    public void Create_Supervisor_No_Email_Returns_500()
     {
         //Arrange
         var s = new CreateSupervisorDTO() { name = "Sasha" };

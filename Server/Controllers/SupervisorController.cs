@@ -27,13 +27,13 @@ public class SupervisorsController : ControllerBase {
         // TODO: Find where to put await
         await Task.FromResult(0);
 
-        if (_context.Supervisors.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
+        if (_context.Supervisors!.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
             return StatusCode(250, "User already exists"); 
         } else {
 
             try {
                 Supervisor supervisor = new Supervisor {name = s.name, Email = s.Email};
-                _context.Supervisors.Add(supervisor);
+                _context.Supervisors!.Add(supervisor);
 
                 _context.SaveChanges();
                 return Created("Supervisor created", supervisor);
@@ -76,6 +76,7 @@ public class SupervisorsController : ControllerBase {
         }
         catch (Exception e) 
         { 
+            Console.WriteLine(e.Message);
             return BadRequest();
         }
     }
@@ -98,6 +99,7 @@ public class SupervisorsController : ControllerBase {
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             return BadRequest();
         }
     }

@@ -14,7 +14,7 @@ namespace TrialProject.Shared.DTO
         
         public ICollection<string>? Tags { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             var s = "ProjectPreviewDTO [ID = " + ID;
             if (name != null) s = s + ", name = " + name;
