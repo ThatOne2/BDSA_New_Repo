@@ -34,6 +34,7 @@
             <h5>Contact</h5>
             <div class="divider" ></div>
             <p>Email: @email</p>
+            <p>You're a @usertype</p>
         </div>
 
         <div class="sepH"></div>
@@ -45,6 +46,7 @@
 
 @code {
     string email = "";
+    string usertype = "";
     private System.Security.Claims.ClaimsPrincipal? user;
     IEnumerable<System.Security.Claims.Claim> claims;
 
@@ -56,6 +58,7 @@
         if (user.Identity.IsAuthenticated)
         {
             claims = user.Claims;
+            usertype = claims.Where(x => x.Type == "appRole").Select(y => y.Value).FirstOrDefault();
             email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
         }
     }
