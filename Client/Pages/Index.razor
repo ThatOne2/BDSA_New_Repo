@@ -5,7 +5,6 @@
 @using TrialProject.Shared.DTO;
 @using System.Collections.Generic
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@* @attribute [Authorize] *@
 @inject HttpClient Http
 
 <PageTitle>TheStart</PageTitle>
@@ -31,17 +30,6 @@
     </div>
 </div>
 
-<AuthorizeView >
-  @*   <Authorized>  
-        @foreach (var e in claims!)
-        {
-             <p>@e.Type = @e.Value</p>
-        } 
-    </Authorized> *@
-    <NotAuthorized>
-        <p>You are not authorized to post projects</p>
-    </NotAuthorized>
-</AuthorizeView>
 
   
  
@@ -50,7 +38,7 @@
     private List<string>? tagList;
     
     private System.Security.Claims.ClaimsPrincipal? user;
-    IEnumerable<System.Security.Claims.Claim> claims;
+    IEnumerable<System.Security.Claims.Claim>? claims;
 
     bool UserIsRegistered = false;
 
@@ -67,7 +55,7 @@
 
         
 
-         if (user.Identity.IsAuthenticated && UserIsRegistered != true) {
+         if (user.Identity!.IsAuthenticated && UserIsRegistered != true) {
             await CreateUser();
         } 
        
@@ -81,10 +69,10 @@
 
     private async Task CreateUser() {
        
-            claims = user.Claims;
+            claims = user!.Claims;
             var usertype = claims.Where(x => x.Type == "appRole").Select(y => y.Value).FirstOrDefault();
             
-            if(usertype.Equals("supervisor")) {
+            if(usertype!.Equals("supervisor")) {
                 try {
                     var name = user.Identity!.Name;
                     var email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
@@ -103,7 +91,7 @@
                     UserIsRegistered = true;
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
-                }
+            }
         }
     } 
 }

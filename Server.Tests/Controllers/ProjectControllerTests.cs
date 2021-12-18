@@ -22,11 +22,9 @@ namespace Server.Tests.Controllers;
 public class ProjectControllerTests
 {
 
-       //private readonly TrialProject.Server.Controllers.DataContext? context;
 
     public readonly ProjectController controller;
         
-        //private readonly HttpClient client;
 
     
 

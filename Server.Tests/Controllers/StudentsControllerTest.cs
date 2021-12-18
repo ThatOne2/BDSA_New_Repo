@@ -15,8 +15,6 @@ namespace Server.Tests.Controllers;
 public class StudentControllerTests
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext context;
-
         public readonly StudentsController repo;
  
         

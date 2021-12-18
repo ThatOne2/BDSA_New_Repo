@@ -3,19 +3,21 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using TrialProject.Shared
 @inject CurrentUser currentuser
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
 @using System.Text;
-
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 
 <AuthorizeView>
     <NotAuthorized>
-        <h5>Welcome, John Doe (please log in to proceed to your profile page)</h5>
+        <h5>Please log in to proceed to your profile page</h5>
     </NotAuthorized>
     <Authorized>
 
         <body>
             <div class="top_background">
-            <div class="profile_in_short">
+            <div class="profile_in_short"> 
                 <div class="p_pic">
                     <img src="css\open-iconic\user_icon.svg" alt="profile pic" width="100px" />
                 </div>
@@ -24,58 +26,17 @@
         </div>
 
         <div class="student_or_supervisor">
-            <p role="status"  >Please specify whether you are a student or a professor:</p>
-
-            <select id="role"  @onchange="@SetRole">
-                @if(!currentuser.isSupervisor){
-                    <option value="student" selected>Student</option>
-                    <option value="professor">Supervisor</option>
-                } else {
-                    <option value="student">Student</option>
-                    <option value="professor" selected>Supervisor</option>
-                }
-            </select>
-            @if(currentuser.isSupervisor){
-                <p role="status">Hello, Supervisor Kenobi - u look amaze </p>
-            }
-        </div>
-
-        <div class="divs">
-            <h5>Bio</h5>
-            <div class="divider" ></div>
-            <textarea name="bio" id="profile_bio" cols="30" rows="10" disabled=@editenable>@biotxt</textarea>
-            <div class="biobtns">
-                <button @onclick="@setEditable">Edit</button>
-                <div class="sep"></div>
-                <button @onclick="@saveBio">Save</button>
-            </div>
             
         </div>
-        
 
-        <div class="divs">
-            <h5>About</h5>
-            <div class="divider" ></div>
-            <p>Experience: </p>
-            <p>Current job position: </p>
-            <p>Education: </p>
-        </div>
 
         <div class="divs">
             <h5>Contact</h5>
             <div class="divider" ></div>
-            <p>Email: tempsnapelamail.com</p>
-            <p>Phone: </p>
+            <p>Email: @email</p>
+            <p>You're a @usertype</p>
         </div>
 
-        
-        <div class="divs" >
-            <h5>Prevoius Projects</h5>
-            <div class="divider" ></div>
-            <div class="preproj">
-
-            </div>
-        </div>
         <div class="sepH"></div>
         </body>
 
@@ -84,21 +45,21 @@
 </AuthorizeView>
 
 @code {
-    private void SetRole(ChangeEventArgs e){
-        if(e.Value!.ToString() == "student") {currentuser.isSupervisor = false;}
-        else currentuser.isSupervisor = true;
-    }
-    private void SetRoleAsStudent() => currentuser.isSupervisor = false;
-    private void SetRoleAsSupervisor() => currentuser.isSupervisor = true;
+    string email = "";
+    string usertype = "";
+    //private System.Security.Claims.ClaimsPrincipal? user;
+    IEnumerable<System.Security.Claims.Claim>? claims;
 
-    private bool editenable = false;
-    private StringBuilder biotxt = new StringBuilder();
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
 
-    private void setEditable() => editenable = true;
-
-    private void saveBio(){
-        biotxt.Clear();
-        biotxt.Append(biotxt);
-        editenable = false;
+        if (user.Identity!.IsAuthenticated)
+        {
+            claims = user.Claims;
+            usertype = claims.Where(x => x.Type == "appRole").Select(y => y.Value).FirstOrDefault()!;
+            email = user.Claims.Where(x => x.Type == "email").Select(y => y.Value).First();
+        }
     }
 }

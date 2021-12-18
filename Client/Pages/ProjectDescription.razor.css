@@ -26,8 +26,13 @@ textarea{
     place-content: space-around;
 }
 
+.topfiller{
+    height: 25px;
+}
+
 .content_left{
     margin-left: 10%;
+    margin-top: 2%;
     width: 50%;
 }
 
@@ -36,12 +41,45 @@ textarea{
 }
 
 .content_right{
-    margin-right: 5%;
     width: 30%;
     height: auto;
-    background-color: palevioletred;
+    background-color: lightgray;
+    display: block;
 }
 
 h1{
     color: #fff;
+}
+
+h4{
+    margin-top: 8%;
+}
+
+h5{
+    margin-top: 8%;
+}
+
+.profilePic{
+    width: 150px;
+    height: 150px;
+    background-color: rgb(0, 84, 211);
+    border-radius: 100pc;
+    float: right;
+    margin: 5%;
+}
+
+.filler{
+    height: 175px;
+}
+
+.abouttitle{
+    margin: 7%;
+}
+
+h6{
+    margin-top: 5%;
+}
+
+.aboutcontainer{
+    margin-left: 7%;
 }

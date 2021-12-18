@@ -27,7 +27,7 @@ namespace TrialProject.Shared.DTO
         [Required(ErrorMessage = "A least one tag required")]
         public ICollection<TagsEnums>? Tags { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             var s = "CreateProjectDTO [name = " + name;
             if (Supervisor != null) s = s + ", supervisor = " + Supervisor;

@@ -14,8 +14,6 @@ namespace Server.Tests.Controllers;
 public class SupervisorControllerTest
 {
 
-       private readonly TrialProject.Server.Controllers.DataContext context;
-
         public readonly SupervisorsController repo;
  
         

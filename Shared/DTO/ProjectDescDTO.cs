@@ -27,7 +27,7 @@ namespace TrialProject.Shared.DTO
         [Required]
         public Status ProjectStatus { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             var s = "ProjectDescDTO [ID = " + ID;
             if (name != null) s = s + ", name = " + name;

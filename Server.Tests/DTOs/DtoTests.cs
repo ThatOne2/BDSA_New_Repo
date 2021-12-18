@@ -13,7 +13,7 @@ public class DtoTests
     }
 
     [Fact]
-    public async Task CreateProjectDTO_ToString_Not_Equal()
+    public void CreateProjectDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new CreateProjectDTO
@@ -34,7 +34,7 @@ public class DtoTests
     }
 
     [Fact]
-    public async Task ProjectDescDTO_ToString_Not_Equal()
+    public void ProjectDescDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new ProjectDescDTO
@@ -55,7 +55,7 @@ public class DtoTests
     }
 
     [Fact]
-    public async Task ProjectPreviewDTO_ToString_Not_Equal()
+    public void ProjectPreviewDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new ProjectPreviewDTO
@@ -76,7 +76,7 @@ public class DtoTests
     // Supervisor =======================================================
 
     [Fact]
-    public async Task CreateSupervisorDTO_ToString_Not_Equal()
+    public void CreateSupervisorDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new CreateSupervisorDTO
@@ -95,7 +95,7 @@ public class DtoTests
     }
 
     [Fact]
-    public async Task SupervisorDescDTO_ToString_Not_Equal()
+    public void SupervisorDescDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new SupervisorDescDTO
@@ -117,7 +117,7 @@ public class DtoTests
     // Student =======================================================
 
     [Fact]
-    public async Task CreateStudentDTO_ToString_Not_Equal()
+    public void CreateStudentDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new CreateStudentDTO
@@ -136,7 +136,7 @@ public class DtoTests
     }
 
     [Fact]
-    public async Task StudentDescDTO_ToString_Not_Equal()
+    public void StudentDescDTO_ToString_Not_Equal()
     {
         //Arrange
         var d1 = new StudentDescDTO

@@ -80,7 +80,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (IsValidAction(Action)) {
+        if (IsValidAction(Action!)) {
             try
             {
                 switch(Action)

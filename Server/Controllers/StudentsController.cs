@@ -23,12 +23,12 @@ public class StudentsController : ControllerBase {
 //Ready to be tested
     [HttpPost("api")]
     public async Task<ActionResult<Student>> CreateStudent([FromBody]CreateStudentDTO s){
-          if (_context.Students.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
+          if (_context.Students!.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
               return StatusCode(250, "User is created");
           } else {
             try {
              Student student = new Student {name = s.name, Email = s.Email};
-            _context.Students.Add(student);
+            await _context.Students!.AddAsync(student);
 
             _context.SaveChanges();
               return Created("Student creates", student);
@@ -62,6 +62,7 @@ public class StudentsController : ControllerBase {
             return Ok(s);
         }
         catch (Exception e) { 
+            Console.WriteLine(e.Message);
             return BadRequest();
         }
         
