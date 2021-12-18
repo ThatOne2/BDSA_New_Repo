@@ -6,7 +6,7 @@
 
   ```❯ .\Start-App.ps1```
   
-  (*An error will be thrown that says: "There is already an object named 'Students' in the database." We want Students to be in the database so this error can be ignored*)
+  (*An error will be thrown that says: "There is already an object named 'Students' in the database." We want that table Students to be in the database so this error can be ignored*)
 
 
 ## Login to the website
