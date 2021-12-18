@@ -259,9 +259,10 @@ public class ProjectControllerTests
         //var a = actual.Cast<ProjectPreviewDTO>.ToArray();
 
         //Assert
-        Assert.Equal(expected.Length, actual.Length);
+        Assert.NotNull(actual);
+        Assert.Equal(expected.Length, actual!.Length);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
-        Assert.Equal(expected[1].ToString(), actual![1]!.ToString());
+        Assert.Equal(expected[1].ToString(), actual![1].ToString());
     }
 
     [Fact]
@@ -306,9 +307,10 @@ public class ProjectControllerTests
         var actual = controller.ReadProjectListByTag("Database") as ProjectPreviewDTO[];
 
         //Assert
-        Assert.Equal(expected.Length, actual.Length);
+        Assert.NotNull(actual);
+        Assert.Equal(expected.Length, actual!.Length);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
-        Assert.Equal(expected[1].ToString(), actual![1]!.ToString());
+        Assert.Equal(expected[1].ToString(), actual![1].ToString());
     }
 
     [Fact]
@@ -330,6 +332,7 @@ public class ProjectControllerTests
         var actual = controller.ReadProjectListByTag("Engineering") as ProjectPreviewDTO[];
 
         //Assert
+        Assert.NotNull(actual);
         Assert.Equal(expected.Length, actual!.Length);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
     }
@@ -410,9 +413,10 @@ public class ProjectControllerTests
         ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1 };
 
         //Act
-        var actual = controller.ReadProjectListByTag("Engineering") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListBySearch("Uncool") as ProjectPreviewDTO[];
 
         //Assert
+        Assert.NotNull(actual);
         Assert.Equal(expected.Length, actual!.Length);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
     }
@@ -427,5 +431,102 @@ public class ProjectControllerTests
 
         //Assert
         Assert.Null(actual);
+    }
+
+    // ==============================================================================================
+    // UpdateProjectDescription
+    // ==============================================================================================
+
+    [Fact]
+    public void Update_Desc_Project_Doesnt_Exist_Returns_BadRequest()
+    {
+        //Arrange
+        var desc = "Description";
+
+        //Act
+        var result = controller.UpdateProjectDesciption(-1,desc);
+
+        //Assert
+        Assert.Equal(HttpStatusCode.BadRequest, result);
+    }
+
+    [Fact]
+    public void Update_Desc_Returns_OK()
+    {
+        //Arrange
+        var desc = "Description";
+
+        //Act
+        var result = controller.UpdateProjectDesciption(1, desc);
+
+        var upd = controller.ReadDescProjectById(1).Result.Result as OkObjectResult;
+        var upd1 = upd!.Value as ProjectDescDTO;
+        var newDesc = upd1!.longDescription;
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, result);
+        Assert.Equal(desc, newDesc);
+    }
+
+    // ==============================================================================================
+    // UpdateProjectStatus
+    // ==============================================================================================
+
+    [Fact]
+    public void Update_Status_Project_Doesnt_Exist_Returns_BadRequest()
+    {
+        //Arrange
+
+        //Act
+        var result = controller.UpdateProjectStatus(-1, Status.Archived);
+
+        //Assert
+        Assert.Equal(HttpStatusCode.BadRequest, result);
+    }
+
+    [Fact]
+    public void Update_Status_Returns_OK()
+    {
+        //Arrange
+
+        //Act
+        var result = controller.UpdateProjectStatus(1, Status.Archived);
+
+        var upd = controller.ReadDescProjectById(1).Result.Result as OkObjectResult;
+        var upd1 = upd!.Value as ProjectDescDTO;
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, result);
+        Assert.Equal(Status.Archived, upd1!.ProjectStatus);
+    }
+
+    // ==============================================================================================
+    // DeleteProject
+    // ==============================================================================================
+
+    [Fact]
+    public void Delete_Project_Doesnt_Exist_Returns_InternalServerError()
+    {
+        //Arrange
+
+        //Act
+        var result = controller.DeleteProject(-1);
+
+        //Assert
+        Assert.Equal(HttpStatusCode.InternalServerError, result);
+    }
+
+    [Fact]
+    public void Delete_Supervisor_Exists_Returns_OK()
+    {
+        //Arrange
+
+        //Act
+        var result = controller.DeleteProject(1);
+        var del = controller.ReadDescProjectById(1).Result.Result;
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, result);
+        Assert.IsType<BadRequestResult>(del);
     }
 }

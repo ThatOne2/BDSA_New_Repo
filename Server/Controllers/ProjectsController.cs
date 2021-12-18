@@ -301,6 +301,9 @@ public class ProjectController : ControllerBase {
             {
                 proj.longDescription = newDescription;
                 _context.SaveChanges();
+            } else
+            {
+                return HttpStatusCode.BadRequest;
             }
             return HttpStatusCode.OK;
         }
@@ -320,7 +323,11 @@ public class ProjectController : ControllerBase {
 			{
                 proj.ProjectStatus = status;
                 _context.SaveChanges();
-			}
+            }
+            else
+            {
+                return HttpStatusCode.BadRequest;
+            }
             return HttpStatusCode.OK;
         }
         catch (Exception)
