@@ -56,7 +56,7 @@ public class ProjectController : ControllerBase {
  
         project.SupervisorID = s.ID;
   
-        _context.Projects!.Add(project);
+        await _context.Projects!.AddAsync(project);
         _context.SaveChanges();
 
         return CreatedAtAction("Created project", project);

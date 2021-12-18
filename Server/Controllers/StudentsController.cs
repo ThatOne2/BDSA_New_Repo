@@ -28,7 +28,7 @@ public class StudentsController : ControllerBase {
           } else {
             try {
              Student student = new Student {name = s.name, Email = s.Email};
-            _context.Students!.Add(student);
+            await _context.Students!.AddAsync(student);
 
             _context.SaveChanges();
               return Created("Student creates", student);
