@@ -32,31 +32,16 @@
 		<textarea name="longdescription" id="longdescription" cols="30" rows="10" readonly>
 			@project.longDescription
 		</textarea>
-		<p></p>
 
-		<h4>Deadline</h4>
-		<p></p>
 
 		<h4>Contact information</h4>
-		<p></p>
 
 		<AuthorizeView Context="LoggedIn">
 		<Authorized>
 			<AuthorizeView Roles="supervisor">
 				<Authorized>
 					<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
-					<input type="button" class="OurButton" value="@archiveText" @onclick="ArchiveProj">
 					<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
-				</Authorized>
-			</AuthorizeView>
-			<AuthorizeView Roles="student">
-				<Authorized>
-					@if (ongoing) {
-						<button class="OurButton">Apply</button>
-					} else
-					{
-						<p>This project has been archived!</p>
-					}
 				</Authorized>
 			</AuthorizeView>
 		</Authorized>
@@ -67,14 +52,7 @@
 	
 	</div>
 
-	<div class="content_center"></div>
-
-	<div class="content_right"></div>
-
 	</body>
-	
-
-
 	
 }
 
@@ -90,21 +68,11 @@
 
 	private string fStatus = "Searching...";
 
-	private bool ongoing = true;
-
-	private string archiveText = "Archive";
-
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
 			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/api/" + id);
-			if (project.ProjectStatus != Status.Ongoing)
-			{
-				ongoing = false;
-				archiveText = "Unarchive";
-			}
-
 		}
 		catch
 		{
@@ -117,34 +85,6 @@
 	private void NavToEdit()
 	{
 		NavManager.NavigateTo("/project/edit/" + id);
-	}
-
-	private async void ArchiveProj()
-	{
-		if (ongoing)
-		{
-			var response = await Http.PutAsJsonAsync<Status>("Project/api/" + id + "/status", Status.Archived);
-			if (response.IsSuccessStatusCode)
-			{
-				archiveText = "Unarchive";
-				ongoing = false;
-			}
-		} else
-		{
-			var response = await Http.PutAsJsonAsync<Status>("Project/api/" + id + "/status", Status.Ongoing);
-			if (response.IsSuccessStatusCode)
-			{
-				archiveText = "Archive";
-				ongoing = true;
-			}
-		}
-		base.StateHasChanged();
-	}
-
-	private async void UnarchiveProj()
-	{
-		var response = await Http.PutAsJsonAsync<Status>("Project/api/" + id + "/status", Status.Ongoing);
-		if (response.IsSuccessStatusCode) ongoing = true;
 	}
 
 	private async void DeleteProj()
