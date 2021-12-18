@@ -69,23 +69,6 @@ public class SupervisorControllerTest
     }
 
     [Fact]
-    public void Create_Supervisor_Proper_Returns_Created()
-    {
-        //Arrange
-        var s = new CreateSupervisorDTO()
-        {
-            name = "Sasha",
-            Email = "Sasha@email.com"
-        };
-
-        //Act
-        var result = repo.CreateSupervisor(s).Result.Result;
-
-        //Assert
-        Assert.IsType<CreatedResult>(result);
-    }
-
-    [Fact]
     public void Create_Supervisor_No_Name_Returns_500()
     {
         //Arrange
@@ -110,6 +93,48 @@ public class SupervisorControllerTest
 
         //Assert
         Assert.Equal(500, result!.StatusCode);
+    }
+
+    [Fact]
+    public void Create_Supervisor_Returns_Created()
+    {
+        //Arrange
+        var s = new CreateSupervisorDTO()
+        {
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+
+        //Act
+        var result = repo.CreateSupervisor(s).Result.Result;
+
+        //Assert
+        Assert.IsType<CreatedResult>(result);
+    }
+
+    [Fact]
+    public async Task Create_Supervisor_Is_Created()
+    {
+        //Arrange
+        var s = new CreateSupervisorDTO()
+        {
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+        var expected = new SupervisorDescDTO()
+        {
+            ID = 2,
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+
+        //Act
+        await repo.CreateSupervisor(s);
+        var result = repo.ReadSupervisorDescById(2)!.Result.Result;
+
+        //Assert
+        var r = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(expected.ToString(), r.Value!.ToString());
     }
 
     // ==============================================================================================
@@ -174,5 +199,18 @@ public class SupervisorControllerTest
 
         //Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, result);
+    }
+
+    [Fact]
+    public void Delete_Supervisor_Is_Deleted()
+    {
+        //Arrange
+
+        //Act
+        repo.DeleteSupervisor(1);
+        var del = repo.ReadSupervisorDescById(1)!.Result.Result;
+
+        //Assert
+        Assert.IsType<BadRequestResult>(del);
     }
 }

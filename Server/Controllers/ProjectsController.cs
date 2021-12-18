@@ -116,7 +116,7 @@ public class ProjectController : ControllerBase {
         return BadRequest();
     }
 
-//Ready to be tested
+
     //Returns a list of all projects (Maybe using  yield return?)
     [HttpGet("api")]
     public IEnumerable<ProjectPreviewDTO> GetAllProjects() {

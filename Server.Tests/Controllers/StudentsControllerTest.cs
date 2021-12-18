@@ -68,23 +68,6 @@ public class StudentControllerTests
     }
 
     [Fact]
-    public void Create_Student_Proper_Returns_Created()
-    {
-        //Arrange
-        var s = new CreateStudentDTO()
-        {
-            name = "Sasha",
-            Email = "Sasha@email.com"
-        };
-
-        //Act
-        var result = repo.CreateStudent(s).Result.Result;
-
-        //Assert
-        Assert.IsType<CreatedResult>(result);
-    }
-
-    [Fact]
     public void Create_Student_No_Name_Returns_500()
     {
         //Arrange
@@ -108,6 +91,48 @@ public class StudentControllerTests
 
         //Assert
         Assert.Equal(500, result!.StatusCode);
+    }
+
+    [Fact]
+    public void Create_Student_Returns_Created()
+    {
+        //Arrange
+        var s = new CreateStudentDTO()
+        {
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+
+        //Act
+        var result = repo.CreateStudent(s).Result.Result;
+
+        //Assert
+        Assert.IsType<CreatedResult>(result);
+    }
+
+    [Fact]
+    public async Task Create_Student_Is_Created()
+    {
+        //Arrange
+        var s = new CreateStudentDTO()
+        {
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+        var expected = new StudentDescDTO()
+        {
+            ID = 2,
+            name = "Sasha",
+            Email = "Sasha@email.com"
+        };
+
+        //Act
+        await repo.CreateStudent(s);
+        var result = repo.ReadStudentDescById(2)!.Result.Result;
+
+        //Assert
+        var r = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(expected.ToString(), r.Value!.ToString());
     }
 
     // ==============================================================================================
@@ -174,5 +199,16 @@ public class StudentControllerTests
         Assert.Equal(System.Net.HttpStatusCode.OK, result);
     }
 
+    [Fact]
+    public void Delete_Student_Is_Deleted()
+    {
+        //Arrange
 
+        //Act
+        repo.DeleteStudent(1);
+        var del = repo.ReadStudentDescById(1)!.Result.Result;
+
+        //Assert
+        Assert.IsType<BadRequestResult>(del);
+    }
 }

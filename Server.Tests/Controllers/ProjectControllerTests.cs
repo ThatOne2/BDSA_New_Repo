@@ -125,6 +125,25 @@ public class ProjectControllerTests
     }
 
     [Fact]
+    public async Task Create_Project_No_Tags_Returns_BadRequest()
+    {
+        //Arrange
+        var p = new CreateProjectDTO
+        {
+            name = "Projecto",
+            Supervisor = "Test Testson",
+            shortDescription = "This is a test project",
+            longDescription = "A very testy project"
+        };
+
+        //Act
+        var result = await controller.CreateProject(p);
+
+        //Assert
+        Assert.IsType<BadRequestResult>(result.Result);
+    }
+
+    [Fact]
     public void Create_Project_Returns_CreatedAtAction()
     {
         //Arrange
@@ -144,7 +163,7 @@ public class ProjectControllerTests
     }
 
     [Fact]
-    public async Task Create_Project_No_Tags_Returns_BadRequest()
+    public async Task Create_Project_Is_Created()
     {
         //Arrange
         var p = new CreateProjectDTO
@@ -152,22 +171,35 @@ public class ProjectControllerTests
             name = "Projecto",
             Supervisor = "Test Testson",
             shortDescription = "This is a test project",
-            longDescription = "A very testy project"
+            longDescription = "A very testy project",
+            Tags = new List<TagsEnums> { TagsEnums.Database }
+        };
+        var expected = new ProjectDescDTO
+        {
+            ID = 4,
+            name = "Projecto",
+            SupervisorName = "Test Testson",
+            shortDescription = "This is a test project",
+            longDescription = "A very testy project",
+            Tags = new List<string> { TagsEnums.Database.ToString() },
+            ProjectStatus = Status.Ongoing
         };
 
-        //Act
-        var result = await controller.CreateProject(p);
+        await controller.CreateProject(p);
+        var result = controller.ReadDescProjectById(4).Result.Result;
 
         //Assert
-        Assert.IsType<BadRequestResult>(result.Result);
+        var oor = Assert.IsType<OkObjectResult>(result);
+        var project = Assert.IsType<ProjectDescDTO>(oor.Value);
+        Assert.Equal(expected.ToString(), project.ToString());
     }
 
     // ==============================================================================================
-    // ReadPreviewProjectByID
+    // ReadDescProjectByID
     // ==============================================================================================
 
     [Fact]
-    public void ReadPreviewProjectById_Exists_Returns_ProjectDescDTO()
+    public void ReadDescProjectById_Exists_Returns_ProjectDescDTO()
     {
         //Arrange
         var expected = new ProjectDescDTO
@@ -188,11 +220,11 @@ public class ProjectControllerTests
         //Assert
         var oor = Assert.IsType<OkObjectResult>(result);
         var project = Assert.IsType<ProjectDescDTO>(oor.Value);
-        Assert.Equal(project.ToString(), expected.ToString());
+        Assert.Equal(expected.ToString(), project.ToString());
     } 
 
      [Fact]
-    public async Task ReadPreviewProjectById_Doesnt_Exist_Returns_BadRequest()
+    public async Task ReadDescProjectById_Doesnt_Exist_Returns_BadRequest()
     {
         //Arrange
        
@@ -500,6 +532,8 @@ public class ProjectControllerTests
         Assert.Equal(Status.Archived, upd1!.ProjectStatus);
     }
 
+
+
     // ==============================================================================================
     // DeleteProject
     // ==============================================================================================
@@ -523,10 +557,21 @@ public class ProjectControllerTests
 
         //Act
         var result = controller.DeleteProject(1);
-        var del = controller.ReadDescProjectById(1).Result.Result;
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, result);
+    }
+
+    [Fact]
+    public void Delete_Supervisor_Is_Deleted()
+    {
+        //Arrange
+
+        //Act
+        controller.DeleteProject(1);
+        var del = controller.ReadDescProjectById(1)!.Result.Result;
+
+        //Assert
         Assert.IsType<BadRequestResult>(del);
     }
 }
