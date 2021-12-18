@@ -1,114 +1,56 @@
-body{
-    text-decoration: #515052;
-    background-color: #fff;
+.container {
+    border-radius: 10pt;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+    background-color: white;
+    padding: 0;
+    width: 60%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
 }
 
 .top_background{
-    height: 250px;
-    background-color: black;
-    align-content: center;
-    display: grid;
-
-}
-
-.student_or_supervisor{
-    margin-left: 10%;
-    margin-top: 2%;
-    margin-bottom: 5%;
-}
-
-.subtitle{
-    margin-bottom: 30px;
-}
-
-.sepH{
-    height: 2%;
-}
-
-.divider{
-    width: 50vw;
-    height: 1px;
+    height: 200px;
     background-color: #515052;
-    margin-left: -2%;
-    margin-bottom: 2%;
-    margin-top: 0px;
-}
-
-textarea{
-    height: 100px;
-    background-color: #fff;
-    border: #fff;
-    resize: none;
-    max-height: 75px;
-}
-
-.profile_in_short{
-    width: fit-content;
-    place-self: center;
-    margin-top: 6%;
     align-content: center;
-    float: right;
     display: grid;
-    place-items: center;
-    color: #fff;
-}
-
-.p_pic{
-    align-content: center;
-}
-
-.divs{
-    margin-bottom: 5%;
-    margin-left: 10%;
-    width: fit-content;
-    display: grid;
-}
-
-.biobtns{
-    display: flex;
-}
-
-.sep{
-    width: 2%;
-}
-
-.preproj{
-    width: 40vW;
-    height: 8vw;
-    min-width: 180px;
-    min-height: 50px;
-    box-shadow: 1px 1px #c9c9c9;
-    border-radius: 5pt;
-    background-color: rgb(247, 247, 247);
-}
-
-button {
-    border-radius: 30pt;
-    float: left;
     width: 100%;
-    background-color:#FF2E3F;
     color: white;
-    font-weight: bold;
-    border-color: transparent;
-
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    width: 20%;
-    will-change: transform;
-    margin-top: 2%;
+    place-items: center;
 }
 
-button:hover {
-  color: #FF2E3F;
-  background-color: transparent;
-
-  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-  transform: translateY(-2px);
+.information{
+    width: 40%;
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-button:active {
-  box-shadow: none;
-  transform: translateY(0);
+h1 {
+    color: #333138;
+}
+
+p, h5 {
+    color: #333138;
+}
+
+hr.line {
+    border-top: 8px solid #333138; 
+    border-radius: 5px;
+    margin-top: 0;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .container {
+      width: 100%;
+    }
+    .ViewProjBtn {
+        height: 3em;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .information {
+        width: 100%;
+    }
 }

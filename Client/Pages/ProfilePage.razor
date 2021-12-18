@@ -8,41 +8,29 @@
 @using System.Text;
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize]
 
-<AuthorizeView>
-    <NotAuthorized>
-        <h5>Please log in to proceed to your profile page</h5>
-    </NotAuthorized>
-    <Authorized>
 
-        <body>
-            <div class="top_background">
-            <div class="profile_in_short"> 
-                <div class="p_pic">
+    <AuthorizeView>
+        <Authorized>
+            <div class = "container">
+                <div class="top_background">
                     <img src="css\open-iconic\user_icon.svg" alt="profile pic" width="100px" />
+                    <h4>@context.User.Identity?.Name</h4>
                 </div>
-                <h4>@context.User.Identity?.Name</h4>
+                <div class = "information">
+                    <h5>About you</h5>
+                    <hr class="line">
+                    <p>Email: @email</p>
+                    <p>Account Type: @usertype</p>
+                </div>
             </div>
-        </div>
 
-        <div class="student_or_supervisor">
-            
-        </div>
+        </Authorized>
+    </AuthorizeView>
 
 
-        <div class="divs">
-            <h5>Contact</h5>
-            <div class="divider" ></div>
-            <p>Email: @email</p>
-            <p>You're a @usertype</p>
-        </div>
 
-        <div class="sepH"></div>
-        </body>
-
-
-    </Authorized>
-</AuthorizeView>
 
 @code {
     string email = "";
