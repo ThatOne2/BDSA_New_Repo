@@ -113,25 +113,6 @@ public class DtoTests
         Assert.NotEqual(d1.ToString(), d2.ToString());
     }
 
-    [Fact]
-    public async Task SupervisorPreviewDTO_ToString_Not_Equal()
-    {
-        //Arrange
-        var d1 = new SupervisorPreviewDTO
-        {
-            name = "Name",
-            Email = "Fake@mail.com"
-        };
-        var d2 = new SupervisorPreviewDTO
-        {
-            name = "Different name",
-            Email = "Mail@fake.com"
-        };
-
-        //Assert
-        Assert.NotEqual(d1.ToString(), d2.ToString());
-    }
-
 
     // Student =======================================================
 
@@ -167,23 +148,6 @@ public class DtoTests
         {
             name = "Different name",
             Email = "Mail@fake.com"
-        };
-
-        //Assert
-        Assert.NotEqual(d1.ToString(), d2.ToString());
-    }
-
-    [Fact]
-    public async Task StudentPreviewDTO_ToString_Not_Equal()
-    {
-        //Arrange
-        var d1 = new StudentPreviewDTO
-        {
-            name = "Name"
-        };
-        var d2 = new StudentPreviewDTO
-        {
-            name = "Different name"
         };
 
         //Assert

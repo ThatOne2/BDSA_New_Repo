@@ -60,13 +60,13 @@ public class SupervisorsController : ControllerBase {
 
     //Returns a single suporvisor by ID
     [HttpGet("api/preview/{id}")]
-    public async Task<ActionResult<SupervisorPreviewDTO>>? ReadSupervisorPreviewById(int id){
+    public async Task<ActionResult<SupervisorDescDTO>>? ReadSupervisorPreviewById(int id){
         try
         {
             // TODO: Find where to put await
             await Task.FromResult(0);
 
-            var s = new SupervisorPreviewDTO
+            var s = new SupervisorDescDTO
             {
                 ID = _context.Supervisors!.Find(id)!.ID,
                 name = _context.Supervisors.Find(id)!.name,
