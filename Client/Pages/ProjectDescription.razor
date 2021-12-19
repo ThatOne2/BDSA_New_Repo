@@ -11,39 +11,31 @@
 	<p>@message</p>
 } else
 {
+	<div class = "container">
+        <div class="top">
+            <h1>@project.name</h1>
+        </div>
 
-	<div class="top">
-		<h1>@project.name</h1>
-	</div>
+		<div class="content">
+			<div class = "content_left">
+				<div class = "center">
+					<p>@project.shortDescription</p>
+				</div>
+				<p>@project.longDescription</p>
+				<AuthorizeView Roles="supervisor">
+					<Authorized>
+						<div class = "center buttondiv">
+							<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
+							<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
+						</div>
+						
+					</Authorized>
+				</AuthorizeView>
+			</div>
 
-	<body>
-		
-
-		<div class="content_left">
-
-			<h4>Short</h4>
-			<p>@project.shortDescription</p>
-
-			<h4>Description</h4>
-			<textarea name="longdescription" id="longdescription" cols="30" rows="10" readonly>
-				@project.longDescription
-			</textarea>
-
-			<AuthorizeView Roles="supervisor">
-				<Authorized>
-					<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
-					<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
-				</Authorized>
-			</AuthorizeView>
-	
-		</div>
-
-		<div class="content_center"></div>
-
-		<div class="content_right">
-			<div class="abouttitle"><h5>About</h5></div>
-
-			<div class="aboutcontainer">
+			<div class = "content_right">
+				<h4>About</h4>
+				<hr class="line">
 				<h6>Author: </h6>
 				@project.SupervisorName 
 				<h6>Contact: </h6>
@@ -56,12 +48,9 @@
 					</NotAuthorized>
 				</AuthorizeView>
 			</div>
-
 		</div>
-
-
-	</body>
-	
+    </div>
+	<div class="filler"/>
 }
 
 
