@@ -9,7 +9,7 @@ namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class SupervisorsController : ControllerBase {
+public class SupervisorsController : ControllerBase, ISupervisorsController {
 
 
     private readonly TrialProject.Server.Controllers.DataContext _context;
