@@ -8,7 +8,7 @@ namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ProjectController : ControllerBase {
+public class ProjectController : ControllerBase, IProjectController {
 
 
     private readonly DataContext _context;

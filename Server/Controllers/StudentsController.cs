@@ -8,7 +8,7 @@ namespace TrialProject.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class StudentsController : ControllerBase {
+public class StudentsController : ControllerBase , IStudentsController {
 
 
     private readonly Controllers.DataContext _context;
@@ -67,8 +67,6 @@ public class StudentsController : ControllerBase {
         }
         
     }
-
-
 
 
     //============================================
