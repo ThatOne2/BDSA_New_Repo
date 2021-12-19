@@ -14,6 +14,7 @@ public class Project
     public string? shortDescription { get; set; }
 
      [Required(ErrorMessage = "Description is required")]
+     [ConcurrencyCheck]
     public string? longDescription { get; set; }
 
     public int? SupervisorID { get; set; }

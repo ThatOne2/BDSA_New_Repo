@@ -22,8 +22,14 @@ namespace TrialProject.Server.Controllers
                 .HasConversion( v => v.ToString(),
                                 v => (Status)Enum.Parse(typeof(Status), v));
 
+            modelBuilder.Entity<Supervisor>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
 
-            
+            modelBuilder.Entity<Student>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+                
             modelBuilder.Entity<Project>() 
                 .HasIndex(u => u.shortDescription)
                 .IsUnique();
