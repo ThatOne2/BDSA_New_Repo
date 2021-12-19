@@ -22,6 +22,7 @@ namespace TrialProject.Shared.DTO
         public string? shortDescription { get; set; }
 
         [Required(ErrorMessage = "Project description is required")]
+        [StringLength(10000, MinimumLength = 150 , ErrorMessage = "Long description has to be more than 150 characters")]
         public string? longDescription { get; set; }
 
         [Required(ErrorMessage = "A least one tag required")]

@@ -15,6 +15,8 @@ public class Project
 
      [Required(ErrorMessage = "Description is required")]
      [ConcurrencyCheck]
+
+     [StringLength(10000, MinimumLength = 150 , ErrorMessage = "Long description has to be more than 150 characters")]
     public string? longDescription { get; set; }
 
     public int? SupervisorID { get; set; }
