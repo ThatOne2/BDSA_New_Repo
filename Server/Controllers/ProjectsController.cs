@@ -6,6 +6,9 @@ using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server.Controllers;
 
+///ProjectController is the class that handels api calls from the Client and returns the expected result. 
+///Either a statuscode or a statuscode with a Project/DTO object 
+///It is implemeted with the intended CRUD functions 
 [ApiController]
 [Route("[controller]")]
 public class ProjectController : ControllerBase, IProjectController {
@@ -20,10 +23,9 @@ public class ProjectController : ControllerBase, IProjectController {
         _context = context;
     }
 
+     ///Makes a Project based on the given CreateProjectDTO and adds it to the database
     [HttpPost]
     public async Task<ActionResult<Project>> CreateProject([FromBody]CreateProjectDTO p) {
-
-        // TODO: Find where to put await
         await Task.FromResult(0);
 
         if (p.Tags == null) {
@@ -64,12 +66,11 @@ public class ProjectController : ControllerBase, IProjectController {
 
     //===============================================
 
-    //Returns a single project by ID
+    ///Returns a single project by ID
     [HttpGet("api/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProjectDescDTO))]
     public async Task<ActionResult<ProjectDescDTO>> ReadDescProjectById(int id) {
 
-        // TODO: Find where to put await
         await Task.FromResult(0);
 
         var p =  _context.Projects!.Include(tag => tag.Tags).Join(_context.Supervisors!,
@@ -119,7 +120,7 @@ public class ProjectController : ControllerBase, IProjectController {
     }
 
 
-    //Returns a list of all projects (Maybe using  yield return?)
+    ///Returns a list of all projects 
     [HttpGet("api")]
     public IEnumerable<ProjectPreviewDTO> GetAllProjects() {
         var list = new List< ProjectPreviewDTO>();
@@ -160,7 +161,7 @@ public class ProjectController : ControllerBase, IProjectController {
         } 
     }
     
-   //Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
+   ///Returns a list of all projects a Supervisor has posted(Maybe using  yield return?)
    [HttpGet("api/supervisor/{supervisorID}")]
     public  IEnumerable<ProjectPreviewDTO> ReadAllProjectsPostedBySupervisor(int supervisorID){
         var list = new List<ProjectPreviewDTO>();
@@ -203,7 +204,7 @@ public class ProjectController : ControllerBase, IProjectController {
         } 
     } 
 
-    //Returns a list of projects that has the selected tag(s)  (Maybe using  yield return?)
+    ///Returns a list of projects that has the selected tag
     [HttpGet("api/tag/{tag}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListByTag(string tag){
         var list = new List<ProjectPreviewDTO>();
@@ -218,7 +219,6 @@ public class ProjectController : ControllerBase, IProjectController {
                                                                             Tags = p.Tags,
                                                                             Name = p.name
                                                                         }).Where(x => x.Tags!.Any(ptag => ptag.Name == tag)))
-            //.Where(x => x.Tags!.Any(tag => tag.Name!.ToString() == t))
         {
             var tagList = new List<string>();
             foreach (var ytag in p.Tags!) {
@@ -237,19 +237,9 @@ public class ProjectController : ControllerBase, IProjectController {
         }
 
         return list;
-        /*
-        if (list.Any())
-        {
-            return list.ToArray();
-        }
-        else
-        {
-            return new List<ProjectPreviewDTO>();
-        } 
-        */
     }
 
-
+    ///Returns all projects that contains the given string  
      [HttpGet("api/search/{s}")]
     public IEnumerable<ProjectPreviewDTO>? ReadProjectListBySearch(string s){
         Console.WriteLine(s);
@@ -284,20 +274,12 @@ public class ProjectController : ControllerBase, IProjectController {
         }
 
         return list;
-        /*
-        if (list.Any())
-        {
-            return list.ToArray();
-        }
-        else
-        {
-            return null!;
-        } 
-        */
+ 
     }
 
 
     //=============================================
+    ///Updates the description of project with given id to the given string
 
     [HttpPut("api/{id:int}/desc")]
     public HttpStatusCode UpdateProjectDesciption(int id, [FromBody] string newDescription){
@@ -321,6 +303,7 @@ public class ProjectController : ControllerBase, IProjectController {
         }
     }
 
+    ///Updates the Status of a given project to the given status
     [HttpPut("api/{id}/status")]
     public HttpStatusCode UpdateProjectStatus(int id, [FromBody] Status status){
         try
@@ -345,7 +328,8 @@ public class ProjectController : ControllerBase, IProjectController {
     }
 
     //============================================
-
+    
+    ///Deletes project with given id
     [HttpDelete("api/{id:int}")]
     public HttpStatusCode DeleteProject(int id) {
         try
