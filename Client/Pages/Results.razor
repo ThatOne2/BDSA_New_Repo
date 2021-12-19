@@ -21,7 +21,7 @@
     <div class = "resultPane">
         @if (projectsList == null)
         {
-            <h1>No results found</h1>
+            <h1>@message</h1>
         }
         else
         {
@@ -59,7 +59,8 @@
     [Parameter]
     public string? SecondParam { get; set; }
     private ProjectPreviewDTO[]? projectsList;
-    
+    private string message = "Loading...";
+
     private void ViewProj(ProjectPreviewDTO project)
     {
         var uri = $"{NavManager.BaseUri}project/{project.ID}";
@@ -74,9 +75,9 @@
     }
 
     private void NavToDetails(int id)
-	{
-		NavManager.NavigateTo("/project/" + id);
-	}
+    {
+        NavManager.NavigateTo("/project/" + id);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,7 +101,11 @@
             {
                 exception.Redirect();
             }
-            
+
+        }
+        if (projectsList == null)
+        {
+            message = "No projects found";
         }
     }
 

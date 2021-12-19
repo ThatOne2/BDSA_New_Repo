@@ -77,6 +77,7 @@ public class ProjectController : ControllerBase {
                                                                             ss => ss.ID,
                                                                             (p,ss) => new {
                                                                                 Supervisor = ss.name,
+                                                                                Email = ss.Email,
                                                                                 shortDesc = p.shortDescription,
                                                                                 ID = p.ID,
                                                                                 Tags = p.Tags,
@@ -109,6 +110,7 @@ public class ProjectController : ControllerBase {
             shortDescription = p.shortDesc, 
             Tags = tagList, 
             SupervisorName = p.Supervisor, 
+            SupervisorEmail = p.Email,
             longDescription = p.LongDesc, 
             ProjectStatus = p.Status
         };

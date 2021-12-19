@@ -15,6 +15,9 @@ namespace TrialProject.Shared.DTO
         [MaxLength(50)]
         public string? SupervisorName { get; set; }
 
+        [EmailAddress]
+        public string? SupervisorEmail { get; set; }
+
         [Required(ErrorMessage = "Description is required")]
         public string? shortDescription { get; set; }
 
@@ -32,6 +35,7 @@ namespace TrialProject.Shared.DTO
             var s = "ProjectDescDTO [ID = " + ID;
             if (name != null) s = s + ", name = " + name;
             if (SupervisorName != null) s = s + ", supervisor = " + SupervisorName;
+            if (SupervisorEmail != null) s = s + ", supervisorEmail = " + SupervisorEmail;
             if (shortDescription != null) s = s + ", shortDescription = \"" + shortDescription + "\"";
             if (longDescription != null) s = s + ", longDescription = \"" + longDescription + "\"";
             if (Tags != null) s = s + ", tags = " + Tags.ToString();

@@ -20,9 +20,6 @@
 		
 
 		<div class="content_left">
-			
-
-			<p>By @project.SupervisorName</p>
 
 			<h4>Short</h4>
 			<p>@project.shortDescription</p>
@@ -32,18 +29,11 @@
 				@project.longDescription
 			</textarea>
 
-			<AuthorizeView Context="LoggedIn">
+			<AuthorizeView Roles="supervisor">
 				<Authorized>
-					<AuthorizeView Roles="supervisor">
-						<Authorized>
-							<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
-							<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
-						</Authorized>
-					</AuthorizeView>
+					<input type="submit" class="OurButton" value="Edit" @onclick="NavToEdit">
+					<input type="button" class="OurButton" value="Delete" @onclick="DeleteProj">
 				</Authorized>
-					<NotAuthorized>
-						<p>Log in to apply for project!</p>
-					</NotAuthorized>
 			</AuthorizeView>
 	
 		</div>
@@ -55,8 +45,16 @@
 
 			<div class="aboutcontainer">
 				<h6>Author: </h6>
-
+				@project.SupervisorName 
 				<h6>Contact: </h6>
+				<AuthorizeView>
+					<Authorized>
+						@project.SupervisorEmail
+					</Authorized>
+					<NotAuthorized>
+						Log in to view contact information!
+					</NotAuthorized>
+				</AuthorizeView>
 			</div>
 
 		</div>
