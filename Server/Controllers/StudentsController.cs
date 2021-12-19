@@ -6,6 +6,8 @@ using TrialProject.Shared.DTO;
 
 namespace TrialProject.Server.Controllers;
 
+///StundetController is the class that handels api calls from the Client and returns the expected result. Either a statuscode or a statuscode with a student object 
+///(Either Student or a Student DTO)
 [ApiController]
 [Route("[controller]")]
 public class StudentsController : ControllerBase , IStudentsController {
@@ -20,7 +22,7 @@ public class StudentsController : ControllerBase , IStudentsController {
          _context = context;
     }
 
-//Ready to be tested
+    ///Makes a Student based on the given CreateStudentDTO and adds it to the database
     [HttpPost("api")]
     public async Task<ActionResult<Student>> CreateStudent([FromBody]CreateStudentDTO s){
           if (_context.Students!.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
@@ -44,8 +46,7 @@ public class StudentsController : ControllerBase , IStudentsController {
     //===============================================
 
 
-    //Returns a single student by ID
-    //Might have to change back to Task<IActionResult>
+    ///Returns a single student by id
     [HttpGet("api/{id}")]
     public async Task<ActionResult<StudentDescDTO>> ReadStudentDescById(int id){
         try
@@ -71,7 +72,7 @@ public class StudentsController : ControllerBase , IStudentsController {
 
     //============================================
  
-
+    ///deletes student with given id
     [HttpDelete("api")]
     public HttpStatusCode DeleteStudent(int studentId){
         try

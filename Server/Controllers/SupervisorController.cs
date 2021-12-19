@@ -6,7 +6,8 @@ using TrialProject.Shared.DTO;
 
 
 namespace TrialProject.Server.Controllers;
-
+///SupervisorController is the class that handels api calls from the Client and returns the expected result. Either a statuscode or a statuscode with a Supervisor object 
+///(Either Supervisor or a Supervisor DTO)
 [ApiController]
 [Route("[controller]")]
 public class SupervisorsController : ControllerBase, ISupervisorsController {
@@ -21,10 +22,9 @@ public class SupervisorsController : ControllerBase, ISupervisorsController {
          _context = context;
     }
 
-//Ready to be tested
-        [HttpPost("api")]
+    ///Makes a Supervisor based on the given CreateSupervisorDTO and adds it to the database
+    [HttpPost("api")]
     public async Task<ActionResult<Supervisor>> CreateSupervisor([FromBody]CreateSupervisorDTO s){
-        // TODO: Find where to put await
         await Task.FromResult(0);
 
         if (_context.Supervisors!.Where(x => x.name == s.name || x.Email == s.Email).FirstOrDefault() != null){
@@ -47,12 +47,11 @@ public class SupervisorsController : ControllerBase, ISupervisorsController {
 
     //===============================================
 
-    //Returns a single suporvisor by ID'
+    ///Returns a single suporvisor by ID
     [HttpGet("api/desc/{id}")]
     public async Task<ActionResult<SupervisorDescDTO>>? ReadSupervisorDescById(int id){
         try
         {
-            // TODO: Find where to put await
             await Task.FromResult(0);
 
             var s = new SupervisorDescDTO
@@ -72,7 +71,7 @@ public class SupervisorsController : ControllerBase, ISupervisorsController {
 
 
     //============================================
-
+    ///deletes supervisor with given id
     [HttpDelete("api")]
     public HttpStatusCode DeleteSupervisor(int supervisorId){
         try
