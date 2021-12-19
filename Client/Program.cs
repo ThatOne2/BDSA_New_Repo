@@ -17,7 +17,6 @@ builder.Services.AddHttpClient("TrialProject.ServerAPI", client => client.BaseAd
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TrialProject.ServerAPI"));
 builder.Services.AddScoped(sp => new HttpClient{ BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped<CurrentUser>();
 
 /*
 builder.Services.AddMsalAuthentication(options =>

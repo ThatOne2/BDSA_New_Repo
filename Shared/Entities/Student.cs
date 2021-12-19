@@ -1,7 +1,7 @@
 namespace TrialProject.Shared;
 using System.ComponentModel.DataAnnotations;
 
-public class Student : CurrentUser
+public class Student 
 {
     [Key]
     public int ID {get; set;}

@@ -85,30 +85,30 @@ public class DataContextFactory : IDesignTimeDbContextFactory<Controllers.DataCo
         context.SaveChanges();
 
         
-        var Supervisor1 = new Supervisor {  isSupervisor = true,
+        var Supervisor1 = new Supervisor {  
                                             name = "Bjørn Sørensen",
                                             Projects = new List<Project> { Project1 },
                                             Email = "bsørensen@FakeMail.com" };
-        var Supervisor2 = new Supervisor {  isSupervisor = true,
+        var Supervisor2 = new Supervisor {  
                                             name = "Rasmus Rasmussen",
                                             Projects = new List<Project> { Project2 },
                                             Email = "rrasmussen@FakeMail.com" };
-        var Supervisor3 = new Supervisor {  isSupervisor = true,
+        var Supervisor3 = new Supervisor {  
                                             name = "Karl Karlsson",
                                             Projects = new List<Project> { Project3 },
                                             Email = "kkarlsson@FakeMail.com" };
-        var Supervisor4 = new Supervisor {  isSupervisor = true,
+        var Supervisor4 = new Supervisor { 
                                             name = "Niels Nielson",
                                             Projects = new List<Project> { Project4, Project5 },
                                             Email = "nielsnson@FakeMail.com" };
 
-        var Student1 = new Student {  isSupervisor = false,
+        var Student1 = new Student {  
                                             name = "Jens Jensen",
                                             Email = "jjensen@FakeMail.com" };
-        var Student2 = new Student {  isSupervisor = false,
+        var Student2 = new Student {  
                                             name = "Søren Sørensen",
                                             Email = "ssørensen@FakeMail.com" };
-        var Student3 = new Student {  isSupervisor = false,
+        var Student3 = new Student { 
                                             name = "Lars Larsen",
                                             Email = "llarsen@FakeMail.com" };
 

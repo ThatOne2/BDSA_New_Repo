@@ -4,7 +4,7 @@ namespace TrialProject.Shared;
 using System.ComponentModel.DataAnnotations;
 
 
-public class Supervisor : CurrentUser
+public class Supervisor 
 {
     [Key]
     public int ID {get; set;}
