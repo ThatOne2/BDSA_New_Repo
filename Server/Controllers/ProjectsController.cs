@@ -236,14 +236,17 @@ public class ProjectController : ControllerBase, IProjectController {
             list.Add(ProjDTO);
         }
 
+        return list;
+        /*
         if (list.Any())
         {
             return list.ToArray();
         }
         else
         {
-            return null!;
+            return new List<ProjectPreviewDTO>();
         } 
+        */
     }
 
 
@@ -280,6 +283,8 @@ public class ProjectController : ControllerBase, IProjectController {
             list.Add(ProjDTO);
         }
 
+        return list;
+        /*
         if (list.Any())
         {
             return list.ToArray();
@@ -288,6 +293,7 @@ public class ProjectController : ControllerBase, IProjectController {
         {
             return null!;
         } 
+        */
     }
 
 
