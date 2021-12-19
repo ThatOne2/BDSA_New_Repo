@@ -52,6 +52,7 @@
             
             <button type="submit" class="OurButton">Post Project</button>
             <button class="OurButton" @onclick="NavToList">Cancel</button>
+            @message
         </EditForm>
     </Authorized>
     <NotAuthorized>
@@ -67,9 +68,11 @@
 
     private List<TagsEnums>? tagList;
 
+    private string message = "";
+
     protected override async Task OnInitializedAsync()
     {
-     
+
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
 
@@ -98,19 +101,21 @@
     }
 
     private async void addProject() {
-       
-        // Send to database
         try {
-            //Don't add /api here
             var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
-            
-            //if (ans.IsSuccessStatusCode) {
+
+            if (ans.IsSuccessStatusCode) {
                 NavToList();
-            //}
-        } catch(Exception e) {
+            }
+            else
+            {
+                message = "An error has occurred, please try again.";
+            }
+        } catch(Exception e) 
+        {
+            message = "An error has occurred, please try again.";
             Console.WriteLine(e.Message);
         }
-        
     }
 
     private void NavToList()

@@ -19,7 +19,7 @@
 
 <div class = "center">
     <div class = "resultPane">
-        @if (projectsList == null)
+        @if (projectsList == null )
         {
             <h1>@message</h1>
         }
@@ -82,6 +82,7 @@
     protected override async Task OnInitializedAsync()
     {
         if (IsValidAction(Action!)) {
+
             try
             {
                 switch(Action)
@@ -96,17 +97,24 @@
                         projectsList = await Http.GetFromJsonAsync<ProjectPreviewDTO[]>("Project/api");
                         break;
                 }
+
+                if (projectsList!.Length == 0)
+                {
+                    projectsList = null;
+                    message = "No projects found.";
+                }
             }
             catch (AccessTokenNotAvailableException exception)
             {
                 exception.Redirect();
             }
+            catch (Exception)
+            {
+                message = "An error has occurred, please try again.";
+            }
 
         }
-        if (projectsList == null)
-        {
-            message = "No projects found";
-        }
+        
     }
 
     private bool IsValidAction(string a)

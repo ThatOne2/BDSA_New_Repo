@@ -8,7 +8,7 @@
 
 @if (project == null)
 {
-	<p>@fStatus"</p>
+	<p>@message</p>
 } else
 {
 
@@ -74,20 +74,31 @@
 
 	private ProjectDescDTO? project;
 
-	private string fStatus = "Searching...";
+	private string message = "Loading...";
 
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
-			project = await Http.GetFromJsonAsync<ProjectDescDTO?>("Project/api/" + id);
-		}
-		catch
-		{
-			// Exception handling
+			var response = await Http.GetAsync("Project/api/" + id);
 
+			if (response.IsSuccessStatusCode) 
+			{
+				project = await response.Content.ReadFromJsonAsync<ProjectDescDTO>();
+			} 
+			else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+			{
+				message = "Project not found.";
+			} 
+			else
+			{
+				message = "An error has occurred, please try again.";
+			}
 		}
-		if (project == null) fStatus = "Project not found!";
+		catch (Exception)
+		{
+			message = "An error has occurred, please try again.";
+		}
 	}
 
 	private void NavToEdit()

@@ -15,7 +15,7 @@
 
 @if (projectsList == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>@message</em></p>
 }
 else
 {
@@ -56,6 +56,7 @@ else
 </AuthorizeView>
 
 @code {
+    private string message = "Loading...";
 
     private void NavToNewProject()
     {
@@ -73,6 +74,10 @@ else
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
+        }
+        catch (Exception)
+        {
+            message = "An error has occurred, please try again.";
         }
     }
 
