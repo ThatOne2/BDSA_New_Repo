@@ -144,7 +144,7 @@ public class ProjectControllerTests
     }
 
     [Fact]
-    public void Create_Project_Returns_CreatedAtAction()
+    public void Create_Project_Returns_Created()
     {
         //Arrange
         var p = new CreateProjectDTO
@@ -159,7 +159,7 @@ public class ProjectControllerTests
         var result = controller.CreateProject(p);
 
         //Assert
-        Assert.IsType<CreatedAtActionResult>(result.Result.Result);
+        Assert.IsType<CreatedResult>(result.Result.Result);
     }
 
     [Fact]
@@ -300,7 +300,7 @@ public class ProjectControllerTests
     }
 
     [Fact]
-    public void Get_All_Projects_By_Supervisor_Doesnt_Exist_Returns_Null()
+    public void Get_All_Projects_By_Supervisor_Doesnt_Exist_Returns_Empty_List()
     {
         //Arrange
 
@@ -338,11 +338,11 @@ public class ProjectControllerTests
         ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1, expected2 };
 
         //Act
-        var actual = controller.ReadProjectListByTag("Database") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListByTag("Database") as List<ProjectPreviewDTO>;
 
         //Assert
         Assert.NotNull(actual);
-        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected.Length, actual!.Count);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
         Assert.Equal(expected[1].ToString(), actual![1].ToString());
     }
@@ -363,24 +363,25 @@ public class ProjectControllerTests
         ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1 };
 
         //Act
-        var actual = controller.ReadProjectListByTag("Engineering") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListByTag("Engineering") as List<ProjectPreviewDTO>;
 
         //Assert
         Assert.NotNull(actual);
-        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected.Length, actual!.Count);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
     }
 
     [Fact]
-    public void Get_Projects_By_Tag_Doesnt_Exist_Returns_ProjectPreviewDTOs()
+    public void Get_Projects_By_Tag_Doesnt_Exist_Returns_Empty_List()
     {
         //Arrange
 
         //Act
-        var actual = controller.ReadProjectListByTag("Nothing") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListByTag("Nothing") as List<ProjectPreviewDTO>;
 
         //Assert
-        Assert.Null(actual);
+        Assert.NotNull(actual);
+        Assert.Empty(actual);
     }
 
     // ==============================================================================================
@@ -421,11 +422,11 @@ public class ProjectControllerTests
         ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1, expected2, expected3 };
 
         //Act
-        var actual = controller.ReadProjectListBySearch("Thesis") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListBySearch("Thesis") as List<ProjectPreviewDTO>;
 
         //Assert
         Assert.NotNull(actual);
-        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected.Length, actual!.Count);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
         Assert.Equal(expected[1].ToString(), actual![1].ToString());
         Assert.Equal(expected[2].ToString(), actual![2].ToString());
@@ -447,24 +448,24 @@ public class ProjectControllerTests
         ProjectPreviewDTO[] expected = new ProjectPreviewDTO[] { expected1 };
 
         //Act
-        var actual = controller.ReadProjectListBySearch("Uncool") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListBySearch("Uncool") as List<ProjectPreviewDTO>;
 
         //Assert
         Assert.NotNull(actual);
-        Assert.Equal(expected.Length, actual!.Length);
+        Assert.Equal(expected.Length, actual!.Count);
         Assert.Equal(expected[0].ToString(), actual![0].ToString());
     }
 
     [Fact]
-    public void Get_Projects_By_Search_Doesnt_Exist_Returns_ProjectPreviewDTOs()
+    public void Get_Projects_By_Search_Doesnt_Exist_Returns_Empty_List()
     {
         //Arrange
 
         //Act
-        var actual = controller.ReadProjectListByTag("Nothing") as ProjectPreviewDTO[];
+        var actual = controller.ReadProjectListByTag("Nothing") as List<ProjectPreviewDTO>;
 
         //Assert
-        Assert.Null(actual);
+        Assert.Empty(actual);
     }
 
     // ==============================================================================================

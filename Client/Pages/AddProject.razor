@@ -103,14 +103,18 @@
     private async void addProject() {
         try {
             var ans = await Http.PostAsJsonAsync<CreateProjectDTO>("Project", projDTO);
+            //Console.WriteLine("Checking status");
+            //NavToList();
 
-            if (ans.IsSuccessStatusCode) {
+            
+            if (ans.IsSuccessStatusCode) { 
                 NavToList();
             }
             else
             {
                 message = "An error has occurred, please try again.";
             }
+            
         } catch(Exception e) 
         {
             message = "An error has occurred, please try again.";

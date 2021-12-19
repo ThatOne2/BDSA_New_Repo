@@ -58,7 +58,7 @@ public class ProjectController : ControllerBase, IProjectController {
         await _context.Projects!.AddAsync(project);
         _context.SaveChanges();
 
-        return CreatedAtAction("Created project", project);
+        return Created("Created project", project);
     }
 
 
@@ -237,16 +237,6 @@ public class ProjectController : ControllerBase, IProjectController {
         }
 
         return list;
-        /*
-        if (list.Any())
-        {
-            return list.ToArray();
-        }
-        else
-        {
-            return new List<ProjectPreviewDTO>();
-        } 
-        */
     }
 
 
@@ -284,16 +274,6 @@ public class ProjectController : ControllerBase, IProjectController {
         }
 
         return list;
-        /*
-        if (list.Any())
-        {
-            return list.ToArray();
-        }
-        else
-        {
-            return null!;
-        } 
-        */
     }
 
 

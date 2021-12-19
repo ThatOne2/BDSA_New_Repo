@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using TrialProject.Server.Controllers;
 using TrialProject.Shared.DTO;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,11 @@ var optionsBuilder = new DbContextOptionsBuilder<TrialProject.Server.Controllers
 
 builder.Services.AddDbContext<TrialProject.Server.Controllers.DataContext>(options =>
 options.UseSqlServer(connectionString));
+
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 
 using var context = new TrialProject.Server.Controllers.DataContext(optionsBuilder.Options);
