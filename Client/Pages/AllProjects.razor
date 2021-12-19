@@ -19,41 +19,47 @@
 }
 else
 {
-     <table class="table">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <th>Teacher</th>
-                <th>Discription</th>
-                <th>Tags</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var proj in projectsList)
+    <div class = "center">
+        <div class = "resultPane">
+            <AuthorizeView Roles="supervisor">
+                <Authorized>
+                    <button class="viewProjBtn" id = "createBtn" @onclick="NavToNewProject">Create New</button>
+                </Authorized>
+            </AuthorizeView>
+            @if (projectsList == null )
             {
-                <tr>
-                    <td>@proj.name</td>
-                    <td>@proj.SupervisorName</td>
-                    <td>@proj.shortDescription</td>
-                    <td>@foreach (var tag in proj.Tags!)
-                    {
-                        <p>@tag, </p>
-                    }</td>
-                    <td>
-                        <button class="OurButton" @onclick="() => NavToDetails(proj.ID)">View</button>
-                    </td>
-                </tr>
+                <h1>@message</h1>
             }
-        </tbody>
-    </table>
+            else
+            {
+                @foreach (var proj in projectsList)
+                {
+                    <div class = "projectContainer white">
+                        <div class = "projectContainerLeft">
+                            <div class = "pictureWannabe"></div>
+                            <div class = "text">
+                                <p>@proj.SupervisorName</p>
+                            </div>
+                        </div>
+                        <div class = "projectContainerRight">
+                            <div class = "centerText">
+                                <h2>@proj.name</h2>
+                            </div>
+                            <p>@proj.shortDescription</p>
+                            <div class = "tagBox">
+                                @foreach (var tag in proj.Tags!)
+                                {
+                                    <button class = "tagBtn" @onclick="@(() => GoToTag(@tag))"> @tag </button>
+                                }
+                            </div>
+                            <button class = "viewProjBtn" @onclick="() => NavToDetails(proj.ID)"> View </button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 }
-
-<AuthorizeView Roles="supervisor">
-        
-    <Authorized>
-        <button class="OurButton" @onclick="NavToNewProject">Create New</button>
-    </Authorized>
-</AuthorizeView>
 
 @code {
     private string message = "Loading...";
@@ -61,6 +67,11 @@ else
     private void NavToNewProject()
     {
         NavManager.NavigateTo("/projects/new");
+    }
+    private void GoToTag(string tag)
+    {
+        var uri = $"{NavManager.BaseUri}project/tag/{tag}";
+        NavManager.NavigateTo(uri, true);
     }
 
     private ProjectPreviewDTO[]? projectsList;
